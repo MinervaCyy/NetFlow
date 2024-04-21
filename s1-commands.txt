@@ -1,0 +1,11 @@
+table_add port_foward forward 1 => 2
+table_add port_foward forward 2 => 1
+
+
+
+
+
+
+
+
+

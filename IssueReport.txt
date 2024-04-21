@@ -1,0 +1,13 @@
+
+how to refresh the netflow table on dataplane? 
+    By remove old flow?
+
+how to calculate A_flow_bytes_per_second_src_to_dst_register?
+    average(total bytes/ flow duration) or instantaneous(current flow bytes/(current timestamp-last timestamp)) speed?
+    current division cannot support big quotient, need further research
+
+how to define flow_duration? just src->dst direction, or both src<->dst
+
+how to transfer unit of timestamp?
+
+

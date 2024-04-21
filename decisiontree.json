@@ -1,0 +1,4738 @@
+{
+  "header_types" : [
+    {
+      "name" : "scalars_0",
+      "id" : 0,
+      "fields" : [
+        ["tmp", 32, false],
+        ["tmp_0", 32, false],
+        ["tmp_1", 32, false],
+        ["tmp_2", 32, false],
+        ["tmp_3", 32, false],
+        ["tmp_4", 32, false],
+        ["tmp_5", 32, false],
+        ["tmp_6", 32, false],
+        ["tmp_7", 32, false],
+        ["tmp_8", 32, false],
+        ["tmp_9", 32, false],
+        ["tmp_10", 32, false],
+        ["tmp_11", 32, false],
+        ["tmp_12", 32, false],
+        ["flow_id_0", 32, false],
+        ["tmpsrcPort_0", 16, false],
+        ["tmpdstPort_0", 16, false],
+        ["current_flow_id_0", 32, false],
+        ["A_current_flow_transmitted_packet_0", 32, false],
+        ["A_current_flow_transmitted_byte_0", 32, false],
+        ["current_flow_num_0", 32, false],
+        ["A_current_flow_r_received_packet_0", 32, false],
+        ["A_current_flow_r_received_byte_0", 32, false],
+        ["A_flow_recorded_max_ttl_0", 8, false],
+        ["A_flow_recorded_min_ttl_0", 8, false],
+        ["A_flow_recorded_max_ip_pkt_len_0", 16, false],
+        ["A_flow_recorded_min_ip_pkt_len_0", 16, false],
+        ["A_flow_num_of_ip_totalLen_1024_to_1514_bytes_0", 32, false],
+        ["A_flow_num_of_ip_totalLen_512_to_1024_bytes_0", 32, false],
+        ["A_flow_num_of_ip_totalLen_256_to_512_bytes_0", 32, false],
+        ["A_flow_num_of_ip_totalLen_128_to_256_bytes_0", 32, false],
+        ["A_flow_num_of_ip_totalLen_up_to_128_bytes_0", 32, false],
+        ["A_flow_recorded_max_tcp_win_src_to_dst_0", 16, false],
+        ["A_flow_recorded_max_tcp_win_dst_to_src_0", 16, false],
+        ["metadata.malicious", 1, false],
+        ["metadata.port", 32, false],
+        ["_padding_0", 7, false]
+      ]
+    },
+    {
+      "name" : "standard_metadata",
+      "id" : 1,
+      "fields" : [
+        ["ingress_port", 9, false],
+        ["egress_spec", 9, false],
+        ["egress_port", 9, false],
+        ["instance_type", 32, false],
+        ["packet_length", 32, false],
+        ["enq_timestamp", 32, false],
+        ["enq_qdepth", 19, false],
+        ["deq_timedelta", 32, false],
+        ["deq_qdepth", 19, false],
+        ["ingress_global_timestamp", 48, false],
+        ["egress_global_timestamp", 48, false],
+        ["mcast_grp", 16, false],
+        ["egress_rid", 16, false],
+        ["checksum_error", 1, false],
+        ["parser_error", 32, false],
+        ["priority", 3, false],
+        ["_padding", 3, false]
+      ]
+    },
+    {
+      "name" : "ethernet_t",
+      "id" : 2,
+      "fields" : [
+        ["dstAddr", 48, false],
+        ["srcAddr", 48, false],
+        ["etherType", 16, false]
+      ]
+    },
+    {
+      "name" : "vlan_t",
+      "id" : 3,
+      "fields" : [
+        ["pcp", 3, false],
+        ["cfi", 1, false],
+        ["vid", 12, false],
+        ["etherType", 16, false]
+      ]
+    },
+    {
+      "name" : "ipv4_t",
+      "id" : 4,
+      "fields" : [
+        ["version", 4, false],
+        ["ihl", 4, false],
+        ["diffserv", 8, false],
+        ["totalLen", 16, false],
+        ["identification", 16, false],
+        ["flags", 3, false],
+        ["fragOffset", 13, false],
+        ["ttl", 8, false],
+        ["protocol", 8, false],
+        ["hdrChecksum", 16, false],
+        ["srcAddr", 32, false],
+        ["dstAddr", 32, false]
+      ]
+    },
+    {
+      "name" : "ipv6_t",
+      "id" : 5,
+      "fields" : [
+        ["version", 4, false],
+        ["trafficClass", 8, false],
+        ["flowLabel", 20, false],
+        ["payloadLen", 16, false],
+        ["protocol", 8, false],
+        ["hopLimit", 8, false],
+        ["srcAddr", 128, false],
+        ["dstAddr", 128, false]
+      ]
+    },
+    {
+      "name" : "tcp_t",
+      "id" : 6,
+      "fields" : [
+        ["srcPort", 16, false],
+        ["dstPort", 16, false],
+        ["seqNo", 32, false],
+        ["ackNo", 32, false],
+        ["dataOffset", 4, false],
+        ["res", 3, false],
+        ["ecn", 3, false],
+        ["ctrl", 6, false],
+        ["window", 16, false],
+        ["checksum", 16, false],
+        ["urgentPtr", 16, false]
+      ]
+    },
+    {
+      "name" : "udp_t",
+      "id" : 7,
+      "fields" : [
+        ["srcPort", 16, false],
+        ["dstPort", 16, false],
+        ["length_", 16, false],
+        ["checksum", 16, false]
+      ]
+    },
+    {
+      "name" : "icmp_t",
+      "id" : 8,
+      "fields" : [
+        ["type", 16, false],
+        ["code", 16, false],
+        ["hdrChecksum", 16, false]
+      ]
+    },
+    {
+      "name" : "icmpv6_t",
+      "id" : 9,
+      "fields" : [
+        ["type", 16, false],
+        ["code", 16, false],
+        ["hdrChecksum", 16, false]
+      ]
+    }
+  ],
+  "headers" : [
+    {
+      "name" : "scalars",
+      "id" : 0,
+      "header_type" : "scalars_0",
+      "metadata" : true,
+      "pi_omit" : true
+    },
+    {
+      "name" : "standard_metadata",
+      "id" : 1,
+      "header_type" : "standard_metadata",
+      "metadata" : true,
+      "pi_omit" : true
+    },
+    {
+      "name" : "ethernet",
+      "id" : 2,
+      "header_type" : "ethernet_t",
+      "metadata" : false,
+      "pi_omit" : true
+    },
+    {
+      "name" : "vlan",
+      "id" : 3,
+      "header_type" : "vlan_t",
+      "metadata" : false,
+      "pi_omit" : true
+    },
+    {
+      "name" : "ipv4",
+      "id" : 4,
+      "header_type" : "ipv4_t",
+      "metadata" : false,
+      "pi_omit" : true
+    },
+    {
+      "name" : "ipv6",
+      "id" : 5,
+      "header_type" : "ipv6_t",
+      "metadata" : false,
+      "pi_omit" : true
+    },
+    {
+      "name" : "tcp",
+      "id" : 6,
+      "header_type" : "tcp_t",
+      "metadata" : false,
+      "pi_omit" : true
+    },
+    {
+      "name" : "udp",
+      "id" : 7,
+      "header_type" : "udp_t",
+      "metadata" : false,
+      "pi_omit" : true
+    },
+    {
+      "name" : "icmp",
+      "id" : 8,
+      "header_type" : "icmp_t",
+      "metadata" : false,
+      "pi_omit" : true
+    },
+    {
+      "name" : "icmpv6",
+      "id" : 9,
+      "header_type" : "icmpv6_t",
+      "metadata" : false,
+      "pi_omit" : true
+    }
+  ],
+  "header_stacks" : [],
+  "header_union_types" : [],
+  "header_unions" : [],
+  "header_union_stacks" : [],
+  "field_lists" : [],
+  "errors" : [
+    ["NoError", 1],
+    ["PacketTooShort", 2],
+    ["NoMatch", 3],
+    ["StackOutOfBounds", 4],
+    ["HeaderTooShort", 5],
+    ["ParserTimeout", 6],
+    ["ParserInvalidArgument", 7]
+  ],
+  "enums" : [],
+  "parsers" : [
+    {
+      "name" : "parser",
+      "id" : 0,
+      "init_state" : "start",
+      "parse_states" : [
+        {
+          "name" : "start",
+          "id" : 0,
+          "parser_ops" : [
+            {
+              "parameters" : [
+                {
+                  "type" : "regular",
+                  "value" : "ethernet"
+                }
+              ],
+              "op" : "extract"
+            }
+          ],
+          "transitions" : [
+            {
+              "type" : "hexstr",
+              "value" : "0x8100",
+              "mask" : null,
+              "next_state" : "parse_vlan"
+            },
+            {
+              "type" : "hexstr",
+              "value" : "0x0800",
+              "mask" : null,
+              "next_state" : "parse_ipv4"
+            },
+            {
+              "type" : "hexstr",
+              "value" : "0x86dd",
+              "mask" : null,
+              "next_state" : "parse_ipv6"
+            },
+            {
+              "value" : "default",
+              "mask" : null,
+              "next_state" : null
+            }
+          ],
+          "transition_key" : [
+            {
+              "type" : "field",
+              "value" : ["ethernet", "etherType"]
+            }
+          ]
+        },
+        {
+          "name" : "parse_vlan",
+          "id" : 1,
+          "parser_ops" : [
+            {
+              "parameters" : [
+                {
+                  "type" : "regular",
+                  "value" : "vlan"
+                }
+              ],
+              "op" : "extract"
+            }
+          ],
+          "transitions" : [
+            {
+              "type" : "hexstr",
+              "value" : "0x0800",
+              "mask" : null,
+              "next_state" : "parse_ipv4"
+            },
+            {
+              "type" : "hexstr",
+              "value" : "0x86dd",
+              "mask" : null,
+              "next_state" : "parse_ipv6"
+            },
+            {
+              "value" : "default",
+              "mask" : null,
+              "next_state" : null
+            }
+          ],
+          "transition_key" : [
+            {
+              "type" : "field",
+              "value" : ["vlan", "etherType"]
+            }
+          ]
+        },
+        {
+          "name" : "parse_ipv4",
+          "id" : 2,
+          "parser_ops" : [
+            {
+              "parameters" : [
+                {
+                  "type" : "regular",
+                  "value" : "ipv4"
+                }
+              ],
+              "op" : "extract"
+            }
+          ],
+          "transitions" : [
+            {
+              "type" : "hexstr",
+              "value" : "0x06",
+              "mask" : null,
+              "next_state" : "tcp"
+            },
+            {
+              "type" : "hexstr",
+              "value" : "0x11",
+              "mask" : null,
+              "next_state" : "udp"
+            },
+            {
+              "type" : "hexstr",
+              "value" : "0x01",
+              "mask" : null,
+              "next_state" : "icmp"
+            },
+            {
+              "type" : "hexstr",
+              "value" : "0x3a",
+              "mask" : null,
+              "next_state" : "icmpv6"
+            },
+            {
+              "value" : "default",
+              "mask" : null,
+              "next_state" : null
+            }
+          ],
+          "transition_key" : [
+            {
+              "type" : "field",
+              "value" : ["ipv4", "protocol"]
+            }
+          ]
+        },
+        {
+          "name" : "parse_ipv6",
+          "id" : 3,
+          "parser_ops" : [
+            {
+              "parameters" : [
+                {
+                  "type" : "regular",
+                  "value" : "ipv6"
+                }
+              ],
+              "op" : "extract"
+            }
+          ],
+          "transitions" : [
+            {
+              "type" : "hexstr",
+              "value" : "0x06",
+              "mask" : null,
+              "next_state" : "tcp"
+            },
+            {
+              "type" : "hexstr",
+              "value" : "0x11",
+              "mask" : null,
+              "next_state" : "udp"
+            },
+            {
+              "type" : "hexstr",
+              "value" : "0x01",
+              "mask" : null,
+              "next_state" : "icmp"
+            },
+            {
+              "type" : "hexstr",
+              "value" : "0x3a",
+              "mask" : null,
+              "next_state" : "icmpv6"
+            },
+            {
+              "value" : "default",
+              "mask" : null,
+              "next_state" : null
+            }
+          ],
+          "transition_key" : [
+            {
+              "type" : "field",
+              "value" : ["ipv6", "protocol"]
+            }
+          ]
+        },
+        {
+          "name" : "tcp",
+          "id" : 4,
+          "parser_ops" : [
+            {
+              "parameters" : [
+                {
+                  "type" : "regular",
+                  "value" : "tcp"
+                }
+              ],
+              "op" : "extract"
+            }
+          ],
+          "transitions" : [
+            {
+              "value" : "default",
+              "mask" : null,
+              "next_state" : null
+            }
+          ],
+          "transition_key" : []
+        },
+        {
+          "name" : "udp",
+          "id" : 5,
+          "parser_ops" : [
+            {
+              "parameters" : [
+                {
+                  "type" : "regular",
+                  "value" : "udp"
+                }
+              ],
+              "op" : "extract"
+            }
+          ],
+          "transitions" : [
+            {
+              "value" : "default",
+              "mask" : null,
+              "next_state" : null
+            }
+          ],
+          "transition_key" : []
+        },
+        {
+          "name" : "icmp",
+          "id" : 6,
+          "parser_ops" : [
+            {
+              "parameters" : [
+                {
+                  "type" : "regular",
+                  "value" : "icmp"
+                }
+              ],
+              "op" : "extract"
+            }
+          ],
+          "transitions" : [
+            {
+              "value" : "default",
+              "mask" : null,
+              "next_state" : null
+            }
+          ],
+          "transition_key" : []
+        },
+        {
+          "name" : "icmpv6",
+          "id" : 7,
+          "parser_ops" : [
+            {
+              "parameters" : [
+                {
+                  "type" : "regular",
+                  "value" : "icmpv6"
+                }
+              ],
+              "op" : "extract"
+            }
+          ],
+          "transitions" : [
+            {
+              "value" : "default",
+              "mask" : null,
+              "next_state" : null
+            }
+          ],
+          "transition_key" : []
+        }
+      ]
+    }
+  ],
+  "parse_vsets" : [],
+  "deparsers" : [
+    {
+      "name" : "deparser",
+      "id" : 0,
+      "source_info" : {
+        "filename" : "decisiontree.p4",
+        "line" : 524,
+        "column" : 8,
+        "source_fragment" : "MyDeparser"
+      },
+      "order" : ["ethernet", "ipv4", "tcp", "udp"]
+    }
+  ],
+  "meter_arrays" : [],
+  "counter_arrays" : [
+    {
+      "name" : "MyIngress.all_packets_bytes_counter",
+      "id" : 0,
+      "source_info" : {
+        "filename" : "decisiontree.p4",
+        "line" : 247,
+        "column" : 45,
+        "source_fragment" : "all_packets_bytes_counter"
+      },
+      "size" : 1,
+      "is_direct" : false
+    }
+  ],
+  "register_arrays" : [
+    {
+      "name" : "flow_counter",
+      "id" : 0,
+      "source_info" : {
+        "filename" : "decisiontree.p4",
+        "line" : 17,
+        "column" : 21,
+        "source_fragment" : "flow_counter"
+      },
+      "size" : 1,
+      "bitwidth" : 32
+    },
+    {
+      "name" : "A_flow_transmitted_packet_counter",
+      "id" : 1,
+      "source_info" : {
+        "filename" : "decisiontree.p4",
+        "line" : 18,
+        "column" : 24,
+        "source_fragment" : "A_flow_transmitted_packet_counter"
+      },
+      "size" : 8192,
+      "bitwidth" : 32
+    },
+    {
+      "name" : "A_flow_received_packet_counter",
+      "id" : 2,
+      "source_info" : {
+        "filename" : "decisiontree.p4",
+        "line" : 19,
+        "column" : 24,
+        "source_fragment" : "A_flow_received_packet_counter"
+      },
+      "size" : 8192,
+      "bitwidth" : 32
+    },
+    {
+      "name" : "A_flow_transmitted_byte_counter",
+      "id" : 3,
+      "source_info" : {
+        "filename" : "decisiontree.p4",
+        "line" : 20,
+        "column" : 24,
+        "source_fragment" : "A_flow_transmitted_byte_counter"
+      },
+      "size" : 8192,
+      "bitwidth" : 32
+    },
+    {
+      "name" : "A_flow_received_byte_counter",
+      "id" : 4,
+      "source_info" : {
+        "filename" : "decisiontree.p4",
+        "line" : 21,
+        "column" : 24,
+        "source_fragment" : "A_flow_received_byte_counter"
+      },
+      "size" : 8192,
+      "bitwidth" : 32
+    },
+    {
+      "name" : "A_flow_dstip_register",
+      "id" : 5,
+      "source_info" : {
+        "filename" : "decisiontree.p4",
+        "line" : 22,
+        "column" : 24,
+        "source_fragment" : "A_flow_dstip_register"
+      },
+      "size" : 8192,
+      "bitwidth" : 32
+    },
+    {
+      "name" : "A_flow_srcip_register",
+      "id" : 6,
+      "source_info" : {
+        "filename" : "decisiontree.p4",
+        "line" : 23,
+        "column" : 24,
+        "source_fragment" : "A_flow_srcip_register"
+      },
+      "size" : 8192,
+      "bitwidth" : 32
+    },
+    {
+      "name" : "A_flow_dstport_register",
+      "id" : 7,
+      "source_info" : {
+        "filename" : "decisiontree.p4",
+        "line" : 24,
+        "column" : 24,
+        "source_fragment" : "A_flow_dstport_register"
+      },
+      "size" : 8192,
+      "bitwidth" : 16
+    },
+    {
+      "name" : "A_flow_srcport_register",
+      "id" : 8,
+      "source_info" : {
+        "filename" : "decisiontree.p4",
+        "line" : 25,
+        "column" : 24,
+        "source_fragment" : "A_flow_srcport_register"
+      },
+      "size" : 8192,
+      "bitwidth" : 16
+    },
+    {
+      "name" : "A_flow_protocol_register",
+      "id" : 9,
+      "source_info" : {
+        "filename" : "decisiontree.p4",
+        "line" : 26,
+        "column" : 23,
+        "source_fragment" : "A_flow_protocol_register"
+      },
+      "size" : 8192,
+      "bitwidth" : 8
+    },
+    {
+      "name" : "A_flow_max_ttl_register",
+      "id" : 10,
+      "source_info" : {
+        "filename" : "decisiontree.p4",
+        "line" : 31,
+        "column" : 23,
+        "source_fragment" : "A_flow_max_ttl_register"
+      },
+      "size" : 8192,
+      "bitwidth" : 8
+    },
+    {
+      "name" : "A_flow_min_ttl_register",
+      "id" : 11,
+      "source_info" : {
+        "filename" : "decisiontree.p4",
+        "line" : 32,
+        "column" : 23,
+        "source_fragment" : "A_flow_min_ttl_register"
+      },
+      "size" : 8192,
+      "bitwidth" : 8
+    },
+    {
+      "name" : "A_flow_max_ip_pkt_len_register",
+      "id" : 12,
+      "source_info" : {
+        "filename" : "decisiontree.p4",
+        "line" : 34,
+        "column" : 24,
+        "source_fragment" : "A_flow_max_ip_pkt_len_register"
+      },
+      "size" : 8192,
+      "bitwidth" : 16
+    },
+    {
+      "name" : "A_flow_min_ip_pkt_len_register",
+      "id" : 13,
+      "source_info" : {
+        "filename" : "decisiontree.p4",
+        "line" : 35,
+        "column" : 24,
+        "source_fragment" : "A_flow_min_ip_pkt_len_register"
+      },
+      "size" : 8192,
+      "bitwidth" : 16
+    },
+    {
+      "name" : "A_flow_num_of_ip_totalLen_up_to_128_bytes_register",
+      "id" : 14,
+      "source_info" : {
+        "filename" : "decisiontree.p4",
+        "line" : 37,
+        "column" : 24,
+        "source_fragment" : "A_flow_num_of_ip_totalLen_up_to_128_bytes_register"
+      },
+      "size" : 8192,
+      "bitwidth" : 32
+    },
+    {
+      "name" : "A_flow_num_of_ip_totalLen_128_to_256_bytes_register",
+      "id" : 15,
+      "source_info" : {
+        "filename" : "decisiontree.p4",
+        "line" : 38,
+        "column" : 24,
+        "source_fragment" : "A_flow_num_of_ip_totalLen_128_to_256_bytes_register"
+      },
+      "size" : 8192,
+      "bitwidth" : 32
+    },
+    {
+      "name" : "A_flow_num_of_ip_totalLen_256_to_512_bytes_register",
+      "id" : 16,
+      "source_info" : {
+        "filename" : "decisiontree.p4",
+        "line" : 39,
+        "column" : 24,
+        "source_fragment" : "A_flow_num_of_ip_totalLen_256_to_512_bytes_register"
+      },
+      "size" : 8192,
+      "bitwidth" : 32
+    },
+    {
+      "name" : "A_flow_num_of_ip_totalLen_512_to_1024_bytes_register",
+      "id" : 17,
+      "source_info" : {
+        "filename" : "decisiontree.p4",
+        "line" : 40,
+        "column" : 24,
+        "source_fragment" : "A_flow_num_of_ip_totalLen_512_to_1024_bytes_register"
+      },
+      "size" : 8192,
+      "bitwidth" : 32
+    },
+    {
+      "name" : "A_flow_num_of_ip_totalLen_1024_to_1514_bytes_register",
+      "id" : 18,
+      "source_info" : {
+        "filename" : "decisiontree.p4",
+        "line" : 41,
+        "column" : 24,
+        "source_fragment" : "A_flow_num_of_ip_totalLen_1024_to_1514_bytes_register"
+      },
+      "size" : 8192,
+      "bitwidth" : 32
+    },
+    {
+      "name" : "A_flow_max_tcp_win_src_to_dst_register",
+      "id" : 19,
+      "source_info" : {
+        "filename" : "decisiontree.p4",
+        "line" : 43,
+        "column" : 24,
+        "source_fragment" : "A_flow_max_tcp_win_src_to_dst_register"
+      },
+      "size" : 8192,
+      "bitwidth" : 16
+    },
+    {
+      "name" : "A_flow_max_tcp_win_dst_to_src_register",
+      "id" : 20,
+      "source_info" : {
+        "filename" : "decisiontree.p4",
+        "line" : 44,
+        "column" : 24,
+        "source_fragment" : "A_flow_max_tcp_win_dst_to_src_register"
+      },
+      "size" : 8192,
+      "bitwidth" : 16
+    },
+    {
+      "name" : "A_flow_bytes_per_second_src_to_dst_register",
+      "id" : 21,
+      "source_info" : {
+        "filename" : "decisiontree.p4",
+        "line" : 46,
+        "column" : 24,
+        "source_fragment" : "A_flow_bytes_per_second_src_to_dst_register"
+      },
+      "size" : 8192,
+      "bitwidth" : 32
+    },
+    {
+      "name" : "A_flow_bytes_per_second_dst_to_src_register",
+      "id" : 22,
+      "source_info" : {
+        "filename" : "decisiontree.p4",
+        "line" : 47,
+        "column" : 24,
+        "source_fragment" : "A_flow_bytes_per_second_dst_to_src_register"
+      },
+      "size" : 8192,
+      "bitwidth" : 32
+    },
+    {
+      "name" : "A_flow_bits_per_second_src_to_dst_register",
+      "id" : 23,
+      "source_info" : {
+        "filename" : "decisiontree.p4",
+        "line" : 49,
+        "column" : 24,
+        "source_fragment" : "A_flow_bits_per_second_src_to_dst_register"
+      },
+      "size" : 8192,
+      "bitwidth" : 32
+    },
+    {
+      "name" : "A_flow_bits_per_second_dst_to_src_register",
+      "id" : 24,
+      "source_info" : {
+        "filename" : "decisiontree.p4",
+        "line" : 50,
+        "column" : 24,
+        "source_fragment" : "A_flow_bits_per_second_dst_to_src_register"
+      },
+      "size" : 8192,
+      "bitwidth" : 32
+    },
+    {
+      "name" : "current_flow_id_reg",
+      "id" : 25,
+      "source_info" : {
+        "filename" : "decisiontree.p4",
+        "line" : 52,
+        "column" : 21,
+        "source_fragment" : "current_flow_id_reg"
+      },
+      "size" : 1,
+      "bitwidth" : 32
+    },
+    {
+      "name" : "current_flow_r_id_reg",
+      "id" : 26,
+      "source_info" : {
+        "filename" : "decisiontree.p4",
+        "line" : 53,
+        "column" : 21,
+        "source_fragment" : "current_flow_r_id_reg"
+      },
+      "size" : 1,
+      "bitwidth" : 32
+    }
+  ],
+  "calculations" : [
+    {
+      "name" : "calc",
+      "id" : 0,
+      "algo" : "crc32",
+      "input" : [
+        {
+          "type" : "field",
+          "value" : ["ipv4", "dstAddr"]
+        },
+        {
+          "type" : "field",
+          "value" : ["ipv4", "srcAddr"]
+        },
+        {
+          "type" : "field",
+          "value" : ["scalars", "tmpdstPort_0"]
+        },
+        {
+          "type" : "field",
+          "value" : ["scalars", "tmpsrcPort_0"]
+        },
+        {
+          "type" : "field",
+          "value" : ["ipv4", "protocol"]
+        }
+      ]
+    },
+    {
+      "name" : "calc_0",
+      "id" : 1,
+      "algo" : "crc32",
+      "input" : [
+        {
+          "type" : "field",
+          "value" : ["ipv4", "srcAddr"]
+        },
+        {
+          "type" : "field",
+          "value" : ["ipv4", "dstAddr"]
+        },
+        {
+          "type" : "field",
+          "value" : ["scalars", "tmpsrcPort_0"]
+        },
+        {
+          "type" : "field",
+          "value" : ["scalars", "tmpdstPort_0"]
+        },
+        {
+          "type" : "field",
+          "value" : ["ipv4", "protocol"]
+        }
+      ]
+    },
+    {
+      "name" : "calc_1",
+      "id" : 2,
+      "source_info" : {
+        "filename" : "decisiontree.p4",
+        "line" : 499,
+        "column" : 8,
+        "source_fragment" : "update_checksum( ..."
+      },
+      "algo" : "csum16",
+      "input" : [
+        {
+          "type" : "field",
+          "value" : ["ipv4", "version"]
+        },
+        {
+          "type" : "field",
+          "value" : ["ipv4", "ihl"]
+        },
+        {
+          "type" : "field",
+          "value" : ["ipv4", "diffserv"]
+        },
+        {
+          "type" : "field",
+          "value" : ["ipv4", "totalLen"]
+        },
+        {
+          "type" : "field",
+          "value" : ["ipv4", "identification"]
+        },
+        {
+          "type" : "field",
+          "value" : ["ipv4", "flags"]
+        },
+        {
+          "type" : "field",
+          "value" : ["ipv4", "fragOffset"]
+        },
+        {
+          "type" : "field",
+          "value" : ["ipv4", "ttl"]
+        },
+        {
+          "type" : "field",
+          "value" : ["ipv4", "protocol"]
+        },
+        {
+          "type" : "field",
+          "value" : ["ipv4", "srcAddr"]
+        },
+        {
+          "type" : "field",
+          "value" : ["ipv4", "dstAddr"]
+        }
+      ]
+    }
+  ],
+  "learn_lists" : [],
+  "actions" : [
+    {
+      "name" : "NoAction",
+      "id" : 0,
+      "runtime_data" : [],
+      "primitives" : []
+    },
+    {
+      "name" : "MyIngress.drop",
+      "id" : 1,
+      "runtime_data" : [],
+      "primitives" : [
+        {
+          "op" : "mark_to_drop",
+          "parameters" : [
+            {
+              "type" : "header",
+              "value" : "standard_metadata"
+            }
+          ],
+          "source_info" : {
+            "filename" : "decisiontree.p4",
+            "line" : 259,
+            "column" : 8,
+            "source_fragment" : "mark_to_drop(standard_metadata)"
+          }
+        }
+      ]
+    },
+    {
+      "name" : "MyIngress.ipv4_forward",
+      "id" : 2,
+      "runtime_data" : [
+        {
+          "name" : "dstAddr",
+          "bitwidth" : 48
+        },
+        {
+          "name" : "port",
+          "bitwidth" : 9
+        }
+      ],
+      "primitives" : [
+        {
+          "op" : "assign",
+          "parameters" : [
+            {
+              "type" : "field",
+              "value" : ["standard_metadata", "egress_spec"]
+            },
+            {
+              "type" : "runtime_data",
+              "value" : 1
+            }
+          ],
+          "source_info" : {
+            "filename" : "decisiontree.p4",
+            "line" : 263,
+            "column" : 8,
+            "source_fragment" : "standard_metadata.egress_spec = port"
+          }
+        },
+        {
+          "op" : "assign",
+          "parameters" : [
+            {
+              "type" : "field",
+              "value" : ["ethernet", "srcAddr"]
+            },
+            {
+              "type" : "field",
+              "value" : ["ethernet", "dstAddr"]
+            }
+          ],
+          "source_info" : {
+            "filename" : "decisiontree.p4",
+            "line" : 264,
+            "column" : 8,
+            "source_fragment" : "hdr.ethernet.srcAddr = hdr.ethernet.dstAddr"
+          }
+        },
+        {
+          "op" : "assign",
+          "parameters" : [
+            {
+              "type" : "field",
+              "value" : ["ethernet", "dstAddr"]
+            },
+            {
+              "type" : "runtime_data",
+              "value" : 0
+            }
+          ],
+          "source_info" : {
+            "filename" : "decisiontree.p4",
+            "line" : 265,
+            "column" : 8,
+            "source_fragment" : "hdr.ethernet.dstAddr = dstAddr"
+          }
+        },
+        {
+          "op" : "assign",
+          "parameters" : [
+            {
+              "type" : "field",
+              "value" : ["ipv4", "ttl"]
+            },
+            {
+              "type" : "expression",
+              "value" : {
+                "type" : "expression",
+                "value" : {
+                  "op" : "&",
+                  "left" : {
+                    "type" : "expression",
+                    "value" : {
+                      "op" : "+",
+                      "left" : {
+                        "type" : "field",
+                        "value" : ["ipv4", "ttl"]
+                      },
+                      "right" : {
+                        "type" : "hexstr",
+                        "value" : "0xff"
+                      }
+                    }
+                  },
+                  "right" : {
+                    "type" : "hexstr",
+                    "value" : "0xff"
+                  }
+                }
+              }
+            }
+          ],
+          "source_info" : {
+            "filename" : "decisiontree.p4",
+            "line" : 266,
+            "column" : 8,
+            "source_fragment" : "hdr.ipv4.ttl = hdr.ipv4.ttl - 1"
+          }
+        }
+      ]
+    },
+    {
+      "name" : "MyIngress.compute_hashes_flow",
+      "id" : 3,
+      "runtime_data" : [],
+      "primitives" : [
+        {
+          "op" : "modify_field_with_hash_based_offset",
+          "parameters" : [
+            {
+              "type" : "field",
+              "value" : ["scalars", "flow_id_0"]
+            },
+            {
+              "type" : "hexstr",
+              "value" : "0x00000000"
+            },
+            {
+              "type" : "calculation",
+              "value" : "calc"
+            },
+            {
+              "type" : "hexstr",
+              "value" : "0x00002000"
+            }
+          ],
+          "source_info" : {
+            "filename" : "decisiontree.p4",
+            "line" : 271,
+            "column" : 7,
+            "source_fragment" : "hash(flow_id, HashAlgorithm.crc32, (bit<32>)0, {ipAddr1,ipAddr2,port1,port2,hdr.ipv4.protocol},(bit<32>)8192)"
+          }
+        }
+      ]
+    },
+    {
+      "name" : "MyIngress.compute_hashes_flow",
+      "id" : 4,
+      "runtime_data" : [],
+      "primitives" : [
+        {
+          "op" : "modify_field_with_hash_based_offset",
+          "parameters" : [
+            {
+              "type" : "field",
+              "value" : ["scalars", "flow_id_0"]
+            },
+            {
+              "type" : "hexstr",
+              "value" : "0x00000000"
+            },
+            {
+              "type" : "calculation",
+              "value" : "calc_0"
+            },
+            {
+              "type" : "hexstr",
+              "value" : "0x00002000"
+            }
+          ],
+          "source_info" : {
+            "filename" : "decisiontree.p4",
+            "line" : 271,
+            "column" : 7,
+            "source_fragment" : "hash(flow_id, HashAlgorithm.crc32, (bit<32>)0, {ipAddr1,ipAddr2,port1,port2,hdr.ipv4.protocol},(bit<32>)8192)"
+          }
+        }
+      ]
+    },
+    {
+      "name" : "decisiontree301",
+      "id" : 5,
+      "runtime_data" : [],
+      "primitives" : [
+        {
+          "op" : "assign",
+          "parameters" : [
+            {
+              "type" : "field",
+              "value" : ["scalars", "tmpdstPort_0"]
+            },
+            {
+              "type" : "field",
+              "value" : ["tcp", "dstPort"]
+            }
+          ],
+          "source_info" : {
+            "filename" : "decisiontree.p4",
+            "line" : 301,
+            "column" : 20,
+            "source_fragment" : "tmpdstPort = hdr.tcp.dstPort"
+          }
+        },
+        {
+          "op" : "assign",
+          "parameters" : [
+            {
+              "type" : "field",
+              "value" : ["scalars", "tmpsrcPort_0"]
+            },
+            {
+              "type" : "field",
+              "value" : ["tcp", "srcPort"]
+            }
+          ],
+          "source_info" : {
+            "filename" : "decisiontree.p4",
+            "line" : 302,
+            "column" : 20,
+            "source_fragment" : "tmpsrcPort = hdr.tcp.srcPort"
+          }
+        }
+      ]
+    },
+    {
+      "name" : "decisiontree304",
+      "id" : 6,
+      "runtime_data" : [],
+      "primitives" : [
+        {
+          "op" : "assign",
+          "parameters" : [
+            {
+              "type" : "field",
+              "value" : ["scalars", "tmpdstPort_0"]
+            },
+            {
+              "type" : "field",
+              "value" : ["udp", "dstPort"]
+            }
+          ],
+          "source_info" : {
+            "filename" : "decisiontree.p4",
+            "line" : 304,
+            "column" : 20,
+            "source_fragment" : "tmpdstPort = hdr.udp.dstPort"
+          }
+        },
+        {
+          "op" : "assign",
+          "parameters" : [
+            {
+              "type" : "field",
+              "value" : ["scalars", "tmpsrcPort_0"]
+            },
+            {
+              "type" : "field",
+              "value" : ["udp", "srcPort"]
+            }
+          ],
+          "source_info" : {
+            "filename" : "decisiontree.p4",
+            "line" : 305,
+            "column" : 20,
+            "source_fragment" : "tmpsrcPort = hdr.udp.srcPort"
+          }
+        }
+      ]
+    },
+    {
+      "name" : "decisiontree291",
+      "id" : 7,
+      "runtime_data" : [],
+      "primitives" : [
+        {
+          "op" : "count",
+          "parameters" : [
+            {
+              "type" : "counter_array",
+              "value" : "MyIngress.all_packets_bytes_counter"
+            },
+            {
+              "type" : "hexstr",
+              "value" : "0x00000000"
+            }
+          ],
+          "source_info" : {
+            "filename" : "decisiontree.p4",
+            "line" : 291,
+            "column" : 16,
+            "source_fragment" : "all_packets_bytes_counter.count(0)"
+          }
+        },
+        {
+          "op" : "assign",
+          "parameters" : [
+            {
+              "type" : "field",
+              "value" : ["scalars", "tmpsrcPort_0"]
+            },
+            {
+              "type" : "hexstr",
+              "value" : "0x0000"
+            }
+          ],
+          "source_info" : {
+            "filename" : "decisiontree.p4",
+            "line" : 293,
+            "column" : 16,
+            "source_fragment" : "bit<16> tmpsrcPort=0;"
+          }
+        },
+        {
+          "op" : "assign",
+          "parameters" : [
+            {
+              "type" : "field",
+              "value" : ["scalars", "tmpdstPort_0"]
+            },
+            {
+              "type" : "hexstr",
+              "value" : "0x0000"
+            }
+          ],
+          "source_info" : {
+            "filename" : "decisiontree.p4",
+            "line" : 294,
+            "column" : 16,
+            "source_fragment" : "bit<16> tmpdstPort=0;"
+          }
+        }
+      ]
+    },
+    {
+      "name" : "decisiontree314",
+      "id" : 8,
+      "runtime_data" : [],
+      "primitives" : [
+        {
+          "op" : "assign",
+          "parameters" : [
+            {
+              "type" : "field",
+              "value" : ["scalars", "current_flow_id_0"]
+            },
+            {
+              "type" : "field",
+              "value" : ["scalars", "flow_id_0"]
+            }
+          ],
+          "source_info" : {
+            "filename" : "decisiontree.p4",
+            "line" : 314,
+            "column" : 20,
+            "source_fragment" : "current_flow_id = flow_id"
+          }
+        },
+        {
+          "op" : "register_write",
+          "parameters" : [
+            {
+              "type" : "register_array",
+              "value" : "current_flow_id_reg"
+            },
+            {
+              "type" : "hexstr",
+              "value" : "0x00000000"
+            },
+            {
+              "type" : "field",
+              "value" : ["scalars", "flow_id_0"]
+            }
+          ],
+          "source_info" : {
+            "filename" : "decisiontree.p4",
+            "line" : 315,
+            "column" : 20,
+            "source_fragment" : "current_flow_id_reg.write(0,flow_id)"
+          }
+        }
+      ]
+    },
+    {
+      "name" : "decisiontree329",
+      "id" : 9,
+      "runtime_data" : [],
+      "primitives" : [
+        {
+          "op" : "register_write",
+          "parameters" : [
+            {
+              "type" : "register_array",
+              "value" : "A_flow_dstip_register"
+            },
+            {
+              "type" : "field",
+              "value" : ["scalars", "current_flow_id_0"]
+            },
+            {
+              "type" : "field",
+              "value" : ["ipv4", "dstAddr"]
+            }
+          ],
+          "source_info" : {
+            "filename" : "decisiontree.p4",
+            "line" : 329,
+            "column" : 24,
+            "source_fragment" : "A_flow_dstip_register.write((bit<32>)current_flow_id,hdr.ipv4.dstAddr)"
+          }
+        },
+        {
+          "op" : "register_write",
+          "parameters" : [
+            {
+              "type" : "register_array",
+              "value" : "A_flow_srcip_register"
+            },
+            {
+              "type" : "field",
+              "value" : ["scalars", "current_flow_id_0"]
+            },
+            {
+              "type" : "field",
+              "value" : ["ipv4", "srcAddr"]
+            }
+          ],
+          "source_info" : {
+            "filename" : "decisiontree.p4",
+            "line" : 330,
+            "column" : 24,
+            "source_fragment" : "A_flow_srcip_register.write((bit<32>)current_flow_id,hdr.ipv4.srcAddr)"
+          }
+        },
+        {
+          "op" : "register_write",
+          "parameters" : [
+            {
+              "type" : "register_array",
+              "value" : "A_flow_dstport_register"
+            },
+            {
+              "type" : "field",
+              "value" : ["scalars", "current_flow_id_0"]
+            },
+            {
+              "type" : "field",
+              "value" : ["scalars", "tmpdstPort_0"]
+            }
+          ],
+          "source_info" : {
+            "filename" : "decisiontree.p4",
+            "line" : 331,
+            "column" : 24,
+            "source_fragment" : "A_flow_dstport_register.write((bit<32>)current_flow_id,tmpdstPort)"
+          }
+        },
+        {
+          "op" : "register_write",
+          "parameters" : [
+            {
+              "type" : "register_array",
+              "value" : "A_flow_srcport_register"
+            },
+            {
+              "type" : "field",
+              "value" : ["scalars", "current_flow_id_0"]
+            },
+            {
+              "type" : "field",
+              "value" : ["scalars", "tmpsrcPort_0"]
+            }
+          ],
+          "source_info" : {
+            "filename" : "decisiontree.p4",
+            "line" : 332,
+            "column" : 24,
+            "source_fragment" : "A_flow_srcport_register.write((bit<32>)current_flow_id,tmpsrcPort)"
+          }
+        },
+        {
+          "op" : "register_write",
+          "parameters" : [
+            {
+              "type" : "register_array",
+              "value" : "A_flow_protocol_register"
+            },
+            {
+              "type" : "field",
+              "value" : ["scalars", "current_flow_id_0"]
+            },
+            {
+              "type" : "field",
+              "value" : ["ipv4", "protocol"]
+            }
+          ],
+          "source_info" : {
+            "filename" : "decisiontree.p4",
+            "line" : 333,
+            "column" : 24,
+            "source_fragment" : "A_flow_protocol_register.write((bit<32>)current_flow_id,hdr.ipv4.protocol)"
+          }
+        },
+        {
+          "op" : "register_read",
+          "parameters" : [
+            {
+              "type" : "field",
+              "value" : ["scalars", "current_flow_num_0"]
+            },
+            {
+              "type" : "register_array",
+              "value" : "flow_counter"
+            },
+            {
+              "type" : "hexstr",
+              "value" : "0x00000000"
+            }
+          ],
+          "source_info" : {
+            "filename" : "decisiontree.p4",
+            "line" : 336,
+            "column" : 24,
+            "source_fragment" : "flow_counter.read(current_flow_num,0)"
+          }
+        },
+        {
+          "op" : "assign",
+          "parameters" : [
+            {
+              "type" : "field",
+              "value" : ["scalars", "tmp"]
+            },
+            {
+              "type" : "expression",
+              "value" : {
+                "type" : "expression",
+                "value" : {
+                  "op" : "&",
+                  "left" : {
+                    "type" : "expression",
+                    "value" : {
+                      "op" : "+",
+                      "left" : {
+                        "type" : "field",
+                        "value" : ["scalars", "current_flow_num_0"]
+                      },
+                      "right" : {
+                        "type" : "hexstr",
+                        "value" : "0x00000001"
+                      }
+                    }
+                  },
+                  "right" : {
+                    "type" : "hexstr",
+                    "value" : "0xffffffff"
+                  }
+                }
+              }
+            }
+          ],
+          "source_info" : {
+            "filename" : "decisiontree.p4",
+            "line" : 337,
+            "column" : 45,
+            "source_fragment" : "current_flow_num+1"
+          }
+        },
+        {
+          "op" : "register_write",
+          "parameters" : [
+            {
+              "type" : "register_array",
+              "value" : "flow_counter"
+            },
+            {
+              "type" : "hexstr",
+              "value" : "0x00000000"
+            },
+            {
+              "type" : "field",
+              "value" : ["scalars", "tmp"]
+            }
+          ],
+          "source_info" : {
+            "filename" : "decisiontree.p4",
+            "line" : 337,
+            "column" : 24,
+            "source_fragment" : "flow_counter.write(0,current_flow_num+1)"
+          }
+        },
+        {
+          "op" : "assign",
+          "parameters" : [
+            {
+              "type" : "field",
+              "value" : ["scalars", "tmp_0"]
+            },
+            {
+              "type" : "expression",
+              "value" : {
+                "type" : "expression",
+                "value" : {
+                  "op" : "&",
+                  "left" : {
+                    "type" : "expression",
+                    "value" : {
+                      "op" : "+",
+                      "left" : {
+                        "type" : "field",
+                        "value" : ["scalars", "A_current_flow_transmitted_packet_0"]
+                      },
+                      "right" : {
+                        "type" : "hexstr",
+                        "value" : "0x00000001"
+                      }
+                    }
+                  },
+                  "right" : {
+                    "type" : "hexstr",
+                    "value" : "0xffffffff"
+                  }
+                }
+              }
+            }
+          ],
+          "source_info" : {
+            "filename" : "decisiontree.p4",
+            "line" : 339,
+            "column" : 81,
+            "source_fragment" : "A_current_flow_transmitted_packet+1"
+          }
+        },
+        {
+          "op" : "register_write",
+          "parameters" : [
+            {
+              "type" : "register_array",
+              "value" : "A_flow_transmitted_packet_counter"
+            },
+            {
+              "type" : "field",
+              "value" : ["scalars", "current_flow_id_0"]
+            },
+            {
+              "type" : "field",
+              "value" : ["scalars", "tmp_0"]
+            }
+          ],
+          "source_info" : {
+            "filename" : "decisiontree.p4",
+            "line" : 339,
+            "column" : 24,
+            "source_fragment" : "A_flow_transmitted_packet_counter.write(current_flow_id,(A_current_flow_transmitted_packet+1))"
+          }
+        },
+        {
+          "op" : "assign",
+          "parameters" : [
+            {
+              "type" : "field",
+              "value" : ["scalars", "tmp_1"]
+            },
+            {
+              "type" : "expression",
+              "value" : {
+                "type" : "expression",
+                "value" : {
+                  "op" : "&",
+                  "left" : {
+                    "type" : "expression",
+                    "value" : {
+                      "op" : "+",
+                      "left" : {
+                        "type" : "field",
+                        "value" : ["scalars", "A_current_flow_transmitted_byte_0"]
+                      },
+                      "right" : {
+                        "type" : "expression",
+                        "value" : {
+                          "op" : "&",
+                          "left" : {
+                            "type" : "field",
+                            "value" : ["ipv4", "totalLen"]
+                          },
+                          "right" : {
+                            "type" : "hexstr",
+                            "value" : "0xffffffff"
+                          }
+                        }
+                      }
+                    }
+                  },
+                  "right" : {
+                    "type" : "hexstr",
+                    "value" : "0xffffffff"
+                  }
+                }
+              }
+            }
+          ],
+          "source_info" : {
+            "filename" : "decisiontree.p4",
+            "line" : 341,
+            "column" : 79,
+            "source_fragment" : "A_current_flow_transmitted_byte + ((bit<32>)hdr.ipv4.totalLen)"
+          }
+        },
+        {
+          "op" : "register_write",
+          "parameters" : [
+            {
+              "type" : "register_array",
+              "value" : "A_flow_transmitted_byte_counter"
+            },
+            {
+              "type" : "field",
+              "value" : ["scalars", "current_flow_id_0"]
+            },
+            {
+              "type" : "field",
+              "value" : ["scalars", "tmp_1"]
+            }
+          ],
+          "source_info" : {
+            "filename" : "decisiontree.p4",
+            "line" : 341,
+            "column" : 24,
+            "source_fragment" : "A_flow_transmitted_byte_counter.write(current_flow_id,(A_current_flow_transmitted_byte + ((bit<32>)hdr.ipv4.totalLen)))"
+          }
+        }
+      ]
+    },
+    {
+      "name" : "decisiontree345",
+      "id" : 10,
+      "runtime_data" : [],
+      "primitives" : [
+        {
+          "op" : "assign",
+          "parameters" : [
+            {
+              "type" : "field",
+              "value" : ["scalars", "tmp_2"]
+            },
+            {
+              "type" : "expression",
+              "value" : {
+                "type" : "expression",
+                "value" : {
+                  "op" : "&",
+                  "left" : {
+                    "type" : "expression",
+                    "value" : {
+                      "op" : "+",
+                      "left" : {
+                        "type" : "field",
+                        "value" : ["scalars", "A_current_flow_transmitted_packet_0"]
+                      },
+                      "right" : {
+                        "type" : "hexstr",
+                        "value" : "0x00000001"
+                      }
+                    }
+                  },
+                  "right" : {
+                    "type" : "hexstr",
+                    "value" : "0xffffffff"
+                  }
+                }
+              }
+            }
+          ],
+          "source_info" : {
+            "filename" : "decisiontree.p4",
+            "line" : 345,
+            "column" : 81,
+            "source_fragment" : "A_current_flow_transmitted_packet+1"
+          }
+        },
+        {
+          "op" : "register_write",
+          "parameters" : [
+            {
+              "type" : "register_array",
+              "value" : "A_flow_transmitted_packet_counter"
+            },
+            {
+              "type" : "field",
+              "value" : ["scalars", "current_flow_id_0"]
+            },
+            {
+              "type" : "field",
+              "value" : ["scalars", "tmp_2"]
+            }
+          ],
+          "source_info" : {
+            "filename" : "decisiontree.p4",
+            "line" : 345,
+            "column" : 24,
+            "source_fragment" : "A_flow_transmitted_packet_counter.write(current_flow_id,(A_current_flow_transmitted_packet+1))"
+          }
+        },
+        {
+          "op" : "assign",
+          "parameters" : [
+            {
+              "type" : "field",
+              "value" : ["scalars", "tmp_3"]
+            },
+            {
+              "type" : "expression",
+              "value" : {
+                "type" : "expression",
+                "value" : {
+                  "op" : "&",
+                  "left" : {
+                    "type" : "expression",
+                    "value" : {
+                      "op" : "+",
+                      "left" : {
+                        "type" : "field",
+                        "value" : ["scalars", "A_current_flow_transmitted_byte_0"]
+                      },
+                      "right" : {
+                        "type" : "expression",
+                        "value" : {
+                          "op" : "&",
+                          "left" : {
+                            "type" : "field",
+                            "value" : ["ipv4", "totalLen"]
+                          },
+                          "right" : {
+                            "type" : "hexstr",
+                            "value" : "0xffffffff"
+                          }
+                        }
+                      }
+                    }
+                  },
+                  "right" : {
+                    "type" : "hexstr",
+                    "value" : "0xffffffff"
+                  }
+                }
+              }
+            }
+          ],
+          "source_info" : {
+            "filename" : "decisiontree.p4",
+            "line" : 347,
+            "column" : 79,
+            "source_fragment" : "A_current_flow_transmitted_byte + ((bit<32>)hdr.ipv4.totalLen)"
+          }
+        },
+        {
+          "op" : "register_write",
+          "parameters" : [
+            {
+              "type" : "register_array",
+              "value" : "A_flow_transmitted_byte_counter"
+            },
+            {
+              "type" : "field",
+              "value" : ["scalars", "current_flow_id_0"]
+            },
+            {
+              "type" : "field",
+              "value" : ["scalars", "tmp_3"]
+            }
+          ],
+          "source_info" : {
+            "filename" : "decisiontree.p4",
+            "line" : 347,
+            "column" : 24,
+            "source_fragment" : "A_flow_transmitted_byte_counter.write(current_flow_id,(A_current_flow_transmitted_byte + ((bit<32>)hdr.ipv4.totalLen)))"
+          }
+        }
+      ]
+    },
+    {
+      "name" : "decisiontree320",
+      "id" : 11,
+      "runtime_data" : [],
+      "primitives" : [
+        {
+          "op" : "register_write",
+          "parameters" : [
+            {
+              "type" : "register_array",
+              "value" : "current_flow_r_id_reg"
+            },
+            {
+              "type" : "hexstr",
+              "value" : "0x00000000"
+            },
+            {
+              "type" : "field",
+              "value" : ["scalars", "flow_id_0"]
+            }
+          ],
+          "source_info" : {
+            "filename" : "decisiontree.p4",
+            "line" : 320,
+            "column" : 20,
+            "source_fragment" : "current_flow_r_id_reg.write(0,flow_id)"
+          }
+        },
+        {
+          "op" : "register_read",
+          "parameters" : [
+            {
+              "type" : "field",
+              "value" : ["scalars", "A_current_flow_transmitted_packet_0"]
+            },
+            {
+              "type" : "register_array",
+              "value" : "A_flow_transmitted_packet_counter"
+            },
+            {
+              "type" : "field",
+              "value" : ["scalars", "current_flow_id_0"]
+            }
+          ],
+          "source_info" : {
+            "filename" : "decisiontree.p4",
+            "line" : 325,
+            "column" : 20,
+            "source_fragment" : "A_flow_transmitted_packet_counter.read(A_current_flow_transmitted_packet,current_flow_id)"
+          }
+        },
+        {
+          "op" : "register_read",
+          "parameters" : [
+            {
+              "type" : "field",
+              "value" : ["scalars", "A_current_flow_transmitted_byte_0"]
+            },
+            {
+              "type" : "register_array",
+              "value" : "A_flow_transmitted_byte_counter"
+            },
+            {
+              "type" : "field",
+              "value" : ["scalars", "current_flow_id_0"]
+            }
+          ],
+          "source_info" : {
+            "filename" : "decisiontree.p4",
+            "line" : 326,
+            "column" : 20,
+            "source_fragment" : "A_flow_transmitted_byte_counter.read(A_current_flow_transmitted_byte,current_flow_id)"
+          }
+        }
+      ]
+    },
+    {
+      "name" : "decisiontree358",
+      "id" : 12,
+      "runtime_data" : [],
+      "primitives" : [
+        {
+          "op" : "register_write",
+          "parameters" : [
+            {
+              "type" : "register_array",
+              "value" : "A_flow_dstip_register"
+            },
+            {
+              "type" : "field",
+              "value" : ["scalars", "flow_id_0"]
+            },
+            {
+              "type" : "field",
+              "value" : ["ipv4", "srcAddr"]
+            }
+          ],
+          "source_info" : {
+            "filename" : "decisiontree.p4",
+            "line" : 358,
+            "column" : 24,
+            "source_fragment" : "A_flow_dstip_register.write((bit<32>)current_flow_r_id,hdr.ipv4.srcAddr)"
+          }
+        },
+        {
+          "op" : "register_write",
+          "parameters" : [
+            {
+              "type" : "register_array",
+              "value" : "A_flow_srcip_register"
+            },
+            {
+              "type" : "field",
+              "value" : ["scalars", "flow_id_0"]
+            },
+            {
+              "type" : "field",
+              "value" : ["ipv4", "dstAddr"]
+            }
+          ],
+          "source_info" : {
+            "filename" : "decisiontree.p4",
+            "line" : 359,
+            "column" : 24,
+            "source_fragment" : "A_flow_srcip_register.write((bit<32>)current_flow_r_id,hdr.ipv4.dstAddr)"
+          }
+        },
+        {
+          "op" : "register_write",
+          "parameters" : [
+            {
+              "type" : "register_array",
+              "value" : "A_flow_dstport_register"
+            },
+            {
+              "type" : "field",
+              "value" : ["scalars", "flow_id_0"]
+            },
+            {
+              "type" : "field",
+              "value" : ["scalars", "tmpsrcPort_0"]
+            }
+          ],
+          "source_info" : {
+            "filename" : "decisiontree.p4",
+            "line" : 360,
+            "column" : 24,
+            "source_fragment" : "A_flow_dstport_register.write((bit<32>)current_flow_r_id,tmpsrcPort)"
+          }
+        },
+        {
+          "op" : "register_write",
+          "parameters" : [
+            {
+              "type" : "register_array",
+              "value" : "A_flow_srcport_register"
+            },
+            {
+              "type" : "field",
+              "value" : ["scalars", "flow_id_0"]
+            },
+            {
+              "type" : "field",
+              "value" : ["scalars", "tmpdstPort_0"]
+            }
+          ],
+          "source_info" : {
+            "filename" : "decisiontree.p4",
+            "line" : 361,
+            "column" : 24,
+            "source_fragment" : "A_flow_srcport_register.write((bit<32>)current_flow_r_id,tmpdstPort)"
+          }
+        },
+        {
+          "op" : "register_write",
+          "parameters" : [
+            {
+              "type" : "register_array",
+              "value" : "A_flow_protocol_register"
+            },
+            {
+              "type" : "field",
+              "value" : ["scalars", "flow_id_0"]
+            },
+            {
+              "type" : "field",
+              "value" : ["ipv4", "protocol"]
+            }
+          ],
+          "source_info" : {
+            "filename" : "decisiontree.p4",
+            "line" : 362,
+            "column" : 24,
+            "source_fragment" : "A_flow_protocol_register.write((bit<32>)current_flow_r_id,hdr.ipv4.protocol)"
+          }
+        },
+        {
+          "op" : "assign",
+          "parameters" : [
+            {
+              "type" : "field",
+              "value" : ["scalars", "tmp_4"]
+            },
+            {
+              "type" : "expression",
+              "value" : {
+                "type" : "expression",
+                "value" : {
+                  "op" : "&",
+                  "left" : {
+                    "type" : "expression",
+                    "value" : {
+                      "op" : "+",
+                      "left" : {
+                        "type" : "field",
+                        "value" : ["scalars", "A_current_flow_r_received_packet_0"]
+                      },
+                      "right" : {
+                        "type" : "hexstr",
+                        "value" : "0x00000001"
+                      }
+                    }
+                  },
+                  "right" : {
+                    "type" : "hexstr",
+                    "value" : "0xffffffff"
+                  }
+                }
+              }
+            }
+          ],
+          "source_info" : {
+            "filename" : "decisiontree.p4",
+            "line" : 365,
+            "column" : 80,
+            "source_fragment" : "A_current_flow_r_received_packet+1"
+          }
+        },
+        {
+          "op" : "register_write",
+          "parameters" : [
+            {
+              "type" : "register_array",
+              "value" : "A_flow_received_packet_counter"
+            },
+            {
+              "type" : "field",
+              "value" : ["scalars", "flow_id_0"]
+            },
+            {
+              "type" : "field",
+              "value" : ["scalars", "tmp_4"]
+            }
+          ],
+          "source_info" : {
+            "filename" : "decisiontree.p4",
+            "line" : 365,
+            "column" : 24,
+            "source_fragment" : "A_flow_received_packet_counter.write(current_flow_r_id,(A_current_flow_r_received_packet+1))"
+          }
+        },
+        {
+          "op" : "assign",
+          "parameters" : [
+            {
+              "type" : "field",
+              "value" : ["scalars", "tmp_5"]
+            },
+            {
+              "type" : "expression",
+              "value" : {
+                "type" : "expression",
+                "value" : {
+                  "op" : "&",
+                  "left" : {
+                    "type" : "expression",
+                    "value" : {
+                      "op" : "+",
+                      "left" : {
+                        "type" : "field",
+                        "value" : ["scalars", "A_current_flow_r_received_byte_0"]
+                      },
+                      "right" : {
+                        "type" : "expression",
+                        "value" : {
+                          "op" : "&",
+                          "left" : {
+                            "type" : "field",
+                            "value" : ["ipv4", "totalLen"]
+                          },
+                          "right" : {
+                            "type" : "hexstr",
+                            "value" : "0xffffffff"
+                          }
+                        }
+                      }
+                    }
+                  },
+                  "right" : {
+                    "type" : "hexstr",
+                    "value" : "0xffffffff"
+                  }
+                }
+              }
+            }
+          ],
+          "source_info" : {
+            "filename" : "decisiontree.p4",
+            "line" : 367,
+            "column" : 78,
+            "source_fragment" : "A_current_flow_r_received_byte + ((bit<32>)hdr.ipv4.totalLen)"
+          }
+        },
+        {
+          "op" : "register_write",
+          "parameters" : [
+            {
+              "type" : "register_array",
+              "value" : "A_flow_received_byte_counter"
+            },
+            {
+              "type" : "field",
+              "value" : ["scalars", "flow_id_0"]
+            },
+            {
+              "type" : "field",
+              "value" : ["scalars", "tmp_5"]
+            }
+          ],
+          "source_info" : {
+            "filename" : "decisiontree.p4",
+            "line" : 367,
+            "column" : 24,
+            "source_fragment" : "A_flow_received_byte_counter.write(current_flow_r_id,(A_current_flow_r_received_byte + ((bit<32>)hdr.ipv4.totalLen)))"
+          }
+        }
+      ]
+    },
+    {
+      "name" : "decisiontree371",
+      "id" : 13,
+      "runtime_data" : [],
+      "primitives" : [
+        {
+          "op" : "assign",
+          "parameters" : [
+            {
+              "type" : "field",
+              "value" : ["scalars", "tmp_6"]
+            },
+            {
+              "type" : "expression",
+              "value" : {
+                "type" : "expression",
+                "value" : {
+                  "op" : "&",
+                  "left" : {
+                    "type" : "expression",
+                    "value" : {
+                      "op" : "+",
+                      "left" : {
+                        "type" : "field",
+                        "value" : ["scalars", "A_current_flow_r_received_packet_0"]
+                      },
+                      "right" : {
+                        "type" : "hexstr",
+                        "value" : "0x00000001"
+                      }
+                    }
+                  },
+                  "right" : {
+                    "type" : "hexstr",
+                    "value" : "0xffffffff"
+                  }
+                }
+              }
+            }
+          ],
+          "source_info" : {
+            "filename" : "decisiontree.p4",
+            "line" : 371,
+            "column" : 80,
+            "source_fragment" : "A_current_flow_r_received_packet+1"
+          }
+        },
+        {
+          "op" : "register_write",
+          "parameters" : [
+            {
+              "type" : "register_array",
+              "value" : "A_flow_received_packet_counter"
+            },
+            {
+              "type" : "field",
+              "value" : ["scalars", "flow_id_0"]
+            },
+            {
+              "type" : "field",
+              "value" : ["scalars", "tmp_6"]
+            }
+          ],
+          "source_info" : {
+            "filename" : "decisiontree.p4",
+            "line" : 371,
+            "column" : 24,
+            "source_fragment" : "A_flow_received_packet_counter.write(current_flow_r_id,(A_current_flow_r_received_packet+1))"
+          }
+        },
+        {
+          "op" : "assign",
+          "parameters" : [
+            {
+              "type" : "field",
+              "value" : ["scalars", "tmp_7"]
+            },
+            {
+              "type" : "expression",
+              "value" : {
+                "type" : "expression",
+                "value" : {
+                  "op" : "&",
+                  "left" : {
+                    "type" : "expression",
+                    "value" : {
+                      "op" : "+",
+                      "left" : {
+                        "type" : "field",
+                        "value" : ["scalars", "A_current_flow_r_received_byte_0"]
+                      },
+                      "right" : {
+                        "type" : "expression",
+                        "value" : {
+                          "op" : "&",
+                          "left" : {
+                            "type" : "field",
+                            "value" : ["ipv4", "totalLen"]
+                          },
+                          "right" : {
+                            "type" : "hexstr",
+                            "value" : "0xffffffff"
+                          }
+                        }
+                      }
+                    }
+                  },
+                  "right" : {
+                    "type" : "hexstr",
+                    "value" : "0xffffffff"
+                  }
+                }
+              }
+            }
+          ],
+          "source_info" : {
+            "filename" : "decisiontree.p4",
+            "line" : 373,
+            "column" : 78,
+            "source_fragment" : "A_current_flow_r_received_byte + ((bit<32>)hdr.ipv4.totalLen)"
+          }
+        },
+        {
+          "op" : "register_write",
+          "parameters" : [
+            {
+              "type" : "register_array",
+              "value" : "A_flow_received_byte_counter"
+            },
+            {
+              "type" : "field",
+              "value" : ["scalars", "flow_id_0"]
+            },
+            {
+              "type" : "field",
+              "value" : ["scalars", "tmp_7"]
+            }
+          ],
+          "source_info" : {
+            "filename" : "decisiontree.p4",
+            "line" : 373,
+            "column" : 24,
+            "source_fragment" : "A_flow_received_byte_counter.write(current_flow_r_id,(A_current_flow_r_received_byte + ((bit<32>)hdr.ipv4.totalLen)))"
+          }
+        }
+      ]
+    },
+    {
+      "name" : "decisiontree354",
+      "id" : 14,
+      "runtime_data" : [],
+      "primitives" : [
+        {
+          "op" : "register_read",
+          "parameters" : [
+            {
+              "type" : "field",
+              "value" : ["scalars", "A_current_flow_r_received_packet_0"]
+            },
+            {
+              "type" : "register_array",
+              "value" : "A_flow_received_packet_counter"
+            },
+            {
+              "type" : "field",
+              "value" : ["scalars", "flow_id_0"]
+            }
+          ],
+          "source_info" : {
+            "filename" : "decisiontree.p4",
+            "line" : 354,
+            "column" : 20,
+            "source_fragment" : "A_flow_received_packet_counter.read(A_current_flow_r_received_packet,current_flow_r_id)"
+          }
+        },
+        {
+          "op" : "register_read",
+          "parameters" : [
+            {
+              "type" : "field",
+              "value" : ["scalars", "A_current_flow_r_received_byte_0"]
+            },
+            {
+              "type" : "register_array",
+              "value" : "A_flow_received_byte_counter"
+            },
+            {
+              "type" : "field",
+              "value" : ["scalars", "flow_id_0"]
+            }
+          ],
+          "source_info" : {
+            "filename" : "decisiontree.p4",
+            "line" : 355,
+            "column" : 20,
+            "source_fragment" : "A_flow_received_byte_counter.read(A_current_flow_r_received_byte,current_flow_r_id)"
+          }
+        }
+      ]
+    },
+    {
+      "name" : "decisiontree386",
+      "id" : 15,
+      "runtime_data" : [],
+      "primitives" : [
+        {
+          "op" : "register_write",
+          "parameters" : [
+            {
+              "type" : "register_array",
+              "value" : "A_flow_max_ttl_register"
+            },
+            {
+              "type" : "field",
+              "value" : ["scalars", "current_flow_id_0"]
+            },
+            {
+              "type" : "field",
+              "value" : ["ipv4", "ttl"]
+            }
+          ],
+          "source_info" : {
+            "filename" : "decisiontree.p4",
+            "line" : 386,
+            "column" : 24,
+            "source_fragment" : "A_flow_max_ttl_register.write(current_flow_id,hdr.ipv4.ttl)"
+          }
+        }
+      ]
+    },
+    {
+      "name" : "decisiontree381",
+      "id" : 16,
+      "runtime_data" : [],
+      "primitives" : [
+        {
+          "op" : "register_read",
+          "parameters" : [
+            {
+              "type" : "field",
+              "value" : ["scalars", "A_flow_recorded_max_ttl_0"]
+            },
+            {
+              "type" : "register_array",
+              "value" : "A_flow_max_ttl_register"
+            },
+            {
+              "type" : "field",
+              "value" : ["scalars", "current_flow_id_0"]
+            }
+          ],
+          "source_info" : {
+            "filename" : "decisiontree.p4",
+            "line" : 381,
+            "column" : 20,
+            "source_fragment" : "A_flow_max_ttl_register.read(A_flow_recorded_max_ttl,current_flow_id)"
+          }
+        },
+        {
+          "op" : "register_read",
+          "parameters" : [
+            {
+              "type" : "field",
+              "value" : ["scalars", "A_flow_recorded_min_ttl_0"]
+            },
+            {
+              "type" : "register_array",
+              "value" : "A_flow_max_ttl_register"
+            },
+            {
+              "type" : "field",
+              "value" : ["scalars", "current_flow_id_0"]
+            }
+          ],
+          "source_info" : {
+            "filename" : "decisiontree.p4",
+            "line" : 382,
+            "column" : 20,
+            "source_fragment" : "A_flow_max_ttl_register.read(A_flow_recorded_min_ttl,current_flow_id)"
+          }
+        }
+      ]
+    },
+    {
+      "name" : "decisiontree393",
+      "id" : 17,
+      "runtime_data" : [],
+      "primitives" : [
+        {
+          "op" : "register_write",
+          "parameters" : [
+            {
+              "type" : "register_array",
+              "value" : "A_flow_min_ttl_register"
+            },
+            {
+              "type" : "field",
+              "value" : ["scalars", "current_flow_id_0"]
+            },
+            {
+              "type" : "field",
+              "value" : ["ipv4", "ttl"]
+            }
+          ],
+          "source_info" : {
+            "filename" : "decisiontree.p4",
+            "line" : 393,
+            "column" : 24,
+            "source_fragment" : "A_flow_min_ttl_register.write(current_flow_id,hdr.ipv4.ttl)"
+          }
+        }
+      ]
+    },
+    {
+      "name" : "decisiontree406",
+      "id" : 18,
+      "runtime_data" : [],
+      "primitives" : [
+        {
+          "op" : "register_write",
+          "parameters" : [
+            {
+              "type" : "register_array",
+              "value" : "A_flow_max_ip_pkt_len_register"
+            },
+            {
+              "type" : "field",
+              "value" : ["scalars", "current_flow_id_0"]
+            },
+            {
+              "type" : "field",
+              "value" : ["ipv4", "totalLen"]
+            }
+          ],
+          "source_info" : {
+            "filename" : "decisiontree.p4",
+            "line" : 406,
+            "column" : 24,
+            "source_fragment" : "A_flow_max_ip_pkt_len_register.write(current_flow_id,hdr.ipv4.totalLen)"
+          }
+        }
+      ]
+    },
+    {
+      "name" : "decisiontree401",
+      "id" : 19,
+      "runtime_data" : [],
+      "primitives" : [
+        {
+          "op" : "register_read",
+          "parameters" : [
+            {
+              "type" : "field",
+              "value" : ["scalars", "A_flow_recorded_max_ip_pkt_len_0"]
+            },
+            {
+              "type" : "register_array",
+              "value" : "A_flow_max_ip_pkt_len_register"
+            },
+            {
+              "type" : "field",
+              "value" : ["scalars", "current_flow_id_0"]
+            }
+          ],
+          "source_info" : {
+            "filename" : "decisiontree.p4",
+            "line" : 401,
+            "column" : 20,
+            "source_fragment" : "A_flow_max_ip_pkt_len_register.read(A_flow_recorded_max_ip_pkt_len,current_flow_id)"
+          }
+        },
+        {
+          "op" : "register_read",
+          "parameters" : [
+            {
+              "type" : "field",
+              "value" : ["scalars", "A_flow_recorded_min_ip_pkt_len_0"]
+            },
+            {
+              "type" : "register_array",
+              "value" : "A_flow_min_ip_pkt_len_register"
+            },
+            {
+              "type" : "field",
+              "value" : ["scalars", "current_flow_id_0"]
+            }
+          ],
+          "source_info" : {
+            "filename" : "decisiontree.p4",
+            "line" : 402,
+            "column" : 20,
+            "source_fragment" : "A_flow_min_ip_pkt_len_register.read(A_flow_recorded_min_ip_pkt_len,current_flow_id)"
+          }
+        }
+      ]
+    },
+    {
+      "name" : "decisiontree413",
+      "id" : 20,
+      "runtime_data" : [],
+      "primitives" : [
+        {
+          "op" : "register_write",
+          "parameters" : [
+            {
+              "type" : "register_array",
+              "value" : "A_flow_min_ip_pkt_len_register"
+            },
+            {
+              "type" : "field",
+              "value" : ["scalars", "current_flow_id_0"]
+            },
+            {
+              "type" : "field",
+              "value" : ["ipv4", "totalLen"]
+            }
+          ],
+          "source_info" : {
+            "filename" : "decisiontree.p4",
+            "line" : 413,
+            "column" : 24,
+            "source_fragment" : "A_flow_min_ip_pkt_len_register.write(current_flow_id,hdr.ipv4.totalLen)"
+          }
+        }
+      ]
+    },
+    {
+      "name" : "decisiontree422",
+      "id" : 21,
+      "runtime_data" : [],
+      "primitives" : [
+        {
+          "op" : "register_read",
+          "parameters" : [
+            {
+              "type" : "field",
+              "value" : ["scalars", "A_flow_num_of_ip_totalLen_1024_to_1514_bytes_0"]
+            },
+            {
+              "type" : "register_array",
+              "value" : "A_flow_num_of_ip_totalLen_1024_to_1514_bytes_register"
+            },
+            {
+              "type" : "field",
+              "value" : ["scalars", "current_flow_id_0"]
+            }
+          ],
+          "source_info" : {
+            "filename" : "decisiontree.p4",
+            "line" : 422,
+            "column" : 24,
+            "source_fragment" : "A_flow_num_of_ip_totalLen_1024_to_1514_bytes_register.read(A_flow_num_of_ip_totalLen_1024_to_1514_bytes,current_flow_id)"
+          }
+        },
+        {
+          "op" : "assign",
+          "parameters" : [
+            {
+              "type" : "field",
+              "value" : ["scalars", "tmp_8"]
+            },
+            {
+              "type" : "expression",
+              "value" : {
+                "type" : "expression",
+                "value" : {
+                  "op" : "&",
+                  "left" : {
+                    "type" : "expression",
+                    "value" : {
+                      "op" : "+",
+                      "left" : {
+                        "type" : "field",
+                        "value" : ["scalars", "A_flow_num_of_ip_totalLen_1024_to_1514_bytes_0"]
+                      },
+                      "right" : {
+                        "type" : "hexstr",
+                        "value" : "0x00000001"
+                      }
+                    }
+                  },
+                  "right" : {
+                    "type" : "hexstr",
+                    "value" : "0xffffffff"
+                  }
+                }
+              }
+            }
+          ],
+          "source_info" : {
+            "filename" : "decisiontree.p4",
+            "line" : 423,
+            "column" : 100,
+            "source_fragment" : "A_flow_num_of_ip_totalLen_1024_to_1514_bytes+1"
+          }
+        },
+        {
+          "op" : "register_write",
+          "parameters" : [
+            {
+              "type" : "register_array",
+              "value" : "A_flow_num_of_ip_totalLen_1024_to_1514_bytes_register"
+            },
+            {
+              "type" : "field",
+              "value" : ["scalars", "current_flow_id_0"]
+            },
+            {
+              "type" : "field",
+              "value" : ["scalars", "tmp_8"]
+            }
+          ],
+          "source_info" : {
+            "filename" : "decisiontree.p4",
+            "line" : 423,
+            "column" : 24,
+            "source_fragment" : "A_flow_num_of_ip_totalLen_1024_to_1514_bytes_register.write(current_flow_id,A_flow_num_of_ip_totalLen_1024_to_1514_bytes+1)"
+          }
+        }
+      ]
+    },
+    {
+      "name" : "decisiontree427",
+      "id" : 22,
+      "runtime_data" : [],
+      "primitives" : [
+        {
+          "op" : "register_read",
+          "parameters" : [
+            {
+              "type" : "field",
+              "value" : ["scalars", "A_flow_num_of_ip_totalLen_512_to_1024_bytes_0"]
+            },
+            {
+              "type" : "register_array",
+              "value" : "A_flow_num_of_ip_totalLen_512_to_1024_bytes_register"
+            },
+            {
+              "type" : "field",
+              "value" : ["scalars", "current_flow_id_0"]
+            }
+          ],
+          "source_info" : {
+            "filename" : "decisiontree.p4",
+            "line" : 427,
+            "column" : 24,
+            "source_fragment" : "A_flow_num_of_ip_totalLen_512_to_1024_bytes_register.read(A_flow_num_of_ip_totalLen_512_to_1024_bytes,current_flow_id)"
+          }
+        },
+        {
+          "op" : "assign",
+          "parameters" : [
+            {
+              "type" : "field",
+              "value" : ["scalars", "tmp_9"]
+            },
+            {
+              "type" : "expression",
+              "value" : {
+                "type" : "expression",
+                "value" : {
+                  "op" : "&",
+                  "left" : {
+                    "type" : "expression",
+                    "value" : {
+                      "op" : "+",
+                      "left" : {
+                        "type" : "field",
+                        "value" : ["scalars", "A_flow_num_of_ip_totalLen_512_to_1024_bytes_0"]
+                      },
+                      "right" : {
+                        "type" : "hexstr",
+                        "value" : "0x00000001"
+                      }
+                    }
+                  },
+                  "right" : {
+                    "type" : "hexstr",
+                    "value" : "0xffffffff"
+                  }
+                }
+              }
+            }
+          ],
+          "source_info" : {
+            "filename" : "decisiontree.p4",
+            "line" : 428,
+            "column" : 99,
+            "source_fragment" : "A_flow_num_of_ip_totalLen_512_to_1024_bytes+1"
+          }
+        },
+        {
+          "op" : "register_write",
+          "parameters" : [
+            {
+              "type" : "register_array",
+              "value" : "A_flow_num_of_ip_totalLen_512_to_1024_bytes_register"
+            },
+            {
+              "type" : "field",
+              "value" : ["scalars", "current_flow_id_0"]
+            },
+            {
+              "type" : "field",
+              "value" : ["scalars", "tmp_9"]
+            }
+          ],
+          "source_info" : {
+            "filename" : "decisiontree.p4",
+            "line" : 428,
+            "column" : 24,
+            "source_fragment" : "A_flow_num_of_ip_totalLen_512_to_1024_bytes_register.write(current_flow_id,A_flow_num_of_ip_totalLen_512_to_1024_bytes+1)"
+          }
+        }
+      ]
+    },
+    {
+      "name" : "decisiontree432",
+      "id" : 23,
+      "runtime_data" : [],
+      "primitives" : [
+        {
+          "op" : "register_read",
+          "parameters" : [
+            {
+              "type" : "field",
+              "value" : ["scalars", "A_flow_num_of_ip_totalLen_256_to_512_bytes_0"]
+            },
+            {
+              "type" : "register_array",
+              "value" : "A_flow_num_of_ip_totalLen_256_to_512_bytes_register"
+            },
+            {
+              "type" : "field",
+              "value" : ["scalars", "current_flow_id_0"]
+            }
+          ],
+          "source_info" : {
+            "filename" : "decisiontree.p4",
+            "line" : 432,
+            "column" : 24,
+            "source_fragment" : "A_flow_num_of_ip_totalLen_256_to_512_bytes_register.read(A_flow_num_of_ip_totalLen_256_to_512_bytes,current_flow_id)"
+          }
+        },
+        {
+          "op" : "assign",
+          "parameters" : [
+            {
+              "type" : "field",
+              "value" : ["scalars", "tmp_10"]
+            },
+            {
+              "type" : "expression",
+              "value" : {
+                "type" : "expression",
+                "value" : {
+                  "op" : "&",
+                  "left" : {
+                    "type" : "expression",
+                    "value" : {
+                      "op" : "+",
+                      "left" : {
+                        "type" : "field",
+                        "value" : ["scalars", "A_flow_num_of_ip_totalLen_256_to_512_bytes_0"]
+                      },
+                      "right" : {
+                        "type" : "hexstr",
+                        "value" : "0x00000001"
+                      }
+                    }
+                  },
+                  "right" : {
+                    "type" : "hexstr",
+                    "value" : "0xffffffff"
+                  }
+                }
+              }
+            }
+          ],
+          "source_info" : {
+            "filename" : "decisiontree.p4",
+            "line" : 433,
+            "column" : 98,
+            "source_fragment" : "A_flow_num_of_ip_totalLen_256_to_512_bytes+1"
+          }
+        },
+        {
+          "op" : "register_write",
+          "parameters" : [
+            {
+              "type" : "register_array",
+              "value" : "A_flow_num_of_ip_totalLen_256_to_512_bytes_register"
+            },
+            {
+              "type" : "field",
+              "value" : ["scalars", "current_flow_id_0"]
+            },
+            {
+              "type" : "field",
+              "value" : ["scalars", "tmp_10"]
+            }
+          ],
+          "source_info" : {
+            "filename" : "decisiontree.p4",
+            "line" : 433,
+            "column" : 24,
+            "source_fragment" : "A_flow_num_of_ip_totalLen_256_to_512_bytes_register.write(current_flow_id,A_flow_num_of_ip_totalLen_256_to_512_bytes+1)"
+          }
+        }
+      ]
+    },
+    {
+      "name" : "decisiontree437",
+      "id" : 24,
+      "runtime_data" : [],
+      "primitives" : [
+        {
+          "op" : "register_read",
+          "parameters" : [
+            {
+              "type" : "field",
+              "value" : ["scalars", "A_flow_num_of_ip_totalLen_128_to_256_bytes_0"]
+            },
+            {
+              "type" : "register_array",
+              "value" : "A_flow_num_of_ip_totalLen_128_to_256_bytes_register"
+            },
+            {
+              "type" : "field",
+              "value" : ["scalars", "current_flow_id_0"]
+            }
+          ],
+          "source_info" : {
+            "filename" : "decisiontree.p4",
+            "line" : 437,
+            "column" : 24,
+            "source_fragment" : "A_flow_num_of_ip_totalLen_128_to_256_bytes_register.read(A_flow_num_of_ip_totalLen_128_to_256_bytes,current_flow_id)"
+          }
+        },
+        {
+          "op" : "assign",
+          "parameters" : [
+            {
+              "type" : "field",
+              "value" : ["scalars", "tmp_11"]
+            },
+            {
+              "type" : "expression",
+              "value" : {
+                "type" : "expression",
+                "value" : {
+                  "op" : "&",
+                  "left" : {
+                    "type" : "expression",
+                    "value" : {
+                      "op" : "+",
+                      "left" : {
+                        "type" : "field",
+                        "value" : ["scalars", "A_flow_num_of_ip_totalLen_128_to_256_bytes_0"]
+                      },
+                      "right" : {
+                        "type" : "hexstr",
+                        "value" : "0x00000001"
+                      }
+                    }
+                  },
+                  "right" : {
+                    "type" : "hexstr",
+                    "value" : "0xffffffff"
+                  }
+                }
+              }
+            }
+          ],
+          "source_info" : {
+            "filename" : "decisiontree.p4",
+            "line" : 438,
+            "column" : 98,
+            "source_fragment" : "A_flow_num_of_ip_totalLen_128_to_256_bytes+1"
+          }
+        },
+        {
+          "op" : "register_write",
+          "parameters" : [
+            {
+              "type" : "register_array",
+              "value" : "A_flow_num_of_ip_totalLen_128_to_256_bytes_register"
+            },
+            {
+              "type" : "field",
+              "value" : ["scalars", "current_flow_id_0"]
+            },
+            {
+              "type" : "field",
+              "value" : ["scalars", "tmp_11"]
+            }
+          ],
+          "source_info" : {
+            "filename" : "decisiontree.p4",
+            "line" : 438,
+            "column" : 24,
+            "source_fragment" : "A_flow_num_of_ip_totalLen_128_to_256_bytes_register.write(current_flow_id,A_flow_num_of_ip_totalLen_128_to_256_bytes+1)"
+          }
+        }
+      ]
+    },
+    {
+      "name" : "decisiontree442",
+      "id" : 25,
+      "runtime_data" : [],
+      "primitives" : [
+        {
+          "op" : "register_read",
+          "parameters" : [
+            {
+              "type" : "field",
+              "value" : ["scalars", "A_flow_num_of_ip_totalLen_up_to_128_bytes_0"]
+            },
+            {
+              "type" : "register_array",
+              "value" : "A_flow_num_of_ip_totalLen_up_to_128_bytes_register"
+            },
+            {
+              "type" : "field",
+              "value" : ["scalars", "current_flow_id_0"]
+            }
+          ],
+          "source_info" : {
+            "filename" : "decisiontree.p4",
+            "line" : 442,
+            "column" : 24,
+            "source_fragment" : "A_flow_num_of_ip_totalLen_up_to_128_bytes_register.read(A_flow_num_of_ip_totalLen_up_to_128_bytes,current_flow_id)"
+          }
+        },
+        {
+          "op" : "assign",
+          "parameters" : [
+            {
+              "type" : "field",
+              "value" : ["scalars", "tmp_12"]
+            },
+            {
+              "type" : "expression",
+              "value" : {
+                "type" : "expression",
+                "value" : {
+                  "op" : "&",
+                  "left" : {
+                    "type" : "expression",
+                    "value" : {
+                      "op" : "+",
+                      "left" : {
+                        "type" : "field",
+                        "value" : ["scalars", "A_flow_num_of_ip_totalLen_up_to_128_bytes_0"]
+                      },
+                      "right" : {
+                        "type" : "hexstr",
+                        "value" : "0x00000001"
+                      }
+                    }
+                  },
+                  "right" : {
+                    "type" : "hexstr",
+                    "value" : "0xffffffff"
+                  }
+                }
+              }
+            }
+          ],
+          "source_info" : {
+            "filename" : "decisiontree.p4",
+            "line" : 443,
+            "column" : 97,
+            "source_fragment" : "A_flow_num_of_ip_totalLen_up_to_128_bytes+1"
+          }
+        },
+        {
+          "op" : "register_write",
+          "parameters" : [
+            {
+              "type" : "register_array",
+              "value" : "A_flow_num_of_ip_totalLen_up_to_128_bytes_register"
+            },
+            {
+              "type" : "field",
+              "value" : ["scalars", "current_flow_id_0"]
+            },
+            {
+              "type" : "field",
+              "value" : ["scalars", "tmp_12"]
+            }
+          ],
+          "source_info" : {
+            "filename" : "decisiontree.p4",
+            "line" : 443,
+            "column" : 24,
+            "source_fragment" : "A_flow_num_of_ip_totalLen_up_to_128_bytes_register.write(current_flow_id,A_flow_num_of_ip_totalLen_up_to_128_bytes+1)"
+          }
+        }
+      ]
+    },
+    {
+      "name" : "decisiontree454",
+      "id" : 26,
+      "runtime_data" : [],
+      "primitives" : [
+        {
+          "op" : "register_write",
+          "parameters" : [
+            {
+              "type" : "register_array",
+              "value" : "A_flow_max_tcp_win_src_to_dst_register"
+            },
+            {
+              "type" : "field",
+              "value" : ["scalars", "current_flow_id_0"]
+            },
+            {
+              "type" : "field",
+              "value" : ["scalars", "A_flow_recorded_max_tcp_win_src_to_dst_0"]
+            }
+          ],
+          "source_info" : {
+            "filename" : "decisiontree.p4",
+            "line" : 454,
+            "column" : 28,
+            "source_fragment" : "A_flow_max_tcp_win_src_to_dst_register.write(current_flow_id,A_flow_recorded_max_tcp_win_src_to_dst)"
+          }
+        }
+      ]
+    },
+    {
+      "name" : "decisiontree452",
+      "id" : 27,
+      "runtime_data" : [],
+      "primitives" : [
+        {
+          "op" : "register_read",
+          "parameters" : [
+            {
+              "type" : "field",
+              "value" : ["scalars", "A_flow_recorded_max_tcp_win_src_to_dst_0"]
+            },
+            {
+              "type" : "register_array",
+              "value" : "A_flow_max_tcp_win_src_to_dst_register"
+            },
+            {
+              "type" : "field",
+              "value" : ["scalars", "current_flow_id_0"]
+            }
+          ],
+          "source_info" : {
+            "filename" : "decisiontree.p4",
+            "line" : 452,
+            "column" : 24,
+            "source_fragment" : "A_flow_max_tcp_win_src_to_dst_register.read(A_flow_recorded_max_tcp_win_src_to_dst,current_flow_id)"
+          }
+        }
+      ]
+    },
+    {
+      "name" : "decisiontree462",
+      "id" : 28,
+      "runtime_data" : [],
+      "primitives" : [
+        {
+          "op" : "register_write",
+          "parameters" : [
+            {
+              "type" : "register_array",
+              "value" : "A_flow_max_tcp_win_dst_to_src_register"
+            },
+            {
+              "type" : "field",
+              "value" : ["scalars", "current_flow_id_0"]
+            },
+            {
+              "type" : "field",
+              "value" : ["scalars", "A_flow_recorded_max_tcp_win_dst_to_src_0"]
+            }
+          ],
+          "source_info" : {
+            "filename" : "decisiontree.p4",
+            "line" : 462,
+            "column" : 28,
+            "source_fragment" : "A_flow_max_tcp_win_dst_to_src_register.write(current_flow_id,A_flow_recorded_max_tcp_win_dst_to_src)"
+          }
+        }
+      ]
+    },
+    {
+      "name" : "decisiontree460",
+      "id" : 29,
+      "runtime_data" : [],
+      "primitives" : [
+        {
+          "op" : "register_read",
+          "parameters" : [
+            {
+              "type" : "field",
+              "value" : ["scalars", "A_flow_recorded_max_tcp_win_dst_to_src_0"]
+            },
+            {
+              "type" : "register_array",
+              "value" : "A_flow_max_tcp_win_dst_to_src_register"
+            },
+            {
+              "type" : "field",
+              "value" : ["scalars", "current_flow_id_0"]
+            }
+          ],
+          "source_info" : {
+            "filename" : "decisiontree.p4",
+            "line" : 460,
+            "column" : 24,
+            "source_fragment" : "A_flow_max_tcp_win_dst_to_src_register.read(A_flow_recorded_max_tcp_win_dst_to_src,current_flow_id)"
+          }
+        }
+      ]
+    }
+  ],
+  "pipelines" : [
+    {
+      "name" : "ingress",
+      "id" : 0,
+      "source_info" : {
+        "filename" : "decisiontree.p4",
+        "line" : 242,
+        "column" : 8,
+        "source_fragment" : "MyIngress"
+      },
+      "init_table" : "node_2",
+      "tables" : [
+        {
+          "name" : "tbl_decisiontree291",
+          "id" : 0,
+          "source_info" : {
+            "filename" : "decisiontree.p4",
+            "line" : 291,
+            "column" : 16,
+            "source_fragment" : "all_packets_bytes_counter.count(0); ..."
+          },
+          "key" : [],
+          "match_type" : "exact",
+          "type" : "simple",
+          "max_size" : 1024,
+          "with_counters" : false,
+          "support_timeout" : false,
+          "direct_meters" : null,
+          "action_ids" : [7],
+          "actions" : ["decisiontree291"],
+          "base_default_next" : "node_4",
+          "next_tables" : {
+            "decisiontree291" : "node_4"
+          },
+          "default_entry" : {
+            "action_id" : 7,
+            "action_const" : true,
+            "action_data" : [],
+            "action_entry_const" : true
+          }
+        },
+        {
+          "name" : "tbl_decisiontree301",
+          "id" : 1,
+          "source_info" : {
+            "filename" : "decisiontree.p4",
+            "line" : 301,
+            "column" : 31,
+            "source_fragment" : "= hdr.tcp.dstPort; ..."
+          },
+          "key" : [],
+          "match_type" : "exact",
+          "type" : "simple",
+          "max_size" : 1024,
+          "with_counters" : false,
+          "support_timeout" : false,
+          "direct_meters" : null,
+          "action_ids" : [5],
+          "actions" : ["decisiontree301"],
+          "base_default_next" : "tbl_compute_hashes_flow",
+          "next_tables" : {
+            "decisiontree301" : "tbl_compute_hashes_flow"
+          },
+          "default_entry" : {
+            "action_id" : 5,
+            "action_const" : true,
+            "action_data" : [],
+            "action_entry_const" : true
+          }
+        },
+        {
+          "name" : "tbl_decisiontree304",
+          "id" : 2,
+          "source_info" : {
+            "filename" : "decisiontree.p4",
+            "line" : 304,
+            "column" : 31,
+            "source_fragment" : "= hdr.udp.dstPort; ..."
+          },
+          "key" : [],
+          "match_type" : "exact",
+          "type" : "simple",
+          "max_size" : 1024,
+          "with_counters" : false,
+          "support_timeout" : false,
+          "direct_meters" : null,
+          "action_ids" : [6],
+          "actions" : ["decisiontree304"],
+          "base_default_next" : "tbl_compute_hashes_flow",
+          "next_tables" : {
+            "decisiontree304" : "tbl_compute_hashes_flow"
+          },
+          "default_entry" : {
+            "action_id" : 6,
+            "action_const" : true,
+            "action_data" : [],
+            "action_entry_const" : true
+          }
+        },
+        {
+          "name" : "tbl_compute_hashes_flow",
+          "id" : 3,
+          "source_info" : {
+            "filename" : "decisiontree.p4",
+            "line" : 313,
+            "column" : 20,
+            "source_fragment" : "compute_hashes_flow(hdr.ipv4.dstAddr, hdr.ipv4.srcAddr, tmpdstPort, tmpsrcPort)"
+          },
+          "key" : [],
+          "match_type" : "exact",
+          "type" : "simple",
+          "max_size" : 1024,
+          "with_counters" : false,
+          "support_timeout" : false,
+          "direct_meters" : null,
+          "action_ids" : [3],
+          "actions" : ["MyIngress.compute_hashes_flow"],
+          "base_default_next" : "tbl_decisiontree314",
+          "next_tables" : {
+            "MyIngress.compute_hashes_flow" : "tbl_decisiontree314"
+          },
+          "default_entry" : {
+            "action_id" : 3,
+            "action_const" : true,
+            "action_data" : [],
+            "action_entry_const" : true
+          }
+        },
+        {
+          "name" : "tbl_decisiontree314",
+          "id" : 4,
+          "source_info" : {
+            "filename" : "decisiontree.p4",
+            "line" : 314,
+            "column" : 36,
+            "source_fragment" : "= flow_id; ..."
+          },
+          "key" : [],
+          "match_type" : "exact",
+          "type" : "simple",
+          "max_size" : 1024,
+          "with_counters" : false,
+          "support_timeout" : false,
+          "direct_meters" : null,
+          "action_ids" : [8],
+          "actions" : ["decisiontree314"],
+          "base_default_next" : "tbl_compute_hashes_flow_0",
+          "next_tables" : {
+            "decisiontree314" : "tbl_compute_hashes_flow_0"
+          },
+          "default_entry" : {
+            "action_id" : 8,
+            "action_const" : true,
+            "action_data" : [],
+            "action_entry_const" : true
+          }
+        },
+        {
+          "name" : "tbl_compute_hashes_flow_0",
+          "id" : 5,
+          "source_info" : {
+            "filename" : "decisiontree.p4",
+            "line" : 318,
+            "column" : 20,
+            "source_fragment" : "compute_hashes_flow(hdr.ipv4.srcAddr, hdr.ipv4.dstAddr, tmpsrcPort, tmpdstPort)"
+          },
+          "key" : [],
+          "match_type" : "exact",
+          "type" : "simple",
+          "max_size" : 1024,
+          "with_counters" : false,
+          "support_timeout" : false,
+          "direct_meters" : null,
+          "action_ids" : [4],
+          "actions" : ["MyIngress.compute_hashes_flow"],
+          "base_default_next" : "tbl_decisiontree320",
+          "next_tables" : {
+            "MyIngress.compute_hashes_flow" : "tbl_decisiontree320"
+          },
+          "default_entry" : {
+            "action_id" : 4,
+            "action_const" : true,
+            "action_data" : [],
+            "action_entry_const" : true
+          }
+        },
+        {
+          "name" : "tbl_decisiontree320",
+          "id" : 6,
+          "source_info" : {
+            "filename" : "decisiontree.p4",
+            "line" : 320,
+            "column" : 20,
+            "source_fragment" : "current_flow_r_id_reg.write(0,flow_id); ..."
+          },
+          "key" : [],
+          "match_type" : "exact",
+          "type" : "simple",
+          "max_size" : 1024,
+          "with_counters" : false,
+          "support_timeout" : false,
+          "direct_meters" : null,
+          "action_ids" : [11],
+          "actions" : ["decisiontree320"],
+          "base_default_next" : "node_12",
+          "next_tables" : {
+            "decisiontree320" : "node_12"
+          },
+          "default_entry" : {
+            "action_id" : 11,
+            "action_const" : true,
+            "action_data" : [],
+            "action_entry_const" : true
+          }
+        },
+        {
+          "name" : "tbl_decisiontree329",
+          "id" : 7,
+          "source_info" : {
+            "filename" : "decisiontree.p4",
+            "line" : 329,
+            "column" : 24,
+            "source_fragment" : "A_flow_dstip_register.write((bit<32>)current_flow_id,hdr.ipv4.dstAddr); ..."
+          },
+          "key" : [],
+          "match_type" : "exact",
+          "type" : "simple",
+          "max_size" : 1024,
+          "with_counters" : false,
+          "support_timeout" : false,
+          "direct_meters" : null,
+          "action_ids" : [9],
+          "actions" : ["decisiontree329"],
+          "base_default_next" : "tbl_decisiontree354",
+          "next_tables" : {
+            "decisiontree329" : "tbl_decisiontree354"
+          },
+          "default_entry" : {
+            "action_id" : 9,
+            "action_const" : true,
+            "action_data" : [],
+            "action_entry_const" : true
+          }
+        },
+        {
+          "name" : "tbl_decisiontree345",
+          "id" : 8,
+          "source_info" : {
+            "filename" : "decisiontree.p4",
+            "line" : 345,
+            "column" : 24,
+            "source_fragment" : "A_flow_transmitted_packet_counter.write(current_flow_id,(A_current_flow_transmitted_packet+1)); ..."
+          },
+          "key" : [],
+          "match_type" : "exact",
+          "type" : "simple",
+          "max_size" : 1024,
+          "with_counters" : false,
+          "support_timeout" : false,
+          "direct_meters" : null,
+          "action_ids" : [10],
+          "actions" : ["decisiontree345"],
+          "base_default_next" : "tbl_decisiontree354",
+          "next_tables" : {
+            "decisiontree345" : "tbl_decisiontree354"
+          },
+          "default_entry" : {
+            "action_id" : 10,
+            "action_const" : true,
+            "action_data" : [],
+            "action_entry_const" : true
+          }
+        },
+        {
+          "name" : "tbl_decisiontree354",
+          "id" : 9,
+          "source_info" : {
+            "filename" : "decisiontree.p4",
+            "line" : 354,
+            "column" : 20,
+            "source_fragment" : "A_flow_received_packet_counter.read(A_current_flow_r_received_packet,current_flow_r_id); ..."
+          },
+          "key" : [],
+          "match_type" : "exact",
+          "type" : "simple",
+          "max_size" : 1024,
+          "with_counters" : false,
+          "support_timeout" : false,
+          "direct_meters" : null,
+          "action_ids" : [14],
+          "actions" : ["decisiontree354"],
+          "base_default_next" : "node_16",
+          "next_tables" : {
+            "decisiontree354" : "node_16"
+          },
+          "default_entry" : {
+            "action_id" : 14,
+            "action_const" : true,
+            "action_data" : [],
+            "action_entry_const" : true
+          }
+        },
+        {
+          "name" : "tbl_decisiontree358",
+          "id" : 10,
+          "source_info" : {
+            "filename" : "decisiontree.p4",
+            "line" : 358,
+            "column" : 24,
+            "source_fragment" : "A_flow_dstip_register.write((bit<32>)current_flow_r_id,hdr.ipv4.srcAddr); ..."
+          },
+          "key" : [],
+          "match_type" : "exact",
+          "type" : "simple",
+          "max_size" : 1024,
+          "with_counters" : false,
+          "support_timeout" : false,
+          "direct_meters" : null,
+          "action_ids" : [12],
+          "actions" : ["decisiontree358"],
+          "base_default_next" : "tbl_decisiontree381",
+          "next_tables" : {
+            "decisiontree358" : "tbl_decisiontree381"
+          },
+          "default_entry" : {
+            "action_id" : 12,
+            "action_const" : true,
+            "action_data" : [],
+            "action_entry_const" : true
+          }
+        },
+        {
+          "name" : "tbl_decisiontree371",
+          "id" : 11,
+          "source_info" : {
+            "filename" : "decisiontree.p4",
+            "line" : 371,
+            "column" : 24,
+            "source_fragment" : "A_flow_received_packet_counter.write(current_flow_r_id,(A_current_flow_r_received_packet+1)); ..."
+          },
+          "key" : [],
+          "match_type" : "exact",
+          "type" : "simple",
+          "max_size" : 1024,
+          "with_counters" : false,
+          "support_timeout" : false,
+          "direct_meters" : null,
+          "action_ids" : [13],
+          "actions" : ["decisiontree371"],
+          "base_default_next" : "tbl_decisiontree381",
+          "next_tables" : {
+            "decisiontree371" : "tbl_decisiontree381"
+          },
+          "default_entry" : {
+            "action_id" : 13,
+            "action_const" : true,
+            "action_data" : [],
+            "action_entry_const" : true
+          }
+        },
+        {
+          "name" : "tbl_decisiontree381",
+          "id" : 12,
+          "source_info" : {
+            "filename" : "decisiontree.p4",
+            "line" : 381,
+            "column" : 20,
+            "source_fragment" : "A_flow_max_ttl_register.read(A_flow_recorded_max_ttl,current_flow_id); ..."
+          },
+          "key" : [],
+          "match_type" : "exact",
+          "type" : "simple",
+          "max_size" : 1024,
+          "with_counters" : false,
+          "support_timeout" : false,
+          "direct_meters" : null,
+          "action_ids" : [16],
+          "actions" : ["decisiontree381"],
+          "base_default_next" : "node_20",
+          "next_tables" : {
+            "decisiontree381" : "node_20"
+          },
+          "default_entry" : {
+            "action_id" : 16,
+            "action_const" : true,
+            "action_data" : [],
+            "action_entry_const" : true
+          }
+        },
+        {
+          "name" : "tbl_decisiontree386",
+          "id" : 13,
+          "source_info" : {
+            "filename" : "decisiontree.p4",
+            "line" : 386,
+            "column" : 24,
+            "source_fragment" : "A_flow_max_ttl_register.write(current_flow_id,hdr.ipv4.ttl)"
+          },
+          "key" : [],
+          "match_type" : "exact",
+          "type" : "simple",
+          "max_size" : 1024,
+          "with_counters" : false,
+          "support_timeout" : false,
+          "direct_meters" : null,
+          "action_ids" : [15],
+          "actions" : ["decisiontree386"],
+          "base_default_next" : "node_22",
+          "next_tables" : {
+            "decisiontree386" : "node_22"
+          },
+          "default_entry" : {
+            "action_id" : 15,
+            "action_const" : true,
+            "action_data" : [],
+            "action_entry_const" : true
+          }
+        },
+        {
+          "name" : "tbl_decisiontree393",
+          "id" : 14,
+          "source_info" : {
+            "filename" : "decisiontree.p4",
+            "line" : 393,
+            "column" : 24,
+            "source_fragment" : "A_flow_min_ttl_register.write(current_flow_id,hdr.ipv4.ttl)"
+          },
+          "key" : [],
+          "match_type" : "exact",
+          "type" : "simple",
+          "max_size" : 1024,
+          "with_counters" : false,
+          "support_timeout" : false,
+          "direct_meters" : null,
+          "action_ids" : [17],
+          "actions" : ["decisiontree393"],
+          "base_default_next" : "tbl_decisiontree401",
+          "next_tables" : {
+            "decisiontree393" : "tbl_decisiontree401"
+          },
+          "default_entry" : {
+            "action_id" : 17,
+            "action_const" : true,
+            "action_data" : [],
+            "action_entry_const" : true
+          }
+        },
+        {
+          "name" : "tbl_decisiontree401",
+          "id" : 15,
+          "source_info" : {
+            "filename" : "decisiontree.p4",
+            "line" : 401,
+            "column" : 20,
+            "source_fragment" : "A_flow_max_ip_pkt_len_register.read(A_flow_recorded_max_ip_pkt_len,current_flow_id); ..."
+          },
+          "key" : [],
+          "match_type" : "exact",
+          "type" : "simple",
+          "max_size" : 1024,
+          "with_counters" : false,
+          "support_timeout" : false,
+          "direct_meters" : null,
+          "action_ids" : [19],
+          "actions" : ["decisiontree401"],
+          "base_default_next" : "node_25",
+          "next_tables" : {
+            "decisiontree401" : "node_25"
+          },
+          "default_entry" : {
+            "action_id" : 19,
+            "action_const" : true,
+            "action_data" : [],
+            "action_entry_const" : true
+          }
+        },
+        {
+          "name" : "tbl_decisiontree406",
+          "id" : 16,
+          "source_info" : {
+            "filename" : "decisiontree.p4",
+            "line" : 406,
+            "column" : 24,
+            "source_fragment" : "A_flow_max_ip_pkt_len_register.write(current_flow_id,hdr.ipv4.totalLen)"
+          },
+          "key" : [],
+          "match_type" : "exact",
+          "type" : "simple",
+          "max_size" : 1024,
+          "with_counters" : false,
+          "support_timeout" : false,
+          "direct_meters" : null,
+          "action_ids" : [18],
+          "actions" : ["decisiontree406"],
+          "base_default_next" : "node_27",
+          "next_tables" : {
+            "decisiontree406" : "node_27"
+          },
+          "default_entry" : {
+            "action_id" : 18,
+            "action_const" : true,
+            "action_data" : [],
+            "action_entry_const" : true
+          }
+        },
+        {
+          "name" : "tbl_decisiontree413",
+          "id" : 17,
+          "source_info" : {
+            "filename" : "decisiontree.p4",
+            "line" : 413,
+            "column" : 24,
+            "source_fragment" : "A_flow_min_ip_pkt_len_register.write(current_flow_id,hdr.ipv4.totalLen)"
+          },
+          "key" : [],
+          "match_type" : "exact",
+          "type" : "simple",
+          "max_size" : 1024,
+          "with_counters" : false,
+          "support_timeout" : false,
+          "direct_meters" : null,
+          "action_ids" : [20],
+          "actions" : ["decisiontree413"],
+          "base_default_next" : "node_29",
+          "next_tables" : {
+            "decisiontree413" : "node_29"
+          },
+          "default_entry" : {
+            "action_id" : 20,
+            "action_const" : true,
+            "action_data" : [],
+            "action_entry_const" : true
+          }
+        },
+        {
+          "name" : "tbl_decisiontree422",
+          "id" : 18,
+          "source_info" : {
+            "filename" : "decisiontree.p4",
+            "line" : 422,
+            "column" : 24,
+            "source_fragment" : "A_flow_num_of_ip_totalLen_1024_to_1514_bytes_register.read(A_flow_num_of_ip_totalLen_1024_to_1514_bytes,current_flow_id); ..."
+          },
+          "key" : [],
+          "match_type" : "exact",
+          "type" : "simple",
+          "max_size" : 1024,
+          "with_counters" : false,
+          "support_timeout" : false,
+          "direct_meters" : null,
+          "action_ids" : [21],
+          "actions" : ["decisiontree422"],
+          "base_default_next" : "node_39",
+          "next_tables" : {
+            "decisiontree422" : "node_39"
+          },
+          "default_entry" : {
+            "action_id" : 21,
+            "action_const" : true,
+            "action_data" : [],
+            "action_entry_const" : true
+          }
+        },
+        {
+          "name" : "tbl_decisiontree427",
+          "id" : 19,
+          "source_info" : {
+            "filename" : "decisiontree.p4",
+            "line" : 427,
+            "column" : 24,
+            "source_fragment" : "A_flow_num_of_ip_totalLen_512_to_1024_bytes_register.read(A_flow_num_of_ip_totalLen_512_to_1024_bytes,current_flow_id); ..."
+          },
+          "key" : [],
+          "match_type" : "exact",
+          "type" : "simple",
+          "max_size" : 1024,
+          "with_counters" : false,
+          "support_timeout" : false,
+          "direct_meters" : null,
+          "action_ids" : [22],
+          "actions" : ["decisiontree427"],
+          "base_default_next" : "node_39",
+          "next_tables" : {
+            "decisiontree427" : "node_39"
+          },
+          "default_entry" : {
+            "action_id" : 22,
+            "action_const" : true,
+            "action_data" : [],
+            "action_entry_const" : true
+          }
+        },
+        {
+          "name" : "tbl_decisiontree432",
+          "id" : 20,
+          "source_info" : {
+            "filename" : "decisiontree.p4",
+            "line" : 432,
+            "column" : 24,
+            "source_fragment" : "A_flow_num_of_ip_totalLen_256_to_512_bytes_register.read(A_flow_num_of_ip_totalLen_256_to_512_bytes,current_flow_id); ..."
+          },
+          "key" : [],
+          "match_type" : "exact",
+          "type" : "simple",
+          "max_size" : 1024,
+          "with_counters" : false,
+          "support_timeout" : false,
+          "direct_meters" : null,
+          "action_ids" : [23],
+          "actions" : ["decisiontree432"],
+          "base_default_next" : "node_39",
+          "next_tables" : {
+            "decisiontree432" : "node_39"
+          },
+          "default_entry" : {
+            "action_id" : 23,
+            "action_const" : true,
+            "action_data" : [],
+            "action_entry_const" : true
+          }
+        },
+        {
+          "name" : "tbl_decisiontree437",
+          "id" : 21,
+          "source_info" : {
+            "filename" : "decisiontree.p4",
+            "line" : 437,
+            "column" : 24,
+            "source_fragment" : "A_flow_num_of_ip_totalLen_128_to_256_bytes_register.read(A_flow_num_of_ip_totalLen_128_to_256_bytes,current_flow_id); ..."
+          },
+          "key" : [],
+          "match_type" : "exact",
+          "type" : "simple",
+          "max_size" : 1024,
+          "with_counters" : false,
+          "support_timeout" : false,
+          "direct_meters" : null,
+          "action_ids" : [24],
+          "actions" : ["decisiontree437"],
+          "base_default_next" : "node_39",
+          "next_tables" : {
+            "decisiontree437" : "node_39"
+          },
+          "default_entry" : {
+            "action_id" : 24,
+            "action_const" : true,
+            "action_data" : [],
+            "action_entry_const" : true
+          }
+        },
+        {
+          "name" : "tbl_decisiontree442",
+          "id" : 22,
+          "source_info" : {
+            "filename" : "decisiontree.p4",
+            "line" : 442,
+            "column" : 24,
+            "source_fragment" : "A_flow_num_of_ip_totalLen_up_to_128_bytes_register.read(A_flow_num_of_ip_totalLen_up_to_128_bytes,current_flow_id); ..."
+          },
+          "key" : [],
+          "match_type" : "exact",
+          "type" : "simple",
+          "max_size" : 1024,
+          "with_counters" : false,
+          "support_timeout" : false,
+          "direct_meters" : null,
+          "action_ids" : [25],
+          "actions" : ["decisiontree442"],
+          "base_default_next" : "node_39",
+          "next_tables" : {
+            "decisiontree442" : "node_39"
+          },
+          "default_entry" : {
+            "action_id" : 25,
+            "action_const" : true,
+            "action_data" : [],
+            "action_entry_const" : true
+          }
+        },
+        {
+          "name" : "tbl_decisiontree452",
+          "id" : 23,
+          "source_info" : {
+            "filename" : "decisiontree.p4",
+            "line" : 452,
+            "column" : 24,
+            "source_fragment" : "A_flow_max_tcp_win_src_to_dst_register.read(A_flow_recorded_max_tcp_win_src_to_dst,current_flow_id)"
+          },
+          "key" : [],
+          "match_type" : "exact",
+          "type" : "simple",
+          "max_size" : 1024,
+          "with_counters" : false,
+          "support_timeout" : false,
+          "direct_meters" : null,
+          "action_ids" : [27],
+          "actions" : ["decisiontree452"],
+          "base_default_next" : "node_41",
+          "next_tables" : {
+            "decisiontree452" : "node_41"
+          },
+          "default_entry" : {
+            "action_id" : 27,
+            "action_const" : true,
+            "action_data" : [],
+            "action_entry_const" : true
+          }
+        },
+        {
+          "name" : "tbl_decisiontree454",
+          "id" : 24,
+          "source_info" : {
+            "filename" : "decisiontree.p4",
+            "line" : 454,
+            "column" : 28,
+            "source_fragment" : "A_flow_max_tcp_win_src_to_dst_register.write(current_flow_id,A_flow_recorded_max_tcp_win_src_to_dst)"
+          },
+          "key" : [],
+          "match_type" : "exact",
+          "type" : "simple",
+          "max_size" : 1024,
+          "with_counters" : false,
+          "support_timeout" : false,
+          "direct_meters" : null,
+          "action_ids" : [26],
+          "actions" : ["decisiontree454"],
+          "base_default_next" : "tbl_decisiontree460",
+          "next_tables" : {
+            "decisiontree454" : "tbl_decisiontree460"
+          },
+          "default_entry" : {
+            "action_id" : 26,
+            "action_const" : true,
+            "action_data" : [],
+            "action_entry_const" : true
+          }
+        },
+        {
+          "name" : "tbl_decisiontree460",
+          "id" : 25,
+          "source_info" : {
+            "filename" : "decisiontree.p4",
+            "line" : 460,
+            "column" : 24,
+            "source_fragment" : "A_flow_max_tcp_win_dst_to_src_register.read(A_flow_recorded_max_tcp_win_dst_to_src,current_flow_id)"
+          },
+          "key" : [],
+          "match_type" : "exact",
+          "type" : "simple",
+          "max_size" : 1024,
+          "with_counters" : false,
+          "support_timeout" : false,
+          "direct_meters" : null,
+          "action_ids" : [29],
+          "actions" : ["decisiontree460"],
+          "base_default_next" : "node_44",
+          "next_tables" : {
+            "decisiontree460" : "node_44"
+          },
+          "default_entry" : {
+            "action_id" : 29,
+            "action_const" : true,
+            "action_data" : [],
+            "action_entry_const" : true
+          }
+        },
+        {
+          "name" : "tbl_decisiontree462",
+          "id" : 26,
+          "source_info" : {
+            "filename" : "decisiontree.p4",
+            "line" : 462,
+            "column" : 28,
+            "source_fragment" : "A_flow_max_tcp_win_dst_to_src_register.write(current_flow_id,A_flow_recorded_max_tcp_win_dst_to_src)"
+          },
+          "key" : [],
+          "match_type" : "exact",
+          "type" : "simple",
+          "max_size" : 1024,
+          "with_counters" : false,
+          "support_timeout" : false,
+          "direct_meters" : null,
+          "action_ids" : [28],
+          "actions" : ["decisiontree462"],
+          "base_default_next" : "MyIngress.ipv4_lpm",
+          "next_tables" : {
+            "decisiontree462" : "MyIngress.ipv4_lpm"
+          },
+          "default_entry" : {
+            "action_id" : 28,
+            "action_const" : true,
+            "action_data" : [],
+            "action_entry_const" : true
+          }
+        },
+        {
+          "name" : "MyIngress.ipv4_lpm",
+          "id" : 27,
+          "source_info" : {
+            "filename" : "decisiontree.p4",
+            "line" : 275,
+            "column" : 10,
+            "source_fragment" : "ipv4_lpm"
+          },
+          "key" : [
+            {
+              "match_type" : "lpm",
+              "name" : "hdr.ipv4.dstAddr",
+              "target" : ["ipv4", "dstAddr"],
+              "mask" : null
+            }
+          ],
+          "match_type" : "lpm",
+          "type" : "simple",
+          "max_size" : 1024,
+          "with_counters" : false,
+          "support_timeout" : false,
+          "direct_meters" : null,
+          "action_ids" : [2, 1, 0],
+          "actions" : ["MyIngress.ipv4_forward", "MyIngress.drop", "NoAction"],
+          "base_default_next" : null,
+          "next_tables" : {
+            "MyIngress.ipv4_forward" : null,
+            "MyIngress.drop" : null,
+            "NoAction" : null
+          },
+          "default_entry" : {
+            "action_id" : 1,
+            "action_const" : false,
+            "action_data" : [],
+            "action_entry_const" : false
+          }
+        }
+      ],
+      "action_profiles" : [],
+      "conditionals" : [
+        {
+          "name" : "node_2",
+          "id" : 0,
+          "source_info" : {
+            "filename" : "decisiontree.p4",
+            "line" : 290,
+            "column" : 12,
+            "source_fragment" : "hdr.ipv4.isValid()"
+          },
+          "expression" : {
+            "type" : "expression",
+            "value" : {
+              "op" : "d2b",
+              "left" : null,
+              "right" : {
+                "type" : "field",
+                "value" : ["ipv4", "$valid$"]
+              }
+            }
+          },
+          "false_next" : null,
+          "true_next" : "tbl_decisiontree291"
+        },
+        {
+          "name" : "node_4",
+          "id" : 1,
+          "source_info" : {
+            "filename" : "decisiontree.p4",
+            "line" : 297,
+            "column" : 20,
+            "source_fragment" : "hdr.tcp.isValid() || hdr.udp.isValid()"
+          },
+          "expression" : {
+            "type" : "expression",
+            "value" : {
+              "op" : "or",
+              "left" : {
+                "type" : "expression",
+                "value" : {
+                  "op" : "d2b",
+                  "left" : null,
+                  "right" : {
+                    "type" : "field",
+                    "value" : ["tcp", "$valid$"]
+                  }
+                }
+              },
+              "right" : {
+                "type" : "expression",
+                "value" : {
+                  "op" : "d2b",
+                  "left" : null,
+                  "right" : {
+                    "type" : "field",
+                    "value" : ["udp", "$valid$"]
+                  }
+                }
+              }
+            }
+          },
+          "true_next" : "node_5",
+          "false_next" : "tbl_compute_hashes_flow"
+        },
+        {
+          "name" : "node_5",
+          "id" : 2,
+          "source_info" : {
+            "filename" : "decisiontree.p4",
+            "line" : 300,
+            "column" : 24,
+            "source_fragment" : "hdr.tcp.isValid()"
+          },
+          "expression" : {
+            "type" : "expression",
+            "value" : {
+              "op" : "d2b",
+              "left" : null,
+              "right" : {
+                "type" : "field",
+                "value" : ["tcp", "$valid$"]
+              }
+            }
+          },
+          "true_next" : "tbl_decisiontree301",
+          "false_next" : "tbl_decisiontree304"
+        },
+        {
+          "name" : "node_12",
+          "id" : 3,
+          "source_info" : {
+            "filename" : "decisiontree.p4",
+            "line" : 327,
+            "column" : 24,
+            "source_fragment" : "A_current_flow_transmitted_packet==0"
+          },
+          "expression" : {
+            "type" : "expression",
+            "value" : {
+              "op" : "==",
+              "left" : {
+                "type" : "field",
+                "value" : ["scalars", "A_current_flow_transmitted_packet_0"]
+              },
+              "right" : {
+                "type" : "hexstr",
+                "value" : "0x00000000"
+              }
+            }
+          },
+          "true_next" : "tbl_decisiontree329",
+          "false_next" : "tbl_decisiontree345"
+        },
+        {
+          "name" : "node_16",
+          "id" : 4,
+          "source_info" : {
+            "filename" : "decisiontree.p4",
+            "line" : 356,
+            "column" : 24,
+            "source_fragment" : "A_current_flow_r_received_packet==0"
+          },
+          "expression" : {
+            "type" : "expression",
+            "value" : {
+              "op" : "==",
+              "left" : {
+                "type" : "field",
+                "value" : ["scalars", "A_current_flow_r_received_packet_0"]
+              },
+              "right" : {
+                "type" : "hexstr",
+                "value" : "0x00000000"
+              }
+            }
+          },
+          "true_next" : "tbl_decisiontree358",
+          "false_next" : "tbl_decisiontree371"
+        },
+        {
+          "name" : "node_20",
+          "id" : 5,
+          "source_info" : {
+            "filename" : "decisiontree.p4",
+            "line" : 384,
+            "column" : 24,
+            "source_fragment" : "hdr.ipv4.ttl > A_flow_recorded_max_ttl"
+          },
+          "expression" : {
+            "type" : "expression",
+            "value" : {
+              "op" : ">",
+              "left" : {
+                "type" : "field",
+                "value" : ["ipv4", "ttl"]
+              },
+              "right" : {
+                "type" : "field",
+                "value" : ["scalars", "A_flow_recorded_max_ttl_0"]
+              }
+            }
+          },
+          "true_next" : "tbl_decisiontree386",
+          "false_next" : "node_22"
+        },
+        {
+          "name" : "node_22",
+          "id" : 6,
+          "source_info" : {
+            "filename" : "decisiontree.p4",
+            "line" : 391,
+            "column" : 24,
+            "source_fragment" : "hdr.ipv4.ttl < A_flow_recorded_min_ttl"
+          },
+          "expression" : {
+            "type" : "expression",
+            "value" : {
+              "op" : "<",
+              "left" : {
+                "type" : "field",
+                "value" : ["ipv4", "ttl"]
+              },
+              "right" : {
+                "type" : "field",
+                "value" : ["scalars", "A_flow_recorded_min_ttl_0"]
+              }
+            }
+          },
+          "true_next" : "tbl_decisiontree393",
+          "false_next" : "tbl_decisiontree401"
+        },
+        {
+          "name" : "node_25",
+          "id" : 7,
+          "source_info" : {
+            "filename" : "decisiontree.p4",
+            "line" : 404,
+            "column" : 24,
+            "source_fragment" : "hdr.ipv4.totalLen > A_flow_recorded_max_ip_pkt_len"
+          },
+          "expression" : {
+            "type" : "expression",
+            "value" : {
+              "op" : ">",
+              "left" : {
+                "type" : "field",
+                "value" : ["ipv4", "totalLen"]
+              },
+              "right" : {
+                "type" : "field",
+                "value" : ["scalars", "A_flow_recorded_max_ip_pkt_len_0"]
+              }
+            }
+          },
+          "true_next" : "tbl_decisiontree406",
+          "false_next" : "node_27"
+        },
+        {
+          "name" : "node_27",
+          "id" : 8,
+          "source_info" : {
+            "filename" : "decisiontree.p4",
+            "line" : 411,
+            "column" : 24,
+            "source_fragment" : "hdr.ipv4.totalLen < A_flow_recorded_min_ip_pkt_len"
+          },
+          "expression" : {
+            "type" : "expression",
+            "value" : {
+              "op" : "<",
+              "left" : {
+                "type" : "field",
+                "value" : ["ipv4", "totalLen"]
+              },
+              "right" : {
+                "type" : "field",
+                "value" : ["scalars", "A_flow_recorded_min_ip_pkt_len_0"]
+              }
+            }
+          },
+          "true_next" : "tbl_decisiontree413",
+          "false_next" : "node_29"
+        },
+        {
+          "name" : "node_29",
+          "id" : 9,
+          "source_info" : {
+            "filename" : "decisiontree.p4",
+            "line" : 419,
+            "column" : 24,
+            "source_fragment" : "(1024 < hdr.ipv4.totalLen) && (hdr.ipv4.totalLen <= 1514)"
+          },
+          "expression" : {
+            "type" : "expression",
+            "value" : {
+              "op" : "and",
+              "left" : {
+                "type" : "expression",
+                "value" : {
+                  "op" : "<",
+                  "left" : {
+                    "type" : "hexstr",
+                    "value" : "0x0400"
+                  },
+                  "right" : {
+                    "type" : "field",
+                    "value" : ["ipv4", "totalLen"]
+                  }
+                }
+              },
+              "right" : {
+                "type" : "expression",
+                "value" : {
+                  "op" : "<=",
+                  "left" : {
+                    "type" : "field",
+                    "value" : ["ipv4", "totalLen"]
+                  },
+                  "right" : {
+                    "type" : "hexstr",
+                    "value" : "0x05ea"
+                  }
+                }
+              }
+            }
+          },
+          "true_next" : "tbl_decisiontree422",
+          "false_next" : "node_31"
+        },
+        {
+          "name" : "node_31",
+          "id" : 10,
+          "source_info" : {
+            "filename" : "decisiontree.p4",
+            "line" : 424,
+            "column" : 30,
+            "source_fragment" : "(512 < hdr.ipv4.totalLen)&&(hdr.ipv4.totalLen<= 1024)"
+          },
+          "expression" : {
+            "type" : "expression",
+            "value" : {
+              "op" : "and",
+              "left" : {
+                "type" : "expression",
+                "value" : {
+                  "op" : "<",
+                  "left" : {
+                    "type" : "hexstr",
+                    "value" : "0x0200"
+                  },
+                  "right" : {
+                    "type" : "field",
+                    "value" : ["ipv4", "totalLen"]
+                  }
+                }
+              },
+              "right" : {
+                "type" : "expression",
+                "value" : {
+                  "op" : "<=",
+                  "left" : {
+                    "type" : "field",
+                    "value" : ["ipv4", "totalLen"]
+                  },
+                  "right" : {
+                    "type" : "hexstr",
+                    "value" : "0x0400"
+                  }
+                }
+              }
+            }
+          },
+          "true_next" : "tbl_decisiontree427",
+          "false_next" : "node_33"
+        },
+        {
+          "name" : "node_33",
+          "id" : 11,
+          "source_info" : {
+            "filename" : "decisiontree.p4",
+            "line" : 429,
+            "column" : 29,
+            "source_fragment" : "(256 < hdr.ipv4.totalLen)&&(hdr.ipv4.totalLen <= 512)"
+          },
+          "expression" : {
+            "type" : "expression",
+            "value" : {
+              "op" : "and",
+              "left" : {
+                "type" : "expression",
+                "value" : {
+                  "op" : "<",
+                  "left" : {
+                    "type" : "hexstr",
+                    "value" : "0x0100"
+                  },
+                  "right" : {
+                    "type" : "field",
+                    "value" : ["ipv4", "totalLen"]
+                  }
+                }
+              },
+              "right" : {
+                "type" : "expression",
+                "value" : {
+                  "op" : "<=",
+                  "left" : {
+                    "type" : "field",
+                    "value" : ["ipv4", "totalLen"]
+                  },
+                  "right" : {
+                    "type" : "hexstr",
+                    "value" : "0x0200"
+                  }
+                }
+              }
+            }
+          },
+          "true_next" : "tbl_decisiontree432",
+          "false_next" : "node_35"
+        },
+        {
+          "name" : "node_35",
+          "id" : 12,
+          "source_info" : {
+            "filename" : "decisiontree.p4",
+            "line" : 434,
+            "column" : 29,
+            "source_fragment" : "(128 < hdr.ipv4.totalLen)&&(hdr.ipv4.totalLen <= 256)"
+          },
+          "expression" : {
+            "type" : "expression",
+            "value" : {
+              "op" : "and",
+              "left" : {
+                "type" : "expression",
+                "value" : {
+                  "op" : "<",
+                  "left" : {
+                    "type" : "hexstr",
+                    "value" : "0x0080"
+                  },
+                  "right" : {
+                    "type" : "field",
+                    "value" : ["ipv4", "totalLen"]
+                  }
+                }
+              },
+              "right" : {
+                "type" : "expression",
+                "value" : {
+                  "op" : "<=",
+                  "left" : {
+                    "type" : "field",
+                    "value" : ["ipv4", "totalLen"]
+                  },
+                  "right" : {
+                    "type" : "hexstr",
+                    "value" : "0x0100"
+                  }
+                }
+              }
+            }
+          },
+          "true_next" : "tbl_decisiontree437",
+          "false_next" : "node_37"
+        },
+        {
+          "name" : "node_37",
+          "id" : 13,
+          "source_info" : {
+            "filename" : "decisiontree.p4",
+            "line" : 439,
+            "column" : 29,
+            "source_fragment" : "hdr.ipv4.totalLen <= 128"
+          },
+          "expression" : {
+            "type" : "expression",
+            "value" : {
+              "op" : "<=",
+              "left" : {
+                "type" : "field",
+                "value" : ["ipv4", "totalLen"]
+              },
+              "right" : {
+                "type" : "hexstr",
+                "value" : "0x0080"
+              }
+            }
+          },
+          "true_next" : "tbl_decisiontree442",
+          "false_next" : "node_39"
+        },
+        {
+          "name" : "node_39",
+          "id" : 14,
+          "source_info" : {
+            "filename" : "decisiontree.p4",
+            "line" : 449,
+            "column" : 24,
+            "source_fragment" : "hdr.tcp.isValid()"
+          },
+          "expression" : {
+            "type" : "expression",
+            "value" : {
+              "op" : "d2b",
+              "left" : null,
+              "right" : {
+                "type" : "field",
+                "value" : ["tcp", "$valid$"]
+              }
+            }
+          },
+          "true_next" : "tbl_decisiontree452",
+          "false_next" : "MyIngress.ipv4_lpm"
+        },
+        {
+          "name" : "node_41",
+          "id" : 15,
+          "source_info" : {
+            "filename" : "decisiontree.p4",
+            "line" : 453,
+            "column" : 28,
+            "source_fragment" : "hdr.tcp.window > A_flow_recorded_max_tcp_win_src_to_dst"
+          },
+          "expression" : {
+            "type" : "expression",
+            "value" : {
+              "op" : ">",
+              "left" : {
+                "type" : "field",
+                "value" : ["tcp", "window"]
+              },
+              "right" : {
+                "type" : "field",
+                "value" : ["scalars", "A_flow_recorded_max_tcp_win_src_to_dst_0"]
+              }
+            }
+          },
+          "true_next" : "tbl_decisiontree454",
+          "false_next" : "tbl_decisiontree460"
+        },
+        {
+          "name" : "node_44",
+          "id" : 16,
+          "source_info" : {
+            "filename" : "decisiontree.p4",
+            "line" : 461,
+            "column" : 28,
+            "source_fragment" : "hdr.tcp.window > A_flow_recorded_max_tcp_win_dst_to_src"
+          },
+          "expression" : {
+            "type" : "expression",
+            "value" : {
+              "op" : ">",
+              "left" : {
+                "type" : "field",
+                "value" : ["tcp", "window"]
+              },
+              "right" : {
+                "type" : "field",
+                "value" : ["scalars", "A_flow_recorded_max_tcp_win_dst_to_src_0"]
+              }
+            }
+          },
+          "true_next" : "tbl_decisiontree462",
+          "false_next" : "MyIngress.ipv4_lpm"
+        }
+      ]
+    },
+    {
+      "name" : "egress",
+      "id" : 1,
+      "source_info" : {
+        "filename" : "decisiontree.p4",
+        "line" : 483,
+        "column" : 8,
+        "source_fragment" : "MyEgress"
+      },
+      "init_table" : null,
+      "tables" : [],
+      "action_profiles" : [],
+      "conditionals" : []
+    }
+  ],
+  "checksums" : [
+    {
+      "name" : "cksum",
+      "id" : 0,
+      "source_info" : {
+        "filename" : "decisiontree.p4",
+        "line" : 499,
+        "column" : 8,
+        "source_fragment" : "update_checksum( ..."
+      },
+      "target" : ["ipv4", "hdrChecksum"],
+      "type" : "generic",
+      "calculation" : "calc_1",
+      "verify" : false,
+      "update" : true,
+      "if_cond" : {
+        "type" : "expression",
+        "value" : {
+          "op" : "d2b",
+          "left" : null,
+          "right" : {
+            "type" : "field",
+            "value" : ["ipv4", "$valid$"]
+          }
+        }
+      }
+    }
+  ],
+  "force_arith" : [],
+  "extern_instances" : [],
+  "field_aliases" : [
+    [
+      "queueing_metadata.enq_timestamp",
+      ["standard_metadata", "enq_timestamp"]
+    ],
+    [
+      "queueing_metadata.enq_qdepth",
+      ["standard_metadata", "enq_qdepth"]
+    ],
+    [
+      "queueing_metadata.deq_timedelta",
+      ["standard_metadata", "deq_timedelta"]
+    ],
+    [
+      "queueing_metadata.deq_qdepth",
+      ["standard_metadata", "deq_qdepth"]
+    ],
+    [
+      "intrinsic_metadata.ingress_global_timestamp",
+      ["standard_metadata", "ingress_global_timestamp"]
+    ],
+    [
+      "intrinsic_metadata.egress_global_timestamp",
+      ["standard_metadata", "egress_global_timestamp"]
+    ],
+    [
+      "intrinsic_metadata.mcast_grp",
+      ["standard_metadata", "mcast_grp"]
+    ],
+    [
+      "intrinsic_metadata.egress_rid",
+      ["standard_metadata", "egress_rid"]
+    ],
+    [
+      "intrinsic_metadata.priority",
+      ["standard_metadata", "priority"]
+    ]
+  ],
+  "program" : "/home/p4/Projects/DecisionTree/decisiontree.p4i",
+  "__meta__" : {
+    "version" : [2, 18],
+    "compiler" : "https://github.com/p4lang/p4c"
+  }
+}

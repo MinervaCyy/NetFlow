@@ -1,0 +1,287 @@
+pkg_info {
+  arch: "v1model"
+}
+tables {
+  preamble {
+    id: 37375156
+    name: "MyIngress.ipv4_lpm"
+    alias: "ipv4_lpm"
+  }
+  match_fields {
+    id: 1
+    name: "hdr.ipv4.dstAddr"
+    bitwidth: 32
+    match_type: LPM
+  }
+  action_refs {
+    id: 28792405
+  }
+  action_refs {
+    id: 25652968
+  }
+  action_refs {
+    id: 21257015
+  }
+  size: 1024
+}
+actions {
+  preamble {
+    id: 21257015
+    name: "NoAction"
+    alias: "NoAction"
+    annotations: "@noWarn(\"unused\")"
+  }
+}
+actions {
+  preamble {
+    id: 25652968
+    name: "MyIngress.drop"
+    alias: "drop"
+  }
+}
+actions {
+  preamble {
+    id: 28792405
+    name: "MyIngress.ipv4_forward"
+    alias: "ipv4_forward"
+  }
+  params {
+    id: 1
+    name: "dstAddr"
+    bitwidth: 48
+  }
+  params {
+    id: 2
+    name: "port"
+    bitwidth: 9
+  }
+}
+actions {
+  preamble {
+    id: 26530920
+    name: "MyIngress.compute_hashes_flow"
+    alias: "compute_hashes_flow"
+  }
+}
+actions {
+  preamble {
+    id: 22636594
+    name: "MyIngress.calculate_packet_asymmetry"
+    alias: "calculate_packet_asymmetry"
+  }
+}
+counters {
+  preamble {
+    id: 314768003
+    name: "MyIngress.all_packets_bytes_counter"
+    alias: "all_packets_bytes_counter"
+  }
+  spec {
+    unit: BOTH
+  }
+  size: 1
+}
+counters {
+  preamble {
+    id: 317821082
+    name: "MyIngress.all_hosts_counter"
+    alias: "all_hosts_counter"
+  }
+  spec {
+    unit: PACKETS
+  }
+  size: 1
+}
+counters {
+  preamble {
+    id: 303391499
+    name: "MyIngress.malicious_hosts_counter"
+    alias: "malicious_hosts_counter"
+  }
+  spec {
+    unit: PACKETS
+  }
+  size: 1
+}
+registers {
+  preamble {
+    id: 383678905
+    name: "A_flow_transmitted_packet_counter"
+    alias: "A_flow_transmitted_packet_counter"
+  }
+  type_spec {
+    bitstring {
+      bit {
+        bitwidth: 32
+      }
+    }
+  }
+  size: 4096
+}
+registers {
+  preamble {
+    id: 377495122
+    name: "A_flow_received_packet_counter"
+    alias: "A_flow_received_packet_counter"
+  }
+  type_spec {
+    bitstring {
+      bit {
+        bitwidth: 32
+      }
+    }
+  }
+  size: 4096
+}
+registers {
+  preamble {
+    id: 376406725
+    name: "A_flow_transmitted_byte_counter"
+    alias: "A_flow_transmitted_byte_counter"
+  }
+  type_spec {
+    bitstring {
+      bit {
+        bitwidth: 32
+      }
+    }
+  }
+  size: 4096
+}
+registers {
+  preamble {
+    id: 373585385
+    name: "A_flow_received_byte_counter"
+    alias: "A_flow_received_byte_counter"
+  }
+  type_spec {
+    bitstring {
+      bit {
+        bitwidth: 32
+      }
+    }
+  }
+  size: 4096
+}
+registers {
+  preamble {
+    id: 385434811
+    name: "A_flow_dstip_register"
+    alias: "A_flow_dstip_register"
+  }
+  type_spec {
+    bitstring {
+      bit {
+        bitwidth: 32
+      }
+    }
+  }
+  size: 4096
+}
+registers {
+  preamble {
+    id: 378610629
+    name: "A_flow_srcip_register"
+    alias: "A_flow_srcip_register"
+  }
+  type_spec {
+    bitstring {
+      bit {
+        bitwidth: 32
+      }
+    }
+  }
+  size: 4096
+}
+registers {
+  preamble {
+    id: 377825088
+    name: "A_flow_dstport_register"
+    alias: "A_flow_dstport_register"
+  }
+  type_spec {
+    bitstring {
+      bit {
+        bitwidth: 16
+      }
+    }
+  }
+  size: 4096
+}
+registers {
+  preamble {
+    id: 383815069
+    name: "A_flow_srcport_register"
+    alias: "A_flow_srcport_register"
+  }
+  type_spec {
+    bitstring {
+      bit {
+        bitwidth: 16
+      }
+    }
+  }
+  size: 4096
+}
+registers {
+  preamble {
+    id: 372376583
+    name: "A_flow_protocol_register"
+    alias: "A_flow_protocol_register"
+  }
+  type_spec {
+    bitstring {
+      bit {
+        bitwidth: 8
+      }
+    }
+  }
+  size: 4096
+}
+registers {
+  preamble {
+    id: 374847817
+    name: "A_flow_packetasymmetry_register"
+    alias: "A_flow_packetasymmetry_register"
+  }
+  type_spec {
+    bitstring {
+      bit {
+        bitwidth: 4
+      }
+    }
+  }
+  size: 4096
+}
+registers {
+  preamble {
+    id: 379890753
+    name: "current_flow_id_reg"
+    alias: "current_flow_id_reg"
+  }
+  type_spec {
+    bitstring {
+      bit {
+        bitwidth: 32
+      }
+    }
+  }
+  size: 1
+}
+registers {
+  preamble {
+    id: 380216404
+    name: "current_flow_r_id_reg"
+    alias: "current_flow_r_id_reg"
+  }
+  type_spec {
+    bitstring {
+      bit {
+        bitwidth: 32
+      }
+    }
+  }
+  size: 1
+}
+type_info {
+}
