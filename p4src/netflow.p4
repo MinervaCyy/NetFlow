@@ -1,7 +1,7 @@
   /* -*- P4_16 -*- */
 #include <core.p4>
 #include <v1model.p4>
-
+#include "division.p4"
 
 const bit<16> TYPE_IPV4   = 0x800;
 const bit<16> TYPE_IPV6   = 0x86dd;
@@ -275,7 +275,7 @@ control MyIngress(inout headers hdr,
        
        hash(flow_id, HashAlgorithm.crc32, (bit<32>)0, {ipAddr1,ipAddr2,port1,port2,hdr.ipv4.protocol},(bit<32>)AMOUNT_OF_FLOWS);
     }
-
+/*
     action calculate_division_precise(bit<32> numerator, bit<32> denominator){
       
         bit<32> tmp_difference=0;
@@ -407,7 +407,7 @@ control MyIngress(inout headers hdr,
             }
         }
 
-    }
+    }*/
 
     table port_foward {
         key = {
