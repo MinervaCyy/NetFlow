@@ -38,6 +38,14 @@ class ReadRegisters(object):
         else:
             asymmetry = (trans+1)/float((receive+1))
         return asymmetry
+    
+    def transfer_micro_to_milli(self,value_in):
+        value_out=value_in*1000
+        return value_out
+    
+    def transfer_micro_to_unit(self,value_in):
+        value_out=value_in*1000000
+        return value_out
 
     def outcsv(self):
 
@@ -54,7 +62,7 @@ class ReadRegisters(object):
 
         with open('output.txt', 'w') as f:
             
-            f.write("index,"+"transmitted_packet,"+"received_packet,"+"transmitted_byte,"+"received_byte,"+"dstip,"+"srcip,"+"dstport,"+"srcport,"+"protocol,"+"src_to_dst_flow_duration,"+"dst_to_src_flow_duration,"+"max_ttl,"+"min_ttl,"+"max_ip_pkt_len,"+"min_ip_pkt_len,"+"num_of_ip_totalLen_up_to_128_bytes,"+"num_of_ip_totalLen_128_to_256_bytes,"+"num_of_ip_totalLen_256_to_512_bytes,"+"num_of_ip_totalLen_512_to_1024_bytes,"+"num_of_ip_totalLen_1024_to_1514_bytes,"+"max_tcp_win_src_to_dst,"+"max_tcp_win_dst_to_src"+"\n")
+            f.write("index,"+"transmitted_packet,"+"received_packet,"+"transmitted_byte,"+"received_byte,"+"dstip,"+"srcip,"+"dstport,"+"srcport,"+"protocol,"+"src_to_dst_flow_duration,"+"bytes_per_second_src_to_dst,"+"dst_to_src_flow_duration,"+"bytes_per_second_dst_to_src,"+"max_ttl,"+"min_ttl,"+"max_ip_pkt_len,"+"min_ip_pkt_len,"+"num_of_ip_totalLen_up_to_128_bytes,"+"num_of_ip_totalLen_128_to_256_bytes,"+"num_of_ip_totalLen_256_to_512_bytes,"+"num_of_ip_totalLen_512_to_1024_bytes,"+"num_of_ip_totalLen_1024_to_1514_bytes,"+"max_tcp_win_src_to_dst,"+"max_tcp_win_dst_to_src"+"\n")
                 
             for i in range(0,8192):
             
@@ -69,6 +77,8 @@ class ReadRegisters(object):
                 protocol                 = self.controller.register_read("protocol_register", i)
                 src_to_dst_flow_duration = self.controller.register_read("src_to_dst_flow_duration_register", i)
                 dst_to_src_flow_duration = self.controller.register_read("dst_to_src_flow_duration_register", i)
+                bytes_per_second_src_to_dst = self.controller.register_read("bytes_per_second_src_to_dst_register", i)
+                bytes_per_second_dst_to_src = self.controller.register_read("bytes_per_second_dst_to_src_register", i)
                 max_ttl                  = self.controller.register_read("max_ttl_register", i)
                 min_ttl                  = self.controller.register_read("min_ttl_register", i)
                 max_ip_pkt_len           = self.controller.register_read("max_ip_pkt_len_register", i)
@@ -80,14 +90,15 @@ class ReadRegisters(object):
                 num_of_ip_totalLen_1024_to_1514_bytes = self.controller.register_read("num_of_ip_totalLen_1024_to_1514_bytes_register", i)
                 max_tcp_win_src_to_dst = self.controller.register_read("max_tcp_win_src_to_dst_register", i)
                 max_tcp_win_dst_to_src = self.controller.register_read("max_tcp_win_dst_to_src_register", i)
-               
+         
                 '''
                 if (transmitted_packet>0) :
-                    print("index: ",i,"  transmitted_packet: ",transmitted_packet,"  received_packet: ",received_packet,"  transmitted_byte: ",transmitted_byte," received_byte: ",received_byte," dstip: ",self.hex_to_ipaddr(dstip)," srcip: ",self.hex_to_ipaddr(srcip)," dstport: ",dstport," srcport: ",    srcport," packet asymmetry: ",precise_packetasymmetry_int,precise_packetasymmetry_dec)
+                    print("index: ",i,"  src_to_dst_num_of_2_microseconds: ",src_to_dst_num_of_2_microseconds,"  received_packet: ",received_packet,"  transmitted_byte: ",transmitted_byte," received_byte: ",received_byte," dstip: ",self.hex_to_ipaddr(dstip)," srcip: ",self.hex_to_ipaddr(srcip)," dstport: ",dstport," srcport: ",    srcport," src_to_dst_num_of_2_microseconds: ",src_to_dst_num_of_2_microseconds)
+                
                 '''
-
                 if ((transmitted_packet>0) | (received_packet>0)) :
-                  f.write(str(i)+","+ str(transmitted_packet) +","+str(received_packet)+","+str(transmitted_byte)+","+str(received_byte)+","+ self.hex_to_ipaddr(dstip)+","+self.hex_to_ipaddr(srcip)+","+str(dstport)+","+str(srcport)+","+str(protocol) +","+str(src_to_dst_flow_duration) + ","+ str(dst_to_src_flow_duration)+","+str(max_ttl)+","+str(min_ttl)+","+str(max_ip_pkt_len)+","+str(min_ip_pkt_len)+","+str(num_of_ip_totalLen_up_to_128_bytes)+","+str(num_of_ip_totalLen_128_to_256_bytes)+","+str(num_of_ip_totalLen_256_to_512_bytes)+","+str(num_of_ip_totalLen_512_to_1024_bytes)+","+str(num_of_ip_totalLen_1024_to_1514_bytes)+","+str(max_tcp_win_src_to_dst)+","+str(max_tcp_win_dst_to_src)+"\n")
+                  f.write(str(i)+","+ str(transmitted_packet) +","+str(received_packet)+","+str(transmitted_byte)+","+str(received_byte)+","+ self.hex_to_ipaddr(dstip)+","+self.hex_to_ipaddr(srcip)+","+str(dstport)+","+str(srcport)+","+str(protocol) +","+str(src_to_dst_flow_duration) + ","+ str(bytes_per_second_src_to_dst) + ","+ str(dst_to_src_flow_duration)+ "," +str(bytes_per_second_dst_to_src) + ","+str(max_ttl)+","+str(min_ttl)+","+str(max_ip_pkt_len)+","+str(min_ip_pkt_len)+","+str(num_of_ip_totalLen_up_to_128_bytes)+","+str(num_of_ip_totalLen_128_to_256_bytes)+","+str(num_of_ip_totalLen_256_to_512_bytes)+","+str(num_of_ip_totalLen_512_to_1024_bytes)+","+str(num_of_ip_totalLen_1024_to_1514_bytes)+","+str(max_tcp_win_src_to_dst)+","+str(max_tcp_win_dst_to_src)+"\n")
+                
                 #f.write(str(i)+","+ str(transmitted_packet) +","+str(received_packet)+","+str(transmitted_byte)+","+str(received_byte)+","+ self.hex_to_ipaddr(dstip)+","+self.hex_to_ipaddr(srcip)+","+str(dstport)+","+str(srcport)+","+str(ln_packetasymmetry_flag)+","+str(ln_packetasymmetry)+","+str(real_ln_asymmetry)+","+str(expected_ln_asymmetry)+","+str(error_ln_asymmetry)+","+str(precise_packetasymmetry_int) +","+str(precise_packetasymmetry_dec) + ","+ str(real_precise_asymmetry)+","+str(expected_precise_asymmetry)+","+str(error_precise_asymmetry)+"\n")
              
             #f.write("----------------------------------" + "\n")

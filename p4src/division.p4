@@ -1,7 +1,6 @@
    /* -*- P4_16 -*- */
 #include <core.p4>
 #include <v1model.p4>
-#include "netflow.p4"
 action calculate_division_precise(in bit<32> numerator, in bit<32> denominator, inout bit<32> quotient_integer, inout bit<32> quotientdecimal){
       
         bit<32> tmp_difference=0;

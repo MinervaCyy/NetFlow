@@ -17,6 +17,10 @@
         ["tmp_9", 32, false],
         ["tmp_10", 32, false],
         ["tmp_11", 32, false],
+        ["tmp_12", 32, false],
+        ["tmp_13", 32, false],
+        ["tmp_14", 32, false],
+        ["tmp_15", 32, false],
         ["flow_id_0", 32, false],
         ["tmpsrcPort_0", 16, false],
         ["tmpdstPort_0", 16, false],
@@ -24,9 +28,13 @@
         ["A_current_flow_transmitted_packet_0", 32, false],
         ["A_current_flow_transmitted_byte_0", 32, false],
         ["flow_hold_time_0", 48, false],
+        ["processed_transmitted_byte_0", 32, false],
+        ["processed_src_to_dst_last_time_0", 48, false],
         ["A_current_flow_r_received_packet_0", 32, false],
         ["A_current_flow_r_received_byte_0", 32, false],
         ["reverse_flow_hold_time_0", 48, false],
+        ["processed_received_byte_0", 32, false],
+        ["processed_dst_to_src_last_time_0", 48, false],
         ["recorded_max_ttl_0", 8, false],
         ["recorded_min_ttl_0", 8, false],
         ["recorded_max_ip_pkt_len_0", 16, false],
@@ -548,7 +556,7 @@
       "id" : 0,
       "source_info" : {
         "filename" : "p4src/netflow.p4",
-        "line" : 679,
+        "line" : 747,
         "column" : 8,
         "source_fragment" : "MyDeparser"
       },
@@ -562,7 +570,7 @@
       "id" : 0,
       "source_info" : {
         "filename" : "p4src/netflow.p4",
-        "line" : 254,
+        "line" : 264,
         "column" : 45,
         "source_fragment" : "all_packets_bytes_counter"
       },
@@ -576,7 +584,7 @@
       "id" : 0,
       "source_info" : {
         "filename" : "p4src/netflow.p4",
-        "line" : 17,
+        "line" : 18,
         "column" : 21,
         "source_fragment" : "flow_counter"
       },
@@ -588,7 +596,7 @@
       "id" : 1,
       "source_info" : {
         "filename" : "p4src/netflow.p4",
-        "line" : 18,
+        "line" : 19,
         "column" : 24,
         "source_fragment" : "transmitted_packet_counter"
       },
@@ -600,7 +608,7 @@
       "id" : 2,
       "source_info" : {
         "filename" : "p4src/netflow.p4",
-        "line" : 19,
+        "line" : 20,
         "column" : 24,
         "source_fragment" : "received_packet_counter"
       },
@@ -612,7 +620,7 @@
       "id" : 3,
       "source_info" : {
         "filename" : "p4src/netflow.p4",
-        "line" : 20,
+        "line" : 21,
         "column" : 24,
         "source_fragment" : "transmitted_byte_counter"
       },
@@ -624,7 +632,7 @@
       "id" : 4,
       "source_info" : {
         "filename" : "p4src/netflow.p4",
-        "line" : 21,
+        "line" : 22,
         "column" : 24,
         "source_fragment" : "received_byte_counter"
       },
@@ -636,7 +644,7 @@
       "id" : 5,
       "source_info" : {
         "filename" : "p4src/netflow.p4",
-        "line" : 22,
+        "line" : 23,
         "column" : 24,
         "source_fragment" : "dstip_register"
       },
@@ -648,7 +656,7 @@
       "id" : 6,
       "source_info" : {
         "filename" : "p4src/netflow.p4",
-        "line" : 23,
+        "line" : 24,
         "column" : 24,
         "source_fragment" : "srcip_register"
       },
@@ -660,7 +668,7 @@
       "id" : 7,
       "source_info" : {
         "filename" : "p4src/netflow.p4",
-        "line" : 24,
+        "line" : 25,
         "column" : 24,
         "source_fragment" : "dstport_register"
       },
@@ -672,7 +680,7 @@
       "id" : 8,
       "source_info" : {
         "filename" : "p4src/netflow.p4",
-        "line" : 25,
+        "line" : 26,
         "column" : 24,
         "source_fragment" : "srcport_register"
       },
@@ -684,7 +692,7 @@
       "id" : 9,
       "source_info" : {
         "filename" : "p4src/netflow.p4",
-        "line" : 26,
+        "line" : 27,
         "column" : 23,
         "source_fragment" : "protocol_register"
       },
@@ -696,7 +704,7 @@
       "id" : 10,
       "source_info" : {
         "filename" : "p4src/netflow.p4",
-        "line" : 32,
+        "line" : 33,
         "column" : 24,
         "source_fragment" : "src_to_dst_last_time_register"
       },
@@ -708,7 +716,7 @@
       "id" : 11,
       "source_info" : {
         "filename" : "p4src/netflow.p4",
-        "line" : 33,
+        "line" : 34,
         "column" : 24,
         "source_fragment" : "dst_to_src_last_time_register"
       },
@@ -716,11 +724,35 @@
       "bitwidth" : 48
     },
     {
-      "name" : "src_to_dst_flow_duration_register",
+      "name" : "src_to_dst_last_calculated_time_register",
       "id" : 12,
       "source_info" : {
         "filename" : "p4src/netflow.p4",
-        "line" : 34,
+        "line" : 35,
+        "column" : 24,
+        "source_fragment" : "src_to_dst_last_calculated_time_register"
+      },
+      "size" : 8192,
+      "bitwidth" : 48
+    },
+    {
+      "name" : "dst_to_src_last_calculated_time_register",
+      "id" : 13,
+      "source_info" : {
+        "filename" : "p4src/netflow.p4",
+        "line" : 36,
+        "column" : 24,
+        "source_fragment" : "dst_to_src_last_calculated_time_register"
+      },
+      "size" : 8192,
+      "bitwidth" : 48
+    },
+    {
+      "name" : "src_to_dst_flow_duration_register",
+      "id" : 14,
+      "source_info" : {
+        "filename" : "p4src/netflow.p4",
+        "line" : 37,
         "column" : 24,
         "source_fragment" : "src_to_dst_flow_duration_register"
       },
@@ -729,10 +761,10 @@
     },
     {
       "name" : "dst_to_src_flow_duration_register",
-      "id" : 13,
+      "id" : 15,
       "source_info" : {
         "filename" : "p4src/netflow.p4",
-        "line" : 35,
+        "line" : 38,
         "column" : 24,
         "source_fragment" : "dst_to_src_flow_duration_register"
       },
@@ -740,143 +772,35 @@
       "bitwidth" : 48
     },
     {
-      "name" : "max_ttl_register",
-      "id" : 14,
-      "source_info" : {
-        "filename" : "p4src/netflow.p4",
-        "line" : 37,
-        "column" : 23,
-        "source_fragment" : "max_ttl_register"
-      },
-      "size" : 8192,
-      "bitwidth" : 8
-    },
-    {
-      "name" : "min_ttl_register",
-      "id" : 15,
-      "source_info" : {
-        "filename" : "p4src/netflow.p4",
-        "line" : 38,
-        "column" : 23,
-        "source_fragment" : "min_ttl_register"
-      },
-      "size" : 8192,
-      "bitwidth" : 8
-    },
-    {
-      "name" : "max_ip_pkt_len_register",
+      "name" : "processed_transmitted_byte_counter",
       "id" : 16,
       "source_info" : {
         "filename" : "p4src/netflow.p4",
         "line" : 40,
         "column" : 24,
-        "source_fragment" : "max_ip_pkt_len_register"
+        "source_fragment" : "processed_transmitted_byte_counter"
       },
       "size" : 8192,
-      "bitwidth" : 16
+      "bitwidth" : 32
     },
     {
-      "name" : "min_ip_pkt_len_register",
+      "name" : "processed_received_byte_counter",
       "id" : 17,
       "source_info" : {
         "filename" : "p4src/netflow.p4",
         "line" : 41,
         "column" : 24,
-        "source_fragment" : "min_ip_pkt_len_register"
-      },
-      "size" : 8192,
-      "bitwidth" : 16
-    },
-    {
-      "name" : "num_of_ip_totalLen_up_to_128_bytes_register",
-      "id" : 18,
-      "source_info" : {
-        "filename" : "p4src/netflow.p4",
-        "line" : 43,
-        "column" : 24,
-        "source_fragment" : "num_of_ip_totalLen_up_to_128_bytes_register"
+        "source_fragment" : "processed_received_byte_counter"
       },
       "size" : 8192,
       "bitwidth" : 32
-    },
-    {
-      "name" : "num_of_ip_totalLen_128_to_256_bytes_register",
-      "id" : 19,
-      "source_info" : {
-        "filename" : "p4src/netflow.p4",
-        "line" : 44,
-        "column" : 24,
-        "source_fragment" : "num_of_ip_totalLen_128_to_256_bytes_register"
-      },
-      "size" : 8192,
-      "bitwidth" : 32
-    },
-    {
-      "name" : "num_of_ip_totalLen_256_to_512_bytes_register",
-      "id" : 20,
-      "source_info" : {
-        "filename" : "p4src/netflow.p4",
-        "line" : 45,
-        "column" : 24,
-        "source_fragment" : "num_of_ip_totalLen_256_to_512_bytes_register"
-      },
-      "size" : 8192,
-      "bitwidth" : 32
-    },
-    {
-      "name" : "num_of_ip_totalLen_512_to_1024_bytes_register",
-      "id" : 21,
-      "source_info" : {
-        "filename" : "p4src/netflow.p4",
-        "line" : 46,
-        "column" : 24,
-        "source_fragment" : "num_of_ip_totalLen_512_to_1024_bytes_register"
-      },
-      "size" : 8192,
-      "bitwidth" : 32
-    },
-    {
-      "name" : "num_of_ip_totalLen_1024_to_1514_bytes_register",
-      "id" : 22,
-      "source_info" : {
-        "filename" : "p4src/netflow.p4",
-        "line" : 47,
-        "column" : 24,
-        "source_fragment" : "num_of_ip_totalLen_1024_to_1514_bytes_register"
-      },
-      "size" : 8192,
-      "bitwidth" : 32
-    },
-    {
-      "name" : "max_tcp_win_src_to_dst_register",
-      "id" : 23,
-      "source_info" : {
-        "filename" : "p4src/netflow.p4",
-        "line" : 49,
-        "column" : 24,
-        "source_fragment" : "max_tcp_win_src_to_dst_register"
-      },
-      "size" : 8192,
-      "bitwidth" : 16
-    },
-    {
-      "name" : "max_tcp_win_dst_to_src_register",
-      "id" : 24,
-      "source_info" : {
-        "filename" : "p4src/netflow.p4",
-        "line" : 50,
-        "column" : 24,
-        "source_fragment" : "max_tcp_win_dst_to_src_register"
-      },
-      "size" : 8192,
-      "bitwidth" : 16
     },
     {
       "name" : "bytes_per_second_src_to_dst_register",
-      "id" : 25,
+      "id" : 18,
       "source_info" : {
         "filename" : "p4src/netflow.p4",
-        "line" : 52,
+        "line" : 44,
         "column" : 24,
         "source_fragment" : "bytes_per_second_src_to_dst_register"
       },
@@ -885,10 +809,10 @@
     },
     {
       "name" : "bytes_per_second_dst_to_src_register",
-      "id" : 26,
+      "id" : 19,
       "source_info" : {
         "filename" : "p4src/netflow.p4",
-        "line" : 53,
+        "line" : 46,
         "column" : 24,
         "source_fragment" : "bytes_per_second_dst_to_src_register"
       },
@@ -897,10 +821,10 @@
     },
     {
       "name" : "bits_per_second_src_to_dst_register",
-      "id" : 27,
+      "id" : 20,
       "source_info" : {
         "filename" : "p4src/netflow.p4",
-        "line" : 55,
+        "line" : 48,
         "column" : 24,
         "source_fragment" : "bits_per_second_src_to_dst_register"
       },
@@ -909,10 +833,10 @@
     },
     {
       "name" : "bits_per_second_dst_to_src_register",
-      "id" : 28,
+      "id" : 21,
       "source_info" : {
         "filename" : "p4src/netflow.p4",
-        "line" : 56,
+        "line" : 49,
         "column" : 24,
         "source_fragment" : "bits_per_second_dst_to_src_register"
       },
@@ -920,11 +844,143 @@
       "bitwidth" : 32
     },
     {
-      "name" : "current_flow_id_reg",
-      "id" : 29,
+      "name" : "max_ttl_register",
+      "id" : 22,
+      "source_info" : {
+        "filename" : "p4src/netflow.p4",
+        "line" : 51,
+        "column" : 23,
+        "source_fragment" : "max_ttl_register"
+      },
+      "size" : 8192,
+      "bitwidth" : 8
+    },
+    {
+      "name" : "min_ttl_register",
+      "id" : 23,
+      "source_info" : {
+        "filename" : "p4src/netflow.p4",
+        "line" : 52,
+        "column" : 23,
+        "source_fragment" : "min_ttl_register"
+      },
+      "size" : 8192,
+      "bitwidth" : 8
+    },
+    {
+      "name" : "max_ip_pkt_len_register",
+      "id" : 24,
+      "source_info" : {
+        "filename" : "p4src/netflow.p4",
+        "line" : 54,
+        "column" : 24,
+        "source_fragment" : "max_ip_pkt_len_register"
+      },
+      "size" : 8192,
+      "bitwidth" : 16
+    },
+    {
+      "name" : "min_ip_pkt_len_register",
+      "id" : 25,
+      "source_info" : {
+        "filename" : "p4src/netflow.p4",
+        "line" : 55,
+        "column" : 24,
+        "source_fragment" : "min_ip_pkt_len_register"
+      },
+      "size" : 8192,
+      "bitwidth" : 16
+    },
+    {
+      "name" : "num_of_ip_totalLen_up_to_128_bytes_register",
+      "id" : 26,
+      "source_info" : {
+        "filename" : "p4src/netflow.p4",
+        "line" : 57,
+        "column" : 24,
+        "source_fragment" : "num_of_ip_totalLen_up_to_128_bytes_register"
+      },
+      "size" : 8192,
+      "bitwidth" : 32
+    },
+    {
+      "name" : "num_of_ip_totalLen_128_to_256_bytes_register",
+      "id" : 27,
+      "source_info" : {
+        "filename" : "p4src/netflow.p4",
+        "line" : 58,
+        "column" : 24,
+        "source_fragment" : "num_of_ip_totalLen_128_to_256_bytes_register"
+      },
+      "size" : 8192,
+      "bitwidth" : 32
+    },
+    {
+      "name" : "num_of_ip_totalLen_256_to_512_bytes_register",
+      "id" : 28,
       "source_info" : {
         "filename" : "p4src/netflow.p4",
         "line" : 59,
+        "column" : 24,
+        "source_fragment" : "num_of_ip_totalLen_256_to_512_bytes_register"
+      },
+      "size" : 8192,
+      "bitwidth" : 32
+    },
+    {
+      "name" : "num_of_ip_totalLen_512_to_1024_bytes_register",
+      "id" : 29,
+      "source_info" : {
+        "filename" : "p4src/netflow.p4",
+        "line" : 60,
+        "column" : 24,
+        "source_fragment" : "num_of_ip_totalLen_512_to_1024_bytes_register"
+      },
+      "size" : 8192,
+      "bitwidth" : 32
+    },
+    {
+      "name" : "num_of_ip_totalLen_1024_to_1514_bytes_register",
+      "id" : 30,
+      "source_info" : {
+        "filename" : "p4src/netflow.p4",
+        "line" : 61,
+        "column" : 24,
+        "source_fragment" : "num_of_ip_totalLen_1024_to_1514_bytes_register"
+      },
+      "size" : 8192,
+      "bitwidth" : 32
+    },
+    {
+      "name" : "max_tcp_win_src_to_dst_register",
+      "id" : 31,
+      "source_info" : {
+        "filename" : "p4src/netflow.p4",
+        "line" : 63,
+        "column" : 24,
+        "source_fragment" : "max_tcp_win_src_to_dst_register"
+      },
+      "size" : 8192,
+      "bitwidth" : 16
+    },
+    {
+      "name" : "max_tcp_win_dst_to_src_register",
+      "id" : 32,
+      "source_info" : {
+        "filename" : "p4src/netflow.p4",
+        "line" : 64,
+        "column" : 24,
+        "source_fragment" : "max_tcp_win_dst_to_src_register"
+      },
+      "size" : 8192,
+      "bitwidth" : 16
+    },
+    {
+      "name" : "current_flow_id_reg",
+      "id" : 33,
+      "source_info" : {
+        "filename" : "p4src/netflow.p4",
+        "line" : 69,
         "column" : 21,
         "source_fragment" : "current_flow_id_reg"
       },
@@ -933,10 +989,10 @@
     },
     {
       "name" : "current_flow_r_id_reg",
-      "id" : 30,
+      "id" : 34,
       "source_info" : {
         "filename" : "p4src/netflow.p4",
-        "line" : 60,
+        "line" : 70,
         "column" : 21,
         "source_fragment" : "current_flow_r_id_reg"
       },
@@ -1004,7 +1060,7 @@
       "id" : 2,
       "source_info" : {
         "filename" : "p4src/netflow.p4",
-        "line" : 654,
+        "line" : 722,
         "column" : 8,
         "source_fragment" : "update_checksum( ..."
       },
@@ -1080,7 +1136,7 @@
           ],
           "source_info" : {
             "filename" : "p4src/netflow.p4",
-            "line" : 264,
+            "line" : 274,
             "column" : 8,
             "source_fragment" : "mark_to_drop(standard_metadata)"
           }
@@ -1111,7 +1167,7 @@
           ],
           "source_info" : {
             "filename" : "p4src/netflow.p4",
-            "line" : 268,
+            "line" : 278,
             "column" : 8,
             "source_fragment" : "standard_metadata.egress_spec = port"
           }
@@ -1130,7 +1186,7 @@
           ],
           "source_info" : {
             "filename" : "p4src/netflow.p4",
-            "line" : 269,
+            "line" : 279,
             "column" : 8,
             "source_fragment" : "hdr.ethernet.srcAddr = hdr.ethernet.dstAddr"
           }
@@ -1172,7 +1228,7 @@
           ],
           "source_info" : {
             "filename" : "p4src/netflow.p4",
-            "line" : 271,
+            "line" : 281,
             "column" : 8,
             "source_fragment" : "hdr.ipv4.ttl = hdr.ipv4.ttl - 1"
           }
@@ -1206,7 +1262,7 @@
           ],
           "source_info" : {
             "filename" : "p4src/netflow.p4",
-            "line" : 276,
+            "line" : 286,
             "column" : 7,
             "source_fragment" : "hash(flow_id, HashAlgorithm.crc32, (bit<32>)0, {ipAddr1,ipAddr2,port1,port2,hdr.ipv4.protocol},(bit<32>)8192)"
           }
@@ -1240,7 +1296,7 @@
           ],
           "source_info" : {
             "filename" : "p4src/netflow.p4",
-            "line" : 276,
+            "line" : 286,
             "column" : 7,
             "source_fragment" : "hash(flow_id, HashAlgorithm.crc32, (bit<32>)0, {ipAddr1,ipAddr2,port1,port2,hdr.ipv4.protocol},(bit<32>)8192)"
           }
@@ -1248,7 +1304,7 @@
       ]
     },
     {
-      "name" : "netflow438",
+      "name" : "netflow448",
       "id" : 5,
       "runtime_data" : [],
       "primitives" : [
@@ -1266,7 +1322,7 @@
           ],
           "source_info" : {
             "filename" : "p4src/netflow.p4",
-            "line" : 438,
+            "line" : 448,
             "column" : 20,
             "source_fragment" : "tmpdstPort = hdr.tcp.dstPort"
           }
@@ -1285,7 +1341,7 @@
           ],
           "source_info" : {
             "filename" : "p4src/netflow.p4",
-            "line" : 439,
+            "line" : 449,
             "column" : 20,
             "source_fragment" : "tmpsrcPort = hdr.tcp.srcPort"
           }
@@ -1293,7 +1349,7 @@
       ]
     },
     {
-      "name" : "netflow441",
+      "name" : "netflow451",
       "id" : 6,
       "runtime_data" : [],
       "primitives" : [
@@ -1311,7 +1367,7 @@
           ],
           "source_info" : {
             "filename" : "p4src/netflow.p4",
-            "line" : 441,
+            "line" : 451,
             "column" : 20,
             "source_fragment" : "tmpdstPort = hdr.udp.dstPort"
           }
@@ -1330,7 +1386,7 @@
           ],
           "source_info" : {
             "filename" : "p4src/netflow.p4",
-            "line" : 442,
+            "line" : 452,
             "column" : 20,
             "source_fragment" : "tmpsrcPort = hdr.udp.srcPort"
           }
@@ -1338,7 +1394,7 @@
       ]
     },
     {
-      "name" : "netflow428",
+      "name" : "netflow438",
       "id" : 7,
       "runtime_data" : [],
       "primitives" : [
@@ -1356,7 +1412,7 @@
           ],
           "source_info" : {
             "filename" : "p4src/netflow.p4",
-            "line" : 428,
+            "line" : 438,
             "column" : 16,
             "source_fragment" : "all_packets_bytes_counter.count(0)"
           }
@@ -1375,7 +1431,7 @@
           ],
           "source_info" : {
             "filename" : "p4src/netflow.p4",
-            "line" : 430,
+            "line" : 440,
             "column" : 16,
             "source_fragment" : "bit<16> tmpsrcPort=0;"
           }
@@ -1394,7 +1450,7 @@
           ],
           "source_info" : {
             "filename" : "p4src/netflow.p4",
-            "line" : 431,
+            "line" : 441,
             "column" : 16,
             "source_fragment" : "bit<16> tmpdstPort=0;"
           }
@@ -1402,7 +1458,7 @@
       ]
     },
     {
-      "name" : "netflow451",
+      "name" : "netflow461",
       "id" : 8,
       "runtime_data" : [],
       "primitives" : [
@@ -1420,7 +1476,7 @@
           ],
           "source_info" : {
             "filename" : "p4src/netflow.p4",
-            "line" : 451,
+            "line" : 461,
             "column" : 20,
             "source_fragment" : "current_flow_id = flow_id"
           }
@@ -1443,7 +1499,7 @@
           ],
           "source_info" : {
             "filename" : "p4src/netflow.p4",
-            "line" : 452,
+            "line" : 462,
             "column" : 20,
             "source_fragment" : "current_flow_id_reg.write(0,flow_id)"
           }
@@ -1451,7 +1507,7 @@
       ]
     },
     {
-      "name" : "netflow467",
+      "name" : "netflow477",
       "id" : 9,
       "runtime_data" : [],
       "primitives" : [
@@ -1473,7 +1529,7 @@
           ],
           "source_info" : {
             "filename" : "p4src/netflow.p4",
-            "line" : 467,
+            "line" : 477,
             "column" : 25,
             "source_fragment" : "dstip_register.write((bit<32>)current_flow_id,hdr.ipv4.dstAddr)"
           }
@@ -1496,7 +1552,7 @@
           ],
           "source_info" : {
             "filename" : "p4src/netflow.p4",
-            "line" : 468,
+            "line" : 478,
             "column" : 25,
             "source_fragment" : "srcip_register.write((bit<32>)current_flow_id,hdr.ipv4.srcAddr)"
           }
@@ -1519,7 +1575,7 @@
           ],
           "source_info" : {
             "filename" : "p4src/netflow.p4",
-            "line" : 469,
+            "line" : 479,
             "column" : 25,
             "source_fragment" : "dstport_register.write((bit<32>)current_flow_id,tmpdstPort)"
           }
@@ -1542,7 +1598,7 @@
           ],
           "source_info" : {
             "filename" : "p4src/netflow.p4",
-            "line" : 470,
+            "line" : 480,
             "column" : 25,
             "source_fragment" : "srcport_register.write((bit<32>)current_flow_id,tmpsrcPort)"
           }
@@ -1565,7 +1621,7 @@
           ],
           "source_info" : {
             "filename" : "p4src/netflow.p4",
-            "line" : 471,
+            "line" : 481,
             "column" : 25,
             "source_fragment" : "protocol_register.write((bit<32>)current_flow_id,hdr.ipv4.protocol)"
           }
@@ -1607,7 +1663,7 @@
           ],
           "source_info" : {
             "filename" : "p4src/netflow.p4",
-            "line" : 474,
+            "line" : 484,
             "column" : 75,
             "source_fragment" : "A_current_flow_transmitted_packet+1"
           }
@@ -1630,7 +1686,7 @@
           ],
           "source_info" : {
             "filename" : "p4src/netflow.p4",
-            "line" : 474,
+            "line" : 484,
             "column" : 25,
             "source_fragment" : "transmitted_packet_counter.write(current_flow_id,(A_current_flow_transmitted_packet+1))"
           }
@@ -1682,7 +1738,7 @@
           ],
           "source_info" : {
             "filename" : "p4src/netflow.p4",
-            "line" : 476,
+            "line" : 486,
             "column" : 73,
             "source_fragment" : "A_current_flow_transmitted_byte + ((bit<32>)hdr.ipv4.totalLen)"
           }
@@ -1705,7 +1761,7 @@
           ],
           "source_info" : {
             "filename" : "p4src/netflow.p4",
-            "line" : 476,
+            "line" : 486,
             "column" : 25,
             "source_fragment" : "transmitted_byte_counter.write(current_flow_id,(A_current_flow_transmitted_byte + ((bit<32>)hdr.ipv4.totalLen)))"
           }
@@ -1713,7 +1769,7 @@
       ]
     },
     {
-      "name" : "netflow480",
+      "name" : "netflow490",
       "id" : 10,
       "runtime_data" : [],
       "primitives" : [
@@ -1754,7 +1810,7 @@
           ],
           "source_info" : {
             "filename" : "p4src/netflow.p4",
-            "line" : 480,
+            "line" : 490,
             "column" : 75,
             "source_fragment" : "A_current_flow_transmitted_packet+1"
           }
@@ -1777,7 +1833,7 @@
           ],
           "source_info" : {
             "filename" : "p4src/netflow.p4",
-            "line" : 480,
+            "line" : 490,
             "column" : 25,
             "source_fragment" : "transmitted_packet_counter.write(current_flow_id,(A_current_flow_transmitted_packet+1))"
           }
@@ -1829,7 +1885,7 @@
           ],
           "source_info" : {
             "filename" : "p4src/netflow.p4",
-            "line" : 482,
+            "line" : 492,
             "column" : 73,
             "source_fragment" : "A_current_flow_transmitted_byte + ((bit<32>)hdr.ipv4.totalLen)"
           }
@@ -1852,7 +1908,7 @@
           ],
           "source_info" : {
             "filename" : "p4src/netflow.p4",
-            "line" : 482,
+            "line" : 492,
             "column" : 25,
             "source_fragment" : "transmitted_byte_counter.write(current_flow_id,(A_current_flow_transmitted_byte + ((bit<32>)hdr.ipv4.totalLen)))"
           }
@@ -1860,7 +1916,7 @@
       ]
     },
     {
-      "name" : "netflow457",
+      "name" : "netflow467",
       "id" : 11,
       "runtime_data" : [],
       "primitives" : [
@@ -1882,7 +1938,7 @@
           ],
           "source_info" : {
             "filename" : "p4src/netflow.p4",
-            "line" : 457,
+            "line" : 467,
             "column" : 20,
             "source_fragment" : "current_flow_r_id_reg.write(0,flow_id)"
           }
@@ -1905,7 +1961,7 @@
           ],
           "source_info" : {
             "filename" : "p4src/netflow.p4",
-            "line" : 463,
+            "line" : 473,
             "column" : 21,
             "source_fragment" : "transmitted_packet_counter.read(A_current_flow_transmitted_packet,current_flow_id)"
           }
@@ -1928,7 +1984,7 @@
           ],
           "source_info" : {
             "filename" : "p4src/netflow.p4",
-            "line" : 464,
+            "line" : 474,
             "column" : 21,
             "source_fragment" : "transmitted_byte_counter.read(A_current_flow_transmitted_byte,current_flow_id)"
           }
@@ -1936,126 +1992,11 @@
       ]
     },
     {
-      "name" : "netflow502",
+      "name" : "netflow511",
       "id" : 12,
       "runtime_data" : [],
       "primitives" : [
         {
-          "op" : "register_write",
-          "parameters" : [
-            {
-              "type" : "register_array",
-              "value" : "dstip_register"
-            },
-            {
-              "type" : "field",
-              "value" : ["scalars", "flow_id_0"]
-            },
-            {
-              "type" : "field",
-              "value" : ["ipv4", "srcAddr"]
-            }
-          ],
-          "source_info" : {
-            "filename" : "p4src/netflow.p4",
-            "line" : 502,
-            "column" : 25,
-            "source_fragment" : "dstip_register.write((bit<32>)current_flow_r_id,hdr.ipv4.srcAddr)"
-          }
-        },
-        {
-          "op" : "register_write",
-          "parameters" : [
-            {
-              "type" : "register_array",
-              "value" : "srcip_register"
-            },
-            {
-              "type" : "field",
-              "value" : ["scalars", "flow_id_0"]
-            },
-            {
-              "type" : "field",
-              "value" : ["ipv4", "dstAddr"]
-            }
-          ],
-          "source_info" : {
-            "filename" : "p4src/netflow.p4",
-            "line" : 503,
-            "column" : 25,
-            "source_fragment" : "srcip_register.write((bit<32>)current_flow_r_id,hdr.ipv4.dstAddr)"
-          }
-        },
-        {
-          "op" : "register_write",
-          "parameters" : [
-            {
-              "type" : "register_array",
-              "value" : "dstport_register"
-            },
-            {
-              "type" : "field",
-              "value" : ["scalars", "flow_id_0"]
-            },
-            {
-              "type" : "field",
-              "value" : ["scalars", "tmpsrcPort_0"]
-            }
-          ],
-          "source_info" : {
-            "filename" : "p4src/netflow.p4",
-            "line" : 504,
-            "column" : 25,
-            "source_fragment" : "dstport_register.write((bit<32>)current_flow_r_id,tmpsrcPort)"
-          }
-        },
-        {
-          "op" : "register_write",
-          "parameters" : [
-            {
-              "type" : "register_array",
-              "value" : "srcport_register"
-            },
-            {
-              "type" : "field",
-              "value" : ["scalars", "flow_id_0"]
-            },
-            {
-              "type" : "field",
-              "value" : ["scalars", "tmpdstPort_0"]
-            }
-          ],
-          "source_info" : {
-            "filename" : "p4src/netflow.p4",
-            "line" : 505,
-            "column" : 25,
-            "source_fragment" : "srcport_register.write((bit<32>)current_flow_r_id,tmpdstPort)"
-          }
-        },
-        {
-          "op" : "register_write",
-          "parameters" : [
-            {
-              "type" : "register_array",
-              "value" : "protocol_register"
-            },
-            {
-              "type" : "field",
-              "value" : ["scalars", "flow_id_0"]
-            },
-            {
-              "type" : "field",
-              "value" : ["ipv4", "protocol"]
-            }
-          ],
-          "source_info" : {
-            "filename" : "p4src/netflow.p4",
-            "line" : 506,
-            "column" : 25,
-            "source_fragment" : "protocol_register.write((bit<32>)current_flow_r_id,hdr.ipv4.protocol)"
-          }
-        },
-        {
           "op" : "assign",
           "parameters" : [
             {
@@ -2071,14 +2012,64 @@
                   "left" : {
                     "type" : "expression",
                     "value" : {
-                      "op" : "+",
+                      "op" : ">>",
                       "left" : {
-                        "type" : "field",
-                        "value" : ["scalars", "A_current_flow_r_received_packet_0"]
+                        "type" : "expression",
+                        "value" : {
+                          "op" : "&",
+                          "left" : {
+                            "type" : "expression",
+                            "value" : {
+                              "op" : "-",
+                              "left" : {
+                                "type" : "expression",
+                                "value" : {
+                                  "op" : "&",
+                                  "left" : {
+                                    "type" : "expression",
+                                    "value" : {
+                                      "op" : "+",
+                                      "left" : {
+                                        "type" : "field",
+                                        "value" : ["scalars", "A_current_flow_transmitted_byte_0"]
+                                      },
+                                      "right" : {
+                                        "type" : "expression",
+                                        "value" : {
+                                          "op" : "&",
+                                          "left" : {
+                                            "type" : "field",
+                                            "value" : ["ipv4", "totalLen"]
+                                          },
+                                          "right" : {
+                                            "type" : "hexstr",
+                                            "value" : "0xffffffff"
+                                          }
+                                        }
+                                      }
+                                    }
+                                  },
+                                  "right" : {
+                                    "type" : "hexstr",
+                                    "value" : "0xffffffff"
+                                  }
+                                }
+                              },
+                              "right" : {
+                                "type" : "field",
+                                "value" : ["scalars", "processed_transmitted_byte_0"]
+                              }
+                            }
+                          },
+                          "right" : {
+                            "type" : "hexstr",
+                            "value" : "0xffffffff"
+                          }
+                        }
                       },
                       "right" : {
                         "type" : "hexstr",
-                        "value" : "0x00000001"
+                        "value" : "0x1"
                       }
                     }
                   },
@@ -2092,9 +2083,9 @@
           ],
           "source_info" : {
             "filename" : "p4src/netflow.p4",
-            "line" : 509,
-            "column" : 74,
-            "source_fragment" : "A_current_flow_r_received_packet+1"
+            "line" : 510,
+            "column" : 57,
+            "source_fragment" : "need_calculated_transmitted_bytes >> 1"
           }
         },
         {
@@ -2102,11 +2093,11 @@
           "parameters" : [
             {
               "type" : "register_array",
-              "value" : "received_packet_counter"
+              "value" : "bytes_per_second_src_to_dst_register"
             },
             {
               "type" : "field",
-              "value" : ["scalars", "flow_id_0"]
+              "value" : ["scalars", "current_flow_id_0"]
             },
             {
               "type" : "field",
@@ -2115,9 +2106,9 @@
           ],
           "source_info" : {
             "filename" : "p4src/netflow.p4",
-            "line" : 509,
-            "column" : 25,
-            "source_fragment" : "received_packet_counter.write(current_flow_r_id,(A_current_flow_r_received_packet+1))"
+            "line" : 511,
+            "column" : 24,
+            "source_fragment" : "bytes_per_second_src_to_dst_register.write(current_flow_id,src_to_dst_bytes_speed)"
           }
         },
         {
@@ -2139,7 +2130,7 @@
                       "op" : "+",
                       "left" : {
                         "type" : "field",
-                        "value" : ["scalars", "A_current_flow_r_received_byte_0"]
+                        "value" : ["scalars", "A_current_flow_transmitted_byte_0"]
                       },
                       "right" : {
                         "type" : "expression",
@@ -2167,9 +2158,9 @@
           ],
           "source_info" : {
             "filename" : "p4src/netflow.p4",
-            "line" : 511,
-            "column" : 72,
-            "source_fragment" : "A_current_flow_r_received_byte + ((bit<32>)hdr.ipv4.totalLen)"
+            "line" : 512,
+            "column" : 82,
+            "source_fragment" : "A_current_flow_transmitted_byte + (bit<32>)hdr.ipv4.totalLen"
           }
         },
         {
@@ -2177,11 +2168,11 @@
           "parameters" : [
             {
               "type" : "register_array",
-              "value" : "received_byte_counter"
+              "value" : "processed_transmitted_byte_counter"
             },
             {
               "type" : "field",
-              "value" : ["scalars", "flow_id_0"]
+              "value" : ["scalars", "current_flow_id_0"]
             },
             {
               "type" : "field",
@@ -2190,163 +2181,39 @@
           ],
           "source_info" : {
             "filename" : "p4src/netflow.p4",
-            "line" : 511,
-            "column" : 25,
-            "source_fragment" : "received_byte_counter.write(current_flow_r_id,(A_current_flow_r_received_byte + ((bit<32>)hdr.ipv4.totalLen)))"
+            "line" : 512,
+            "column" : 24,
+            "source_fragment" : "processed_transmitted_byte_counter.write(current_flow_id,(A_current_flow_transmitted_byte + (bit<32>)hdr.ipv4.totalLen))"
+          }
+        },
+        {
+          "op" : "register_write",
+          "parameters" : [
+            {
+              "type" : "register_array",
+              "value" : "src_to_dst_last_calculated_time_register"
+            },
+            {
+              "type" : "field",
+              "value" : ["scalars", "current_flow_id_0"]
+            },
+            {
+              "type" : "field",
+              "value" : ["scalars", "flow_hold_time_0"]
+            }
+          ],
+          "source_info" : {
+            "filename" : "p4src/netflow.p4",
+            "line" : 513,
+            "column" : 24,
+            "source_fragment" : "src_to_dst_last_calculated_time_register.write(current_flow_id,flow_hold_time)"
           }
         }
       ]
     },
     {
-      "name" : "netflow515",
+      "name" : "netflow496",
       "id" : 13,
-      "runtime_data" : [],
-      "primitives" : [
-        {
-          "op" : "assign",
-          "parameters" : [
-            {
-              "type" : "field",
-              "value" : ["scalars", "tmp_5"]
-            },
-            {
-              "type" : "expression",
-              "value" : {
-                "type" : "expression",
-                "value" : {
-                  "op" : "&",
-                  "left" : {
-                    "type" : "expression",
-                    "value" : {
-                      "op" : "+",
-                      "left" : {
-                        "type" : "field",
-                        "value" : ["scalars", "A_current_flow_r_received_packet_0"]
-                      },
-                      "right" : {
-                        "type" : "hexstr",
-                        "value" : "0x00000001"
-                      }
-                    }
-                  },
-                  "right" : {
-                    "type" : "hexstr",
-                    "value" : "0xffffffff"
-                  }
-                }
-              }
-            }
-          ],
-          "source_info" : {
-            "filename" : "p4src/netflow.p4",
-            "line" : 515,
-            "column" : 74,
-            "source_fragment" : "A_current_flow_r_received_packet+1"
-          }
-        },
-        {
-          "op" : "register_write",
-          "parameters" : [
-            {
-              "type" : "register_array",
-              "value" : "received_packet_counter"
-            },
-            {
-              "type" : "field",
-              "value" : ["scalars", "flow_id_0"]
-            },
-            {
-              "type" : "field",
-              "value" : ["scalars", "tmp_5"]
-            }
-          ],
-          "source_info" : {
-            "filename" : "p4src/netflow.p4",
-            "line" : 515,
-            "column" : 25,
-            "source_fragment" : "received_packet_counter.write(current_flow_r_id,(A_current_flow_r_received_packet+1))"
-          }
-        },
-        {
-          "op" : "assign",
-          "parameters" : [
-            {
-              "type" : "field",
-              "value" : ["scalars", "tmp_6"]
-            },
-            {
-              "type" : "expression",
-              "value" : {
-                "type" : "expression",
-                "value" : {
-                  "op" : "&",
-                  "left" : {
-                    "type" : "expression",
-                    "value" : {
-                      "op" : "+",
-                      "left" : {
-                        "type" : "field",
-                        "value" : ["scalars", "A_current_flow_r_received_byte_0"]
-                      },
-                      "right" : {
-                        "type" : "expression",
-                        "value" : {
-                          "op" : "&",
-                          "left" : {
-                            "type" : "field",
-                            "value" : ["ipv4", "totalLen"]
-                          },
-                          "right" : {
-                            "type" : "hexstr",
-                            "value" : "0xffffffff"
-                          }
-                        }
-                      }
-                    }
-                  },
-                  "right" : {
-                    "type" : "hexstr",
-                    "value" : "0xffffffff"
-                  }
-                }
-              }
-            }
-          ],
-          "source_info" : {
-            "filename" : "p4src/netflow.p4",
-            "line" : 517,
-            "column" : 72,
-            "source_fragment" : "A_current_flow_r_received_byte + ((bit<32>)hdr.ipv4.totalLen)"
-          }
-        },
-        {
-          "op" : "register_write",
-          "parameters" : [
-            {
-              "type" : "register_array",
-              "value" : "received_byte_counter"
-            },
-            {
-              "type" : "field",
-              "value" : ["scalars", "flow_id_0"]
-            },
-            {
-              "type" : "field",
-              "value" : ["scalars", "tmp_6"]
-            }
-          ],
-          "source_info" : {
-            "filename" : "p4src/netflow.p4",
-            "line" : 517,
-            "column" : 25,
-            "source_fragment" : "received_byte_counter.write(current_flow_r_id,(A_current_flow_r_received_byte + ((bit<32>)hdr.ipv4.totalLen)))"
-          }
-        }
-      ]
-    },
-    {
-      "name" : "netflow486",
-      "id" : 14,
       "runtime_data" : [],
       "primitives" : [
         {
@@ -2367,7 +2234,7 @@
           ],
           "source_info" : {
             "filename" : "p4src/netflow.p4",
-            "line" : 486,
+            "line" : 496,
             "column" : 20,
             "source_fragment" : "src_to_dst_flow_duration_register.read(flow_hold_time,current_flow_id)"
           }
@@ -2409,7 +2276,7 @@
           ],
           "source_info" : {
             "filename" : "p4src/netflow.p4",
-            "line" : 487,
+            "line" : 497,
             "column" : 20,
             "source_fragment" : "flow_hold_time = flow_hold_time + standard_metadata.ingress_global_timestamp"
           }
@@ -2432,11 +2299,473 @@
           ],
           "source_info" : {
             "filename" : "p4src/netflow.p4",
-            "line" : 488,
+            "line" : 498,
             "column" : 20,
             "source_fragment" : "src_to_dst_flow_duration_register.write(current_flow_id,flow_hold_time)"
           }
         },
+        {
+          "op" : "register_read",
+          "parameters" : [
+            {
+              "type" : "field",
+              "value" : ["scalars", "processed_transmitted_byte_0"]
+            },
+            {
+              "type" : "register_array",
+              "value" : "processed_transmitted_byte_counter"
+            },
+            {
+              "type" : "field",
+              "value" : ["scalars", "current_flow_id_0"]
+            }
+          ],
+          "source_info" : {
+            "filename" : "p4src/netflow.p4",
+            "line" : 504,
+            "column" : 20,
+            "source_fragment" : "processed_transmitted_byte_counter.read(processed_transmitted_byte,current_flow_id)"
+          }
+        },
+        {
+          "op" : "register_read",
+          "parameters" : [
+            {
+              "type" : "field",
+              "value" : ["scalars", "processed_src_to_dst_last_time_0"]
+            },
+            {
+              "type" : "register_array",
+              "value" : "src_to_dst_last_calculated_time_register"
+            },
+            {
+              "type" : "field",
+              "value" : ["scalars", "current_flow_id_0"]
+            }
+          ],
+          "source_info" : {
+            "filename" : "p4src/netflow.p4",
+            "line" : 506,
+            "column" : 20,
+            "source_fragment" : "src_to_dst_last_calculated_time_register.read(processed_src_to_dst_last_time,current_flow_id)"
+          }
+        }
+      ]
+    },
+    {
+      "name" : "netflow542",
+      "id" : 14,
+      "runtime_data" : [],
+      "primitives" : [
+        {
+          "op" : "register_write",
+          "parameters" : [
+            {
+              "type" : "register_array",
+              "value" : "dstip_register"
+            },
+            {
+              "type" : "field",
+              "value" : ["scalars", "flow_id_0"]
+            },
+            {
+              "type" : "field",
+              "value" : ["ipv4", "srcAddr"]
+            }
+          ],
+          "source_info" : {
+            "filename" : "p4src/netflow.p4",
+            "line" : 542,
+            "column" : 25,
+            "source_fragment" : "dstip_register.write((bit<32>)current_flow_r_id,hdr.ipv4.srcAddr)"
+          }
+        },
+        {
+          "op" : "register_write",
+          "parameters" : [
+            {
+              "type" : "register_array",
+              "value" : "srcip_register"
+            },
+            {
+              "type" : "field",
+              "value" : ["scalars", "flow_id_0"]
+            },
+            {
+              "type" : "field",
+              "value" : ["ipv4", "dstAddr"]
+            }
+          ],
+          "source_info" : {
+            "filename" : "p4src/netflow.p4",
+            "line" : 543,
+            "column" : 25,
+            "source_fragment" : "srcip_register.write((bit<32>)current_flow_r_id,hdr.ipv4.dstAddr)"
+          }
+        },
+        {
+          "op" : "register_write",
+          "parameters" : [
+            {
+              "type" : "register_array",
+              "value" : "dstport_register"
+            },
+            {
+              "type" : "field",
+              "value" : ["scalars", "flow_id_0"]
+            },
+            {
+              "type" : "field",
+              "value" : ["scalars", "tmpsrcPort_0"]
+            }
+          ],
+          "source_info" : {
+            "filename" : "p4src/netflow.p4",
+            "line" : 544,
+            "column" : 25,
+            "source_fragment" : "dstport_register.write((bit<32>)current_flow_r_id,tmpsrcPort)"
+          }
+        },
+        {
+          "op" : "register_write",
+          "parameters" : [
+            {
+              "type" : "register_array",
+              "value" : "srcport_register"
+            },
+            {
+              "type" : "field",
+              "value" : ["scalars", "flow_id_0"]
+            },
+            {
+              "type" : "field",
+              "value" : ["scalars", "tmpdstPort_0"]
+            }
+          ],
+          "source_info" : {
+            "filename" : "p4src/netflow.p4",
+            "line" : 545,
+            "column" : 25,
+            "source_fragment" : "srcport_register.write((bit<32>)current_flow_r_id,tmpdstPort)"
+          }
+        },
+        {
+          "op" : "register_write",
+          "parameters" : [
+            {
+              "type" : "register_array",
+              "value" : "protocol_register"
+            },
+            {
+              "type" : "field",
+              "value" : ["scalars", "flow_id_0"]
+            },
+            {
+              "type" : "field",
+              "value" : ["ipv4", "protocol"]
+            }
+          ],
+          "source_info" : {
+            "filename" : "p4src/netflow.p4",
+            "line" : 546,
+            "column" : 25,
+            "source_fragment" : "protocol_register.write((bit<32>)current_flow_r_id,hdr.ipv4.protocol)"
+          }
+        },
+        {
+          "op" : "assign",
+          "parameters" : [
+            {
+              "type" : "field",
+              "value" : ["scalars", "tmp_5"]
+            },
+            {
+              "type" : "expression",
+              "value" : {
+                "type" : "expression",
+                "value" : {
+                  "op" : "&",
+                  "left" : {
+                    "type" : "expression",
+                    "value" : {
+                      "op" : "+",
+                      "left" : {
+                        "type" : "field",
+                        "value" : ["scalars", "A_current_flow_r_received_packet_0"]
+                      },
+                      "right" : {
+                        "type" : "hexstr",
+                        "value" : "0x00000001"
+                      }
+                    }
+                  },
+                  "right" : {
+                    "type" : "hexstr",
+                    "value" : "0xffffffff"
+                  }
+                }
+              }
+            }
+          ],
+          "source_info" : {
+            "filename" : "p4src/netflow.p4",
+            "line" : 549,
+            "column" : 74,
+            "source_fragment" : "A_current_flow_r_received_packet+1"
+          }
+        },
+        {
+          "op" : "register_write",
+          "parameters" : [
+            {
+              "type" : "register_array",
+              "value" : "received_packet_counter"
+            },
+            {
+              "type" : "field",
+              "value" : ["scalars", "flow_id_0"]
+            },
+            {
+              "type" : "field",
+              "value" : ["scalars", "tmp_5"]
+            }
+          ],
+          "source_info" : {
+            "filename" : "p4src/netflow.p4",
+            "line" : 549,
+            "column" : 25,
+            "source_fragment" : "received_packet_counter.write(current_flow_r_id,(A_current_flow_r_received_packet+1))"
+          }
+        },
+        {
+          "op" : "assign",
+          "parameters" : [
+            {
+              "type" : "field",
+              "value" : ["scalars", "tmp_6"]
+            },
+            {
+              "type" : "expression",
+              "value" : {
+                "type" : "expression",
+                "value" : {
+                  "op" : "&",
+                  "left" : {
+                    "type" : "expression",
+                    "value" : {
+                      "op" : "+",
+                      "left" : {
+                        "type" : "field",
+                        "value" : ["scalars", "A_current_flow_r_received_byte_0"]
+                      },
+                      "right" : {
+                        "type" : "expression",
+                        "value" : {
+                          "op" : "&",
+                          "left" : {
+                            "type" : "field",
+                            "value" : ["ipv4", "totalLen"]
+                          },
+                          "right" : {
+                            "type" : "hexstr",
+                            "value" : "0xffffffff"
+                          }
+                        }
+                      }
+                    }
+                  },
+                  "right" : {
+                    "type" : "hexstr",
+                    "value" : "0xffffffff"
+                  }
+                }
+              }
+            }
+          ],
+          "source_info" : {
+            "filename" : "p4src/netflow.p4",
+            "line" : 551,
+            "column" : 72,
+            "source_fragment" : "A_current_flow_r_received_byte + ((bit<32>)hdr.ipv4.totalLen)"
+          }
+        },
+        {
+          "op" : "register_write",
+          "parameters" : [
+            {
+              "type" : "register_array",
+              "value" : "received_byte_counter"
+            },
+            {
+              "type" : "field",
+              "value" : ["scalars", "flow_id_0"]
+            },
+            {
+              "type" : "field",
+              "value" : ["scalars", "tmp_6"]
+            }
+          ],
+          "source_info" : {
+            "filename" : "p4src/netflow.p4",
+            "line" : 551,
+            "column" : 25,
+            "source_fragment" : "received_byte_counter.write(current_flow_r_id,(A_current_flow_r_received_byte + ((bit<32>)hdr.ipv4.totalLen)))"
+          }
+        }
+      ]
+    },
+    {
+      "name" : "netflow555",
+      "id" : 15,
+      "runtime_data" : [],
+      "primitives" : [
+        {
+          "op" : "assign",
+          "parameters" : [
+            {
+              "type" : "field",
+              "value" : ["scalars", "tmp_7"]
+            },
+            {
+              "type" : "expression",
+              "value" : {
+                "type" : "expression",
+                "value" : {
+                  "op" : "&",
+                  "left" : {
+                    "type" : "expression",
+                    "value" : {
+                      "op" : "+",
+                      "left" : {
+                        "type" : "field",
+                        "value" : ["scalars", "A_current_flow_r_received_packet_0"]
+                      },
+                      "right" : {
+                        "type" : "hexstr",
+                        "value" : "0x00000001"
+                      }
+                    }
+                  },
+                  "right" : {
+                    "type" : "hexstr",
+                    "value" : "0xffffffff"
+                  }
+                }
+              }
+            }
+          ],
+          "source_info" : {
+            "filename" : "p4src/netflow.p4",
+            "line" : 555,
+            "column" : 74,
+            "source_fragment" : "A_current_flow_r_received_packet+1"
+          }
+        },
+        {
+          "op" : "register_write",
+          "parameters" : [
+            {
+              "type" : "register_array",
+              "value" : "received_packet_counter"
+            },
+            {
+              "type" : "field",
+              "value" : ["scalars", "flow_id_0"]
+            },
+            {
+              "type" : "field",
+              "value" : ["scalars", "tmp_7"]
+            }
+          ],
+          "source_info" : {
+            "filename" : "p4src/netflow.p4",
+            "line" : 555,
+            "column" : 25,
+            "source_fragment" : "received_packet_counter.write(current_flow_r_id,(A_current_flow_r_received_packet+1))"
+          }
+        },
+        {
+          "op" : "assign",
+          "parameters" : [
+            {
+              "type" : "field",
+              "value" : ["scalars", "tmp_8"]
+            },
+            {
+              "type" : "expression",
+              "value" : {
+                "type" : "expression",
+                "value" : {
+                  "op" : "&",
+                  "left" : {
+                    "type" : "expression",
+                    "value" : {
+                      "op" : "+",
+                      "left" : {
+                        "type" : "field",
+                        "value" : ["scalars", "A_current_flow_r_received_byte_0"]
+                      },
+                      "right" : {
+                        "type" : "expression",
+                        "value" : {
+                          "op" : "&",
+                          "left" : {
+                            "type" : "field",
+                            "value" : ["ipv4", "totalLen"]
+                          },
+                          "right" : {
+                            "type" : "hexstr",
+                            "value" : "0xffffffff"
+                          }
+                        }
+                      }
+                    }
+                  },
+                  "right" : {
+                    "type" : "hexstr",
+                    "value" : "0xffffffff"
+                  }
+                }
+              }
+            }
+          ],
+          "source_info" : {
+            "filename" : "p4src/netflow.p4",
+            "line" : 557,
+            "column" : 72,
+            "source_fragment" : "A_current_flow_r_received_byte + ((bit<32>)hdr.ipv4.totalLen)"
+          }
+        },
+        {
+          "op" : "register_write",
+          "parameters" : [
+            {
+              "type" : "register_array",
+              "value" : "received_byte_counter"
+            },
+            {
+              "type" : "field",
+              "value" : ["scalars", "flow_id_0"]
+            },
+            {
+              "type" : "field",
+              "value" : ["scalars", "tmp_8"]
+            }
+          ],
+          "source_info" : {
+            "filename" : "p4src/netflow.p4",
+            "line" : 557,
+            "column" : 25,
+            "source_fragment" : "received_byte_counter.write(current_flow_r_id,(A_current_flow_r_received_byte + ((bit<32>)hdr.ipv4.totalLen)))"
+          }
+        }
+      ]
+    },
+    {
+      "name" : "netflow532",
+      "id" : 16,
+      "runtime_data" : [],
+      "primitives" : [
         {
           "op" : "register_write",
           "parameters" : [
@@ -2455,7 +2784,7 @@
           ],
           "source_info" : {
             "filename" : "p4src/netflow.p4",
-            "line" : 492,
+            "line" : 532,
             "column" : 20,
             "source_fragment" : "src_to_dst_last_time_register.write(current_flow_id,standard_metadata.ingress_global_timestamp)"
           }
@@ -2478,7 +2807,7 @@
           ],
           "source_info" : {
             "filename" : "p4src/netflow.p4",
-            "line" : 498,
+            "line" : 538,
             "column" : 21,
             "source_fragment" : "received_packet_counter.read(A_current_flow_r_received_packet,current_flow_r_id)"
           }
@@ -2501,7 +2830,7 @@
           ],
           "source_info" : {
             "filename" : "p4src/netflow.p4",
-            "line" : 499,
+            "line" : 539,
             "column" : 21,
             "source_fragment" : "received_byte_counter.read(A_current_flow_r_received_byte,current_flow_r_id)"
           }
@@ -2509,38 +2838,228 @@
       ]
     },
     {
-      "name" : "netflow540",
-      "id" : 15,
+      "name" : "netflow573",
+      "id" : 17,
       "runtime_data" : [],
       "primitives" : [
+        {
+          "op" : "assign",
+          "parameters" : [
+            {
+              "type" : "field",
+              "value" : ["scalars", "tmp_9"]
+            },
+            {
+              "type" : "expression",
+              "value" : {
+                "type" : "expression",
+                "value" : {
+                  "op" : "&",
+                  "left" : {
+                    "type" : "expression",
+                    "value" : {
+                      "op" : ">>",
+                      "left" : {
+                        "type" : "expression",
+                        "value" : {
+                          "op" : "&",
+                          "left" : {
+                            "type" : "expression",
+                            "value" : {
+                              "op" : "-",
+                              "left" : {
+                                "type" : "expression",
+                                "value" : {
+                                  "op" : "&",
+                                  "left" : {
+                                    "type" : "expression",
+                                    "value" : {
+                                      "op" : "+",
+                                      "left" : {
+                                        "type" : "field",
+                                        "value" : ["scalars", "A_current_flow_r_received_byte_0"]
+                                      },
+                                      "right" : {
+                                        "type" : "expression",
+                                        "value" : {
+                                          "op" : "&",
+                                          "left" : {
+                                            "type" : "field",
+                                            "value" : ["ipv4", "totalLen"]
+                                          },
+                                          "right" : {
+                                            "type" : "hexstr",
+                                            "value" : "0xffffffff"
+                                          }
+                                        }
+                                      }
+                                    }
+                                  },
+                                  "right" : {
+                                    "type" : "hexstr",
+                                    "value" : "0xffffffff"
+                                  }
+                                }
+                              },
+                              "right" : {
+                                "type" : "field",
+                                "value" : ["scalars", "processed_received_byte_0"]
+                              }
+                            }
+                          },
+                          "right" : {
+                            "type" : "hexstr",
+                            "value" : "0xffffffff"
+                          }
+                        }
+                      },
+                      "right" : {
+                        "type" : "hexstr",
+                        "value" : "0x1"
+                      }
+                    }
+                  },
+                  "right" : {
+                    "type" : "hexstr",
+                    "value" : "0xffffffff"
+                  }
+                }
+              }
+            }
+          ],
+          "source_info" : {
+            "filename" : "p4src/netflow.p4",
+            "line" : 572,
+            "column" : 57,
+            "source_fragment" : "need_calculated_received_bytes >> 1"
+          }
+        },
         {
           "op" : "register_write",
           "parameters" : [
             {
               "type" : "register_array",
-              "value" : "max_ttl_register"
+              "value" : "bytes_per_second_dst_to_src_register"
             },
             {
               "type" : "field",
-              "value" : ["scalars", "current_flow_id_0"]
+              "value" : ["scalars", "flow_id_0"]
             },
             {
               "type" : "field",
-              "value" : ["ipv4", "ttl"]
+              "value" : ["scalars", "tmp_9"]
             }
           ],
           "source_info" : {
             "filename" : "p4src/netflow.p4",
-            "line" : 540,
-            "column" : 25,
-            "source_fragment" : "max_ttl_register.write(current_flow_id,hdr.ipv4.ttl)"
+            "line" : 573,
+            "column" : 24,
+            "source_fragment" : "bytes_per_second_dst_to_src_register.write(current_flow_r_id,dst_to_src_bytes_speed)"
+          }
+        },
+        {
+          "op" : "assign",
+          "parameters" : [
+            {
+              "type" : "field",
+              "value" : ["scalars", "tmp_10"]
+            },
+            {
+              "type" : "expression",
+              "value" : {
+                "type" : "expression",
+                "value" : {
+                  "op" : "&",
+                  "left" : {
+                    "type" : "expression",
+                    "value" : {
+                      "op" : "+",
+                      "left" : {
+                        "type" : "field",
+                        "value" : ["scalars", "A_current_flow_r_received_byte_0"]
+                      },
+                      "right" : {
+                        "type" : "expression",
+                        "value" : {
+                          "op" : "&",
+                          "left" : {
+                            "type" : "field",
+                            "value" : ["ipv4", "totalLen"]
+                          },
+                          "right" : {
+                            "type" : "hexstr",
+                            "value" : "0xffffffff"
+                          }
+                        }
+                      }
+                    }
+                  },
+                  "right" : {
+                    "type" : "hexstr",
+                    "value" : "0xffffffff"
+                  }
+                }
+              }
+            }
+          ],
+          "source_info" : {
+            "filename" : "p4src/netflow.p4",
+            "line" : 574,
+            "column" : 81,
+            "source_fragment" : "A_current_flow_r_received_byte + (bit<32>)hdr.ipv4.totalLen"
+          }
+        },
+        {
+          "op" : "register_write",
+          "parameters" : [
+            {
+              "type" : "register_array",
+              "value" : "processed_received_byte_counter"
+            },
+            {
+              "type" : "field",
+              "value" : ["scalars", "flow_id_0"]
+            },
+            {
+              "type" : "field",
+              "value" : ["scalars", "tmp_10"]
+            }
+          ],
+          "source_info" : {
+            "filename" : "p4src/netflow.p4",
+            "line" : 574,
+            "column" : 24,
+            "source_fragment" : "processed_received_byte_counter.write(current_flow_r_id,(A_current_flow_r_received_byte + (bit<32>)hdr.ipv4.totalLen))"
+          }
+        },
+        {
+          "op" : "register_write",
+          "parameters" : [
+            {
+              "type" : "register_array",
+              "value" : "dst_to_src_last_calculated_time_register"
+            },
+            {
+              "type" : "field",
+              "value" : ["scalars", "flow_id_0"]
+            },
+            {
+              "type" : "field",
+              "value" : ["scalars", "reverse_flow_hold_time_0"]
+            }
+          ],
+          "source_info" : {
+            "filename" : "p4src/netflow.p4",
+            "line" : 575,
+            "column" : 24,
+            "source_fragment" : "dst_to_src_last_calculated_time_register.write(current_flow_r_id,reverse_flow_hold_time)"
           }
         }
       ]
     },
     {
-      "name" : "netflow521",
-      "id" : 16,
+      "name" : "netflow561",
+      "id" : 18,
       "runtime_data" : [],
       "primitives" : [
         {
@@ -2561,7 +3080,7 @@
           ],
           "source_info" : {
             "filename" : "p4src/netflow.p4",
-            "line" : 521,
+            "line" : 561,
             "column" : 20,
             "source_fragment" : "dst_to_src_flow_duration_register.read(reverse_flow_hold_time,current_flow_r_id)"
           }
@@ -2603,7 +3122,7 @@
           ],
           "source_info" : {
             "filename" : "p4src/netflow.p4",
-            "line" : 522,
+            "line" : 562,
             "column" : 20,
             "source_fragment" : "reverse_flow_hold_time = reverse_flow_hold_time + standard_metadata.ingress_global_timestamp"
           }
@@ -2626,11 +3145,94 @@
           ],
           "source_info" : {
             "filename" : "p4src/netflow.p4",
-            "line" : 523,
+            "line" : 563,
             "column" : 20,
             "source_fragment" : "dst_to_src_flow_duration_register.write(current_flow_r_id,reverse_flow_hold_time)"
           }
         },
+        {
+          "op" : "register_read",
+          "parameters" : [
+            {
+              "type" : "field",
+              "value" : ["scalars", "processed_received_byte_0"]
+            },
+            {
+              "type" : "register_array",
+              "value" : "processed_received_byte_counter"
+            },
+            {
+              "type" : "field",
+              "value" : ["scalars", "flow_id_0"]
+            }
+          ],
+          "source_info" : {
+            "filename" : "p4src/netflow.p4",
+            "line" : 566,
+            "column" : 20,
+            "source_fragment" : "processed_received_byte_counter.read(processed_received_byte,current_flow_r_id)"
+          }
+        },
+        {
+          "op" : "register_read",
+          "parameters" : [
+            {
+              "type" : "field",
+              "value" : ["scalars", "processed_dst_to_src_last_time_0"]
+            },
+            {
+              "type" : "register_array",
+              "value" : "dst_to_src_last_calculated_time_register"
+            },
+            {
+              "type" : "field",
+              "value" : ["scalars", "flow_id_0"]
+            }
+          ],
+          "source_info" : {
+            "filename" : "p4src/netflow.p4",
+            "line" : 568,
+            "column" : 20,
+            "source_fragment" : "dst_to_src_last_calculated_time_register.read(processed_dst_to_src_last_time,current_flow_r_id)"
+          }
+        }
+      ]
+    },
+    {
+      "name" : "netflow608",
+      "id" : 19,
+      "runtime_data" : [],
+      "primitives" : [
+        {
+          "op" : "register_write",
+          "parameters" : [
+            {
+              "type" : "register_array",
+              "value" : "max_ttl_register"
+            },
+            {
+              "type" : "field",
+              "value" : ["scalars", "current_flow_id_0"]
+            },
+            {
+              "type" : "field",
+              "value" : ["ipv4", "ttl"]
+            }
+          ],
+          "source_info" : {
+            "filename" : "p4src/netflow.p4",
+            "line" : 608,
+            "column" : 25,
+            "source_fragment" : "max_ttl_register.write(current_flow_id,hdr.ipv4.ttl)"
+          }
+        }
+      ]
+    },
+    {
+      "name" : "netflow595",
+      "id" : 20,
+      "runtime_data" : [],
+      "primitives" : [
         {
           "op" : "register_write",
           "parameters" : [
@@ -2649,7 +3251,7 @@
           ],
           "source_info" : {
             "filename" : "p4src/netflow.p4",
-            "line" : 527,
+            "line" : 595,
             "column" : 20,
             "source_fragment" : "dst_to_src_last_time_register.write(current_flow_r_id,standard_metadata.ingress_global_timestamp)"
           }
@@ -2672,7 +3274,7 @@
           ],
           "source_info" : {
             "filename" : "p4src/netflow.p4",
-            "line" : 535,
+            "line" : 603,
             "column" : 21,
             "source_fragment" : "max_ttl_register.read( recorded_max_ttl,current_flow_id)"
           }
@@ -2695,7 +3297,7 @@
           ],
           "source_info" : {
             "filename" : "p4src/netflow.p4",
-            "line" : 536,
+            "line" : 604,
             "column" : 21,
             "source_fragment" : "max_ttl_register.read( recorded_min_ttl,current_flow_id)"
           }
@@ -2703,8 +3305,8 @@
       ]
     },
     {
-      "name" : "netflow547",
-      "id" : 17,
+      "name" : "netflow615",
+      "id" : 21,
       "runtime_data" : [],
       "primitives" : [
         {
@@ -2725,7 +3327,7 @@
           ],
           "source_info" : {
             "filename" : "p4src/netflow.p4",
-            "line" : 547,
+            "line" : 615,
             "column" : 25,
             "source_fragment" : "min_ttl_register.write(current_flow_id,hdr.ipv4.ttl)"
           }
@@ -2733,8 +3335,8 @@
       ]
     },
     {
-      "name" : "netflow560",
-      "id" : 18,
+      "name" : "netflow628",
+      "id" : 22,
       "runtime_data" : [],
       "primitives" : [
         {
@@ -2755,7 +3357,7 @@
           ],
           "source_info" : {
             "filename" : "p4src/netflow.p4",
-            "line" : 560,
+            "line" : 628,
             "column" : 25,
             "source_fragment" : "max_ip_pkt_len_register.write(current_flow_id,hdr.ipv4.totalLen)"
           }
@@ -2763,8 +3365,8 @@
       ]
     },
     {
-      "name" : "netflow555",
-      "id" : 19,
+      "name" : "netflow623",
+      "id" : 23,
       "runtime_data" : [],
       "primitives" : [
         {
@@ -2785,7 +3387,7 @@
           ],
           "source_info" : {
             "filename" : "p4src/netflow.p4",
-            "line" : 555,
+            "line" : 623,
             "column" : 21,
             "source_fragment" : "max_ip_pkt_len_register.read( recorded_max_ip_pkt_len,current_flow_id)"
           }
@@ -2808,7 +3410,7 @@
           ],
           "source_info" : {
             "filename" : "p4src/netflow.p4",
-            "line" : 556,
+            "line" : 624,
             "column" : 21,
             "source_fragment" : "min_ip_pkt_len_register.read( recorded_min_ip_pkt_len,current_flow_id)"
           }
@@ -2816,8 +3418,8 @@
       ]
     },
     {
-      "name" : "netflow567",
-      "id" : 20,
+      "name" : "netflow635",
+      "id" : 24,
       "runtime_data" : [],
       "primitives" : [
         {
@@ -2838,7 +3440,7 @@
           ],
           "source_info" : {
             "filename" : "p4src/netflow.p4",
-            "line" : 567,
+            "line" : 635,
             "column" : 25,
             "source_fragment" : "min_ip_pkt_len_register.write(current_flow_id,hdr.ipv4.totalLen)"
           }
@@ -2846,8 +3448,8 @@
       ]
     },
     {
-      "name" : "netflow576",
-      "id" : 21,
+      "name" : "netflow644",
+      "id" : 25,
       "runtime_data" : [],
       "primitives" : [
         {
@@ -2868,7 +3470,7 @@
           ],
           "source_info" : {
             "filename" : "p4src/netflow.p4",
-            "line" : 576,
+            "line" : 644,
             "column" : 25,
             "source_fragment" : "num_of_ip_totalLen_1024_to_1514_bytes_register.read( num_of_ip_totalLen_1024_to_1514_bytes,current_flow_id)"
           }
@@ -2878,7 +3480,7 @@
           "parameters" : [
             {
               "type" : "field",
-              "value" : ["scalars", "tmp_7"]
+              "value" : ["scalars", "tmp_11"]
             },
             {
               "type" : "expression",
@@ -2910,7 +3512,7 @@
           ],
           "source_info" : {
             "filename" : "p4src/netflow.p4",
-            "line" : 577,
+            "line" : 645,
             "column" : 95,
             "source_fragment" : "num_of_ip_totalLen_1024_to_1514_bytes+1"
           }
@@ -2928,12 +3530,12 @@
             },
             {
               "type" : "field",
-              "value" : ["scalars", "tmp_7"]
+              "value" : ["scalars", "tmp_11"]
             }
           ],
           "source_info" : {
             "filename" : "p4src/netflow.p4",
-            "line" : 577,
+            "line" : 645,
             "column" : 25,
             "source_fragment" : "num_of_ip_totalLen_1024_to_1514_bytes_register.write(current_flow_id, num_of_ip_totalLen_1024_to_1514_bytes+1)"
           }
@@ -2941,8 +3543,8 @@
       ]
     },
     {
-      "name" : "netflow581",
-      "id" : 22,
+      "name" : "netflow649",
+      "id" : 26,
       "runtime_data" : [],
       "primitives" : [
         {
@@ -2963,7 +3565,7 @@
           ],
           "source_info" : {
             "filename" : "p4src/netflow.p4",
-            "line" : 581,
+            "line" : 649,
             "column" : 25,
             "source_fragment" : "num_of_ip_totalLen_512_to_1024_bytes_register.read( num_of_ip_totalLen_512_to_1024_bytes,current_flow_id)"
           }
@@ -2973,7 +3575,7 @@
           "parameters" : [
             {
               "type" : "field",
-              "value" : ["scalars", "tmp_8"]
+              "value" : ["scalars", "tmp_12"]
             },
             {
               "type" : "expression",
@@ -3005,7 +3607,7 @@
           ],
           "source_info" : {
             "filename" : "p4src/netflow.p4",
-            "line" : 582,
+            "line" : 650,
             "column" : 94,
             "source_fragment" : "num_of_ip_totalLen_512_to_1024_bytes+1"
           }
@@ -3023,12 +3625,12 @@
             },
             {
               "type" : "field",
-              "value" : ["scalars", "tmp_8"]
+              "value" : ["scalars", "tmp_12"]
             }
           ],
           "source_info" : {
             "filename" : "p4src/netflow.p4",
-            "line" : 582,
+            "line" : 650,
             "column" : 25,
             "source_fragment" : "num_of_ip_totalLen_512_to_1024_bytes_register.write(current_flow_id, num_of_ip_totalLen_512_to_1024_bytes+1)"
           }
@@ -3036,8 +3638,8 @@
       ]
     },
     {
-      "name" : "netflow586",
-      "id" : 23,
+      "name" : "netflow654",
+      "id" : 27,
       "runtime_data" : [],
       "primitives" : [
         {
@@ -3058,7 +3660,7 @@
           ],
           "source_info" : {
             "filename" : "p4src/netflow.p4",
-            "line" : 586,
+            "line" : 654,
             "column" : 25,
             "source_fragment" : "num_of_ip_totalLen_256_to_512_bytes_register.read( num_of_ip_totalLen_256_to_512_bytes,current_flow_id)"
           }
@@ -3068,7 +3670,7 @@
           "parameters" : [
             {
               "type" : "field",
-              "value" : ["scalars", "tmp_9"]
+              "value" : ["scalars", "tmp_13"]
             },
             {
               "type" : "expression",
@@ -3100,7 +3702,7 @@
           ],
           "source_info" : {
             "filename" : "p4src/netflow.p4",
-            "line" : 587,
+            "line" : 655,
             "column" : 93,
             "source_fragment" : "num_of_ip_totalLen_256_to_512_bytes+1"
           }
@@ -3118,12 +3720,12 @@
             },
             {
               "type" : "field",
-              "value" : ["scalars", "tmp_9"]
+              "value" : ["scalars", "tmp_13"]
             }
           ],
           "source_info" : {
             "filename" : "p4src/netflow.p4",
-            "line" : 587,
+            "line" : 655,
             "column" : 25,
             "source_fragment" : "num_of_ip_totalLen_256_to_512_bytes_register.write(current_flow_id, num_of_ip_totalLen_256_to_512_bytes+1)"
           }
@@ -3131,8 +3733,8 @@
       ]
     },
     {
-      "name" : "netflow591",
-      "id" : 24,
+      "name" : "netflow659",
+      "id" : 28,
       "runtime_data" : [],
       "primitives" : [
         {
@@ -3153,7 +3755,7 @@
           ],
           "source_info" : {
             "filename" : "p4src/netflow.p4",
-            "line" : 591,
+            "line" : 659,
             "column" : 25,
             "source_fragment" : "num_of_ip_totalLen_128_to_256_bytes_register.read( num_of_ip_totalLen_128_to_256_bytes,current_flow_id)"
           }
@@ -3163,7 +3765,7 @@
           "parameters" : [
             {
               "type" : "field",
-              "value" : ["scalars", "tmp_10"]
+              "value" : ["scalars", "tmp_14"]
             },
             {
               "type" : "expression",
@@ -3195,7 +3797,7 @@
           ],
           "source_info" : {
             "filename" : "p4src/netflow.p4",
-            "line" : 592,
+            "line" : 660,
             "column" : 93,
             "source_fragment" : "num_of_ip_totalLen_128_to_256_bytes+1"
           }
@@ -3213,12 +3815,12 @@
             },
             {
               "type" : "field",
-              "value" : ["scalars", "tmp_10"]
+              "value" : ["scalars", "tmp_14"]
             }
           ],
           "source_info" : {
             "filename" : "p4src/netflow.p4",
-            "line" : 592,
+            "line" : 660,
             "column" : 25,
             "source_fragment" : "num_of_ip_totalLen_128_to_256_bytes_register.write(current_flow_id, num_of_ip_totalLen_128_to_256_bytes+1)"
           }
@@ -3226,8 +3828,8 @@
       ]
     },
     {
-      "name" : "netflow596",
-      "id" : 25,
+      "name" : "netflow664",
+      "id" : 29,
       "runtime_data" : [],
       "primitives" : [
         {
@@ -3248,7 +3850,7 @@
           ],
           "source_info" : {
             "filename" : "p4src/netflow.p4",
-            "line" : 596,
+            "line" : 664,
             "column" : 25,
             "source_fragment" : "num_of_ip_totalLen_up_to_128_bytes_register.read( num_of_ip_totalLen_up_to_128_bytes,current_flow_id)"
           }
@@ -3258,7 +3860,7 @@
           "parameters" : [
             {
               "type" : "field",
-              "value" : ["scalars", "tmp_11"]
+              "value" : ["scalars", "tmp_15"]
             },
             {
               "type" : "expression",
@@ -3290,7 +3892,7 @@
           ],
           "source_info" : {
             "filename" : "p4src/netflow.p4",
-            "line" : 597,
+            "line" : 665,
             "column" : 92,
             "source_fragment" : "num_of_ip_totalLen_up_to_128_bytes+1"
           }
@@ -3308,12 +3910,12 @@
             },
             {
               "type" : "field",
-              "value" : ["scalars", "tmp_11"]
+              "value" : ["scalars", "tmp_15"]
             }
           ],
           "source_info" : {
             "filename" : "p4src/netflow.p4",
-            "line" : 597,
+            "line" : 665,
             "column" : 25,
             "source_fragment" : "num_of_ip_totalLen_up_to_128_bytes_register.write(current_flow_id, num_of_ip_totalLen_up_to_128_bytes+1)"
           }
@@ -3321,8 +3923,8 @@
       ]
     },
     {
-      "name" : "netflow608",
-      "id" : 26,
+      "name" : "netflow676",
+      "id" : 30,
       "runtime_data" : [],
       "primitives" : [
         {
@@ -3343,7 +3945,7 @@
           ],
           "source_info" : {
             "filename" : "p4src/netflow.p4",
-            "line" : 608,
+            "line" : 676,
             "column" : 29,
             "source_fragment" : "max_tcp_win_src_to_dst_register.write(current_flow_id, hdr.tcp.window)"
           }
@@ -3351,8 +3953,8 @@
       ]
     },
     {
-      "name" : "netflow606",
-      "id" : 27,
+      "name" : "netflow674",
+      "id" : 31,
       "runtime_data" : [],
       "primitives" : [
         {
@@ -3373,7 +3975,7 @@
           ],
           "source_info" : {
             "filename" : "p4src/netflow.p4",
-            "line" : 606,
+            "line" : 674,
             "column" : 25,
             "source_fragment" : "max_tcp_win_src_to_dst_register.read( recorded_max_tcp_win_src_to_dst,current_flow_id)"
           }
@@ -3381,8 +3983,8 @@
       ]
     },
     {
-      "name" : "netflow616",
-      "id" : 28,
+      "name" : "netflow684",
+      "id" : 32,
       "runtime_data" : [],
       "primitives" : [
         {
@@ -3403,7 +4005,7 @@
           ],
           "source_info" : {
             "filename" : "p4src/netflow.p4",
-            "line" : 616,
+            "line" : 684,
             "column" : 29,
             "source_fragment" : "max_tcp_win_dst_to_src_register.write(current_flow_r_id, hdr.tcp.window)"
           }
@@ -3411,8 +4013,8 @@
       ]
     },
     {
-      "name" : "netflow614",
-      "id" : 29,
+      "name" : "netflow682",
+      "id" : 33,
       "runtime_data" : [],
       "primitives" : [
         {
@@ -3433,7 +4035,7 @@
           ],
           "source_info" : {
             "filename" : "p4src/netflow.p4",
-            "line" : 614,
+            "line" : 682,
             "column" : 25,
             "source_fragment" : "max_tcp_win_dst_to_src_register.read( recorded_max_tcp_win_dst_to_src,current_flow_r_id)"
           }
@@ -3447,18 +4049,18 @@
       "id" : 0,
       "source_info" : {
         "filename" : "p4src/netflow.p4",
-        "line" : 249,
+        "line" : 259,
         "column" : 8,
         "source_fragment" : "MyIngress"
       },
       "init_table" : "node_2",
       "tables" : [
         {
-          "name" : "tbl_netflow428",
+          "name" : "tbl_netflow438",
           "id" : 0,
           "source_info" : {
             "filename" : "p4src/netflow.p4",
-            "line" : 428,
+            "line" : 438,
             "column" : 16,
             "source_fragment" : "all_packets_bytes_counter.count(0); ..."
           },
@@ -3470,10 +4072,10 @@
           "support_timeout" : false,
           "direct_meters" : null,
           "action_ids" : [7],
-          "actions" : ["netflow428"],
+          "actions" : ["netflow438"],
           "base_default_next" : "node_4",
           "next_tables" : {
-            "netflow428" : "node_4"
+            "netflow438" : "node_4"
           },
           "default_entry" : {
             "action_id" : 7,
@@ -3483,11 +4085,11 @@
           }
         },
         {
-          "name" : "tbl_netflow438",
+          "name" : "tbl_netflow448",
           "id" : 1,
           "source_info" : {
             "filename" : "p4src/netflow.p4",
-            "line" : 438,
+            "line" : 448,
             "column" : 31,
             "source_fragment" : "= hdr.tcp.dstPort; ..."
           },
@@ -3499,10 +4101,10 @@
           "support_timeout" : false,
           "direct_meters" : null,
           "action_ids" : [5],
-          "actions" : ["netflow438"],
+          "actions" : ["netflow448"],
           "base_default_next" : "tbl_compute_hashes_flow",
           "next_tables" : {
-            "netflow438" : "tbl_compute_hashes_flow"
+            "netflow448" : "tbl_compute_hashes_flow"
           },
           "default_entry" : {
             "action_id" : 5,
@@ -3512,11 +4114,11 @@
           }
         },
         {
-          "name" : "tbl_netflow441",
+          "name" : "tbl_netflow451",
           "id" : 2,
           "source_info" : {
             "filename" : "p4src/netflow.p4",
-            "line" : 441,
+            "line" : 451,
             "column" : 31,
             "source_fragment" : "= hdr.udp.dstPort; ..."
           },
@@ -3528,10 +4130,10 @@
           "support_timeout" : false,
           "direct_meters" : null,
           "action_ids" : [6],
-          "actions" : ["netflow441"],
+          "actions" : ["netflow451"],
           "base_default_next" : "tbl_compute_hashes_flow",
           "next_tables" : {
-            "netflow441" : "tbl_compute_hashes_flow"
+            "netflow451" : "tbl_compute_hashes_flow"
           },
           "default_entry" : {
             "action_id" : 6,
@@ -3545,7 +4147,7 @@
           "id" : 3,
           "source_info" : {
             "filename" : "p4src/netflow.p4",
-            "line" : 450,
+            "line" : 460,
             "column" : 20,
             "source_fragment" : "compute_hashes_flow(hdr.ipv4.dstAddr, hdr.ipv4.srcAddr, tmpdstPort, tmpsrcPort)"
           },
@@ -3558,9 +4160,9 @@
           "direct_meters" : null,
           "action_ids" : [3],
           "actions" : ["MyIngress.compute_hashes_flow"],
-          "base_default_next" : "tbl_netflow451",
+          "base_default_next" : "tbl_netflow461",
           "next_tables" : {
-            "MyIngress.compute_hashes_flow" : "tbl_netflow451"
+            "MyIngress.compute_hashes_flow" : "tbl_netflow461"
           },
           "default_entry" : {
             "action_id" : 3,
@@ -3570,11 +4172,11 @@
           }
         },
         {
-          "name" : "tbl_netflow451",
+          "name" : "tbl_netflow461",
           "id" : 4,
           "source_info" : {
             "filename" : "p4src/netflow.p4",
-            "line" : 451,
+            "line" : 461,
             "column" : 36,
             "source_fragment" : "= flow_id; ..."
           },
@@ -3586,10 +4188,10 @@
           "support_timeout" : false,
           "direct_meters" : null,
           "action_ids" : [8],
-          "actions" : ["netflow451"],
+          "actions" : ["netflow461"],
           "base_default_next" : "tbl_compute_hashes_flow_0",
           "next_tables" : {
-            "netflow451" : "tbl_compute_hashes_flow_0"
+            "netflow461" : "tbl_compute_hashes_flow_0"
           },
           "default_entry" : {
             "action_id" : 8,
@@ -3603,7 +4205,7 @@
           "id" : 5,
           "source_info" : {
             "filename" : "p4src/netflow.p4",
-            "line" : 455,
+            "line" : 465,
             "column" : 20,
             "source_fragment" : "compute_hashes_flow(hdr.ipv4.srcAddr, hdr.ipv4.dstAddr, tmpsrcPort, tmpdstPort)"
           },
@@ -3616,9 +4218,9 @@
           "direct_meters" : null,
           "action_ids" : [4],
           "actions" : ["MyIngress.compute_hashes_flow"],
-          "base_default_next" : "tbl_netflow457",
+          "base_default_next" : "tbl_netflow467",
           "next_tables" : {
-            "MyIngress.compute_hashes_flow" : "tbl_netflow457"
+            "MyIngress.compute_hashes_flow" : "tbl_netflow467"
           },
           "default_entry" : {
             "action_id" : 4,
@@ -3628,11 +4230,11 @@
           }
         },
         {
-          "name" : "tbl_netflow457",
+          "name" : "tbl_netflow467",
           "id" : 6,
           "source_info" : {
             "filename" : "p4src/netflow.p4",
-            "line" : 457,
+            "line" : 467,
             "column" : 20,
             "source_fragment" : "current_flow_r_id_reg.write(0,flow_id); ..."
           },
@@ -3644,10 +4246,10 @@
           "support_timeout" : false,
           "direct_meters" : null,
           "action_ids" : [11],
-          "actions" : ["netflow457"],
+          "actions" : ["netflow467"],
           "base_default_next" : "node_12",
           "next_tables" : {
-            "netflow457" : "node_12"
+            "netflow467" : "node_12"
           },
           "default_entry" : {
             "action_id" : 11,
@@ -3657,11 +4259,11 @@
           }
         },
         {
-          "name" : "tbl_netflow467",
+          "name" : "tbl_netflow477",
           "id" : 7,
           "source_info" : {
             "filename" : "p4src/netflow.p4",
-            "line" : 467,
+            "line" : 477,
             "column" : 25,
             "source_fragment" : "dstip_register.write((bit<32>)current_flow_id,hdr.ipv4.dstAddr); ..."
           },
@@ -3673,10 +4275,10 @@
           "support_timeout" : false,
           "direct_meters" : null,
           "action_ids" : [9],
-          "actions" : ["netflow467"],
-          "base_default_next" : "tbl_netflow486",
+          "actions" : ["netflow477"],
+          "base_default_next" : "tbl_netflow496",
           "next_tables" : {
-            "netflow467" : "tbl_netflow486"
+            "netflow477" : "tbl_netflow496"
           },
           "default_entry" : {
             "action_id" : 9,
@@ -3686,11 +4288,11 @@
           }
         },
         {
-          "name" : "tbl_netflow480",
+          "name" : "tbl_netflow490",
           "id" : 8,
           "source_info" : {
             "filename" : "p4src/netflow.p4",
-            "line" : 480,
+            "line" : 490,
             "column" : 25,
             "source_fragment" : "transmitted_packet_counter.write(current_flow_id,(A_current_flow_transmitted_packet+1)); ..."
           },
@@ -3702,10 +4304,10 @@
           "support_timeout" : false,
           "direct_meters" : null,
           "action_ids" : [10],
-          "actions" : ["netflow480"],
-          "base_default_next" : "tbl_netflow486",
+          "actions" : ["netflow490"],
+          "base_default_next" : "tbl_netflow496",
           "next_tables" : {
-            "netflow480" : "tbl_netflow486"
+            "netflow490" : "tbl_netflow496"
           },
           "default_entry" : {
             "action_id" : 10,
@@ -3715,11 +4317,11 @@
           }
         },
         {
-          "name" : "tbl_netflow486",
+          "name" : "tbl_netflow496",
           "id" : 9,
           "source_info" : {
             "filename" : "p4src/netflow.p4",
-            "line" : 486,
+            "line" : 496,
             "column" : 20,
             "source_fragment" : "src_to_dst_flow_duration_register.read(flow_hold_time,current_flow_id); ..."
           },
@@ -3730,25 +4332,83 @@
           "with_counters" : false,
           "support_timeout" : false,
           "direct_meters" : null,
-          "action_ids" : [14],
-          "actions" : ["netflow486"],
+          "action_ids" : [13],
+          "actions" : ["netflow496"],
           "base_default_next" : "node_16",
           "next_tables" : {
-            "netflow486" : "node_16"
+            "netflow496" : "node_16"
           },
           "default_entry" : {
-            "action_id" : 14,
+            "action_id" : 13,
             "action_const" : true,
             "action_data" : [],
             "action_entry_const" : true
           }
         },
         {
-          "name" : "tbl_netflow502",
+          "name" : "tbl_netflow511",
           "id" : 10,
           "source_info" : {
             "filename" : "p4src/netflow.p4",
-            "line" : 502,
+            "line" : 511,
+            "column" : 24,
+            "source_fragment" : "bytes_per_second_src_to_dst_register.write(current_flow_id,src_to_dst_bytes_speed); ..."
+          },
+          "key" : [],
+          "match_type" : "exact",
+          "type" : "simple",
+          "max_size" : 1024,
+          "with_counters" : false,
+          "support_timeout" : false,
+          "direct_meters" : null,
+          "action_ids" : [12],
+          "actions" : ["netflow511"],
+          "base_default_next" : "tbl_netflow532",
+          "next_tables" : {
+            "netflow511" : "tbl_netflow532"
+          },
+          "default_entry" : {
+            "action_id" : 12,
+            "action_const" : true,
+            "action_data" : [],
+            "action_entry_const" : true
+          }
+        },
+        {
+          "name" : "tbl_netflow532",
+          "id" : 11,
+          "source_info" : {
+            "filename" : "p4src/netflow.p4",
+            "line" : 532,
+            "column" : 20,
+            "source_fragment" : "src_to_dst_last_time_register.write(current_flow_id,standard_metadata.ingress_global_timestamp); ..."
+          },
+          "key" : [],
+          "match_type" : "exact",
+          "type" : "simple",
+          "max_size" : 1024,
+          "with_counters" : false,
+          "support_timeout" : false,
+          "direct_meters" : null,
+          "action_ids" : [16],
+          "actions" : ["netflow532"],
+          "base_default_next" : "node_19",
+          "next_tables" : {
+            "netflow532" : "node_19"
+          },
+          "default_entry" : {
+            "action_id" : 16,
+            "action_const" : true,
+            "action_data" : [],
+            "action_entry_const" : true
+          }
+        },
+        {
+          "name" : "tbl_netflow542",
+          "id" : 12,
+          "source_info" : {
+            "filename" : "p4src/netflow.p4",
+            "line" : 542,
             "column" : 25,
             "source_fragment" : "dstip_register.write((bit<32>)current_flow_r_id,hdr.ipv4.srcAddr); ..."
           },
@@ -3759,25 +4419,25 @@
           "with_counters" : false,
           "support_timeout" : false,
           "direct_meters" : null,
-          "action_ids" : [12],
-          "actions" : ["netflow502"],
-          "base_default_next" : "tbl_netflow521",
+          "action_ids" : [14],
+          "actions" : ["netflow542"],
+          "base_default_next" : "tbl_netflow561",
           "next_tables" : {
-            "netflow502" : "tbl_netflow521"
+            "netflow542" : "tbl_netflow561"
           },
           "default_entry" : {
-            "action_id" : 12,
+            "action_id" : 14,
             "action_const" : true,
             "action_data" : [],
             "action_entry_const" : true
           }
         },
         {
-          "name" : "tbl_netflow515",
-          "id" : 11,
+          "name" : "tbl_netflow555",
+          "id" : 13,
           "source_info" : {
             "filename" : "p4src/netflow.p4",
-            "line" : 515,
+            "line" : 555,
             "column" : 25,
             "source_fragment" : "received_packet_counter.write(current_flow_r_id,(A_current_flow_r_received_packet+1)); ..."
           },
@@ -3788,25 +4448,25 @@
           "with_counters" : false,
           "support_timeout" : false,
           "direct_meters" : null,
-          "action_ids" : [13],
-          "actions" : ["netflow515"],
-          "base_default_next" : "tbl_netflow521",
+          "action_ids" : [15],
+          "actions" : ["netflow555"],
+          "base_default_next" : "tbl_netflow561",
           "next_tables" : {
-            "netflow515" : "tbl_netflow521"
+            "netflow555" : "tbl_netflow561"
           },
           "default_entry" : {
-            "action_id" : 13,
+            "action_id" : 15,
             "action_const" : true,
             "action_data" : [],
             "action_entry_const" : true
           }
         },
         {
-          "name" : "tbl_netflow521",
-          "id" : 12,
+          "name" : "tbl_netflow561",
+          "id" : 14,
           "source_info" : {
             "filename" : "p4src/netflow.p4",
-            "line" : 521,
+            "line" : 561,
             "column" : 20,
             "source_fragment" : "dst_to_src_flow_duration_register.read(reverse_flow_hold_time,current_flow_r_id); ..."
           },
@@ -3817,25 +4477,83 @@
           "with_counters" : false,
           "support_timeout" : false,
           "direct_meters" : null,
-          "action_ids" : [16],
-          "actions" : ["netflow521"],
-          "base_default_next" : "node_20",
+          "action_ids" : [18],
+          "actions" : ["netflow561"],
+          "base_default_next" : "node_23",
           "next_tables" : {
-            "netflow521" : "node_20"
+            "netflow561" : "node_23"
           },
           "default_entry" : {
-            "action_id" : 16,
+            "action_id" : 18,
             "action_const" : true,
             "action_data" : [],
             "action_entry_const" : true
           }
         },
         {
-          "name" : "tbl_netflow540",
-          "id" : 13,
+          "name" : "tbl_netflow573",
+          "id" : 15,
           "source_info" : {
             "filename" : "p4src/netflow.p4",
-            "line" : 540,
+            "line" : 573,
+            "column" : 24,
+            "source_fragment" : "bytes_per_second_dst_to_src_register.write(current_flow_r_id,dst_to_src_bytes_speed); ..."
+          },
+          "key" : [],
+          "match_type" : "exact",
+          "type" : "simple",
+          "max_size" : 1024,
+          "with_counters" : false,
+          "support_timeout" : false,
+          "direct_meters" : null,
+          "action_ids" : [17],
+          "actions" : ["netflow573"],
+          "base_default_next" : "tbl_netflow595",
+          "next_tables" : {
+            "netflow573" : "tbl_netflow595"
+          },
+          "default_entry" : {
+            "action_id" : 17,
+            "action_const" : true,
+            "action_data" : [],
+            "action_entry_const" : true
+          }
+        },
+        {
+          "name" : "tbl_netflow595",
+          "id" : 16,
+          "source_info" : {
+            "filename" : "p4src/netflow.p4",
+            "line" : 595,
+            "column" : 20,
+            "source_fragment" : "dst_to_src_last_time_register.write(current_flow_r_id,standard_metadata.ingress_global_timestamp); ..."
+          },
+          "key" : [],
+          "match_type" : "exact",
+          "type" : "simple",
+          "max_size" : 1024,
+          "with_counters" : false,
+          "support_timeout" : false,
+          "direct_meters" : null,
+          "action_ids" : [20],
+          "actions" : ["netflow595"],
+          "base_default_next" : "node_26",
+          "next_tables" : {
+            "netflow595" : "node_26"
+          },
+          "default_entry" : {
+            "action_id" : 20,
+            "action_const" : true,
+            "action_data" : [],
+            "action_entry_const" : true
+          }
+        },
+        {
+          "name" : "tbl_netflow608",
+          "id" : 17,
+          "source_info" : {
+            "filename" : "p4src/netflow.p4",
+            "line" : 608,
             "column" : 25,
             "source_fragment" : "max_ttl_register.write(current_flow_id,hdr.ipv4.ttl)"
           },
@@ -3846,25 +4564,25 @@
           "with_counters" : false,
           "support_timeout" : false,
           "direct_meters" : null,
-          "action_ids" : [15],
-          "actions" : ["netflow540"],
-          "base_default_next" : "node_22",
+          "action_ids" : [19],
+          "actions" : ["netflow608"],
+          "base_default_next" : "node_28",
           "next_tables" : {
-            "netflow540" : "node_22"
+            "netflow608" : "node_28"
           },
           "default_entry" : {
-            "action_id" : 15,
+            "action_id" : 19,
             "action_const" : true,
             "action_data" : [],
             "action_entry_const" : true
           }
         },
         {
-          "name" : "tbl_netflow547",
-          "id" : 14,
+          "name" : "tbl_netflow615",
+          "id" : 18,
           "source_info" : {
             "filename" : "p4src/netflow.p4",
-            "line" : 547,
+            "line" : 615,
             "column" : 25,
             "source_fragment" : "min_ttl_register.write(current_flow_id,hdr.ipv4.ttl)"
           },
@@ -3875,25 +4593,25 @@
           "with_counters" : false,
           "support_timeout" : false,
           "direct_meters" : null,
-          "action_ids" : [17],
-          "actions" : ["netflow547"],
-          "base_default_next" : "tbl_netflow555",
+          "action_ids" : [21],
+          "actions" : ["netflow615"],
+          "base_default_next" : "tbl_netflow623",
           "next_tables" : {
-            "netflow547" : "tbl_netflow555"
+            "netflow615" : "tbl_netflow623"
           },
           "default_entry" : {
-            "action_id" : 17,
+            "action_id" : 21,
             "action_const" : true,
             "action_data" : [],
             "action_entry_const" : true
           }
         },
         {
-          "name" : "tbl_netflow555",
-          "id" : 15,
+          "name" : "tbl_netflow623",
+          "id" : 19,
           "source_info" : {
             "filename" : "p4src/netflow.p4",
-            "line" : 555,
+            "line" : 623,
             "column" : 21,
             "source_fragment" : "max_ip_pkt_len_register.read( recorded_max_ip_pkt_len,current_flow_id); ..."
           },
@@ -3904,25 +4622,25 @@
           "with_counters" : false,
           "support_timeout" : false,
           "direct_meters" : null,
-          "action_ids" : [19],
-          "actions" : ["netflow555"],
-          "base_default_next" : "node_25",
+          "action_ids" : [23],
+          "actions" : ["netflow623"],
+          "base_default_next" : "node_31",
           "next_tables" : {
-            "netflow555" : "node_25"
+            "netflow623" : "node_31"
           },
           "default_entry" : {
-            "action_id" : 19,
+            "action_id" : 23,
             "action_const" : true,
             "action_data" : [],
             "action_entry_const" : true
           }
         },
         {
-          "name" : "tbl_netflow560",
-          "id" : 16,
+          "name" : "tbl_netflow628",
+          "id" : 20,
           "source_info" : {
             "filename" : "p4src/netflow.p4",
-            "line" : 560,
+            "line" : 628,
             "column" : 25,
             "source_fragment" : "max_ip_pkt_len_register.write(current_flow_id,hdr.ipv4.totalLen)"
           },
@@ -3933,25 +4651,25 @@
           "with_counters" : false,
           "support_timeout" : false,
           "direct_meters" : null,
-          "action_ids" : [18],
-          "actions" : ["netflow560"],
-          "base_default_next" : "node_27",
+          "action_ids" : [22],
+          "actions" : ["netflow628"],
+          "base_default_next" : "node_33",
           "next_tables" : {
-            "netflow560" : "node_27"
+            "netflow628" : "node_33"
           },
           "default_entry" : {
-            "action_id" : 18,
+            "action_id" : 22,
             "action_const" : true,
             "action_data" : [],
             "action_entry_const" : true
           }
         },
         {
-          "name" : "tbl_netflow567",
-          "id" : 17,
+          "name" : "tbl_netflow635",
+          "id" : 21,
           "source_info" : {
             "filename" : "p4src/netflow.p4",
-            "line" : 567,
+            "line" : 635,
             "column" : 25,
             "source_fragment" : "min_ip_pkt_len_register.write(current_flow_id,hdr.ipv4.totalLen)"
           },
@@ -3962,25 +4680,25 @@
           "with_counters" : false,
           "support_timeout" : false,
           "direct_meters" : null,
-          "action_ids" : [20],
-          "actions" : ["netflow567"],
-          "base_default_next" : "node_29",
+          "action_ids" : [24],
+          "actions" : ["netflow635"],
+          "base_default_next" : "node_35",
           "next_tables" : {
-            "netflow567" : "node_29"
+            "netflow635" : "node_35"
           },
           "default_entry" : {
-            "action_id" : 20,
+            "action_id" : 24,
             "action_const" : true,
             "action_data" : [],
             "action_entry_const" : true
           }
         },
         {
-          "name" : "tbl_netflow576",
-          "id" : 18,
+          "name" : "tbl_netflow644",
+          "id" : 22,
           "source_info" : {
             "filename" : "p4src/netflow.p4",
-            "line" : 576,
+            "line" : 644,
             "column" : 25,
             "source_fragment" : "num_of_ip_totalLen_1024_to_1514_bytes_register.read( num_of_ip_totalLen_1024_to_1514_bytes,current_flow_id); ..."
           },
@@ -3991,25 +4709,25 @@
           "with_counters" : false,
           "support_timeout" : false,
           "direct_meters" : null,
-          "action_ids" : [21],
-          "actions" : ["netflow576"],
-          "base_default_next" : "node_39",
+          "action_ids" : [25],
+          "actions" : ["netflow644"],
+          "base_default_next" : "node_45",
           "next_tables" : {
-            "netflow576" : "node_39"
+            "netflow644" : "node_45"
           },
           "default_entry" : {
-            "action_id" : 21,
+            "action_id" : 25,
             "action_const" : true,
             "action_data" : [],
             "action_entry_const" : true
           }
         },
         {
-          "name" : "tbl_netflow581",
-          "id" : 19,
+          "name" : "tbl_netflow649",
+          "id" : 23,
           "source_info" : {
             "filename" : "p4src/netflow.p4",
-            "line" : 581,
+            "line" : 649,
             "column" : 25,
             "source_fragment" : "num_of_ip_totalLen_512_to_1024_bytes_register.read( num_of_ip_totalLen_512_to_1024_bytes,current_flow_id); ..."
           },
@@ -4020,25 +4738,25 @@
           "with_counters" : false,
           "support_timeout" : false,
           "direct_meters" : null,
-          "action_ids" : [22],
-          "actions" : ["netflow581"],
-          "base_default_next" : "node_39",
+          "action_ids" : [26],
+          "actions" : ["netflow649"],
+          "base_default_next" : "node_45",
           "next_tables" : {
-            "netflow581" : "node_39"
+            "netflow649" : "node_45"
           },
           "default_entry" : {
-            "action_id" : 22,
+            "action_id" : 26,
             "action_const" : true,
             "action_data" : [],
             "action_entry_const" : true
           }
         },
         {
-          "name" : "tbl_netflow586",
-          "id" : 20,
+          "name" : "tbl_netflow654",
+          "id" : 24,
           "source_info" : {
             "filename" : "p4src/netflow.p4",
-            "line" : 586,
+            "line" : 654,
             "column" : 25,
             "source_fragment" : "num_of_ip_totalLen_256_to_512_bytes_register.read( num_of_ip_totalLen_256_to_512_bytes,current_flow_id); ..."
           },
@@ -4049,25 +4767,25 @@
           "with_counters" : false,
           "support_timeout" : false,
           "direct_meters" : null,
-          "action_ids" : [23],
-          "actions" : ["netflow586"],
-          "base_default_next" : "node_39",
+          "action_ids" : [27],
+          "actions" : ["netflow654"],
+          "base_default_next" : "node_45",
           "next_tables" : {
-            "netflow586" : "node_39"
+            "netflow654" : "node_45"
           },
           "default_entry" : {
-            "action_id" : 23,
+            "action_id" : 27,
             "action_const" : true,
             "action_data" : [],
             "action_entry_const" : true
           }
         },
         {
-          "name" : "tbl_netflow591",
-          "id" : 21,
+          "name" : "tbl_netflow659",
+          "id" : 25,
           "source_info" : {
             "filename" : "p4src/netflow.p4",
-            "line" : 591,
+            "line" : 659,
             "column" : 25,
             "source_fragment" : "num_of_ip_totalLen_128_to_256_bytes_register.read( num_of_ip_totalLen_128_to_256_bytes,current_flow_id); ..."
           },
@@ -4078,25 +4796,25 @@
           "with_counters" : false,
           "support_timeout" : false,
           "direct_meters" : null,
-          "action_ids" : [24],
-          "actions" : ["netflow591"],
-          "base_default_next" : "node_39",
+          "action_ids" : [28],
+          "actions" : ["netflow659"],
+          "base_default_next" : "node_45",
           "next_tables" : {
-            "netflow591" : "node_39"
+            "netflow659" : "node_45"
           },
           "default_entry" : {
-            "action_id" : 24,
+            "action_id" : 28,
             "action_const" : true,
             "action_data" : [],
             "action_entry_const" : true
           }
         },
         {
-          "name" : "tbl_netflow596",
-          "id" : 22,
+          "name" : "tbl_netflow664",
+          "id" : 26,
           "source_info" : {
             "filename" : "p4src/netflow.p4",
-            "line" : 596,
+            "line" : 664,
             "column" : 25,
             "source_fragment" : "num_of_ip_totalLen_up_to_128_bytes_register.read( num_of_ip_totalLen_up_to_128_bytes,current_flow_id); ..."
           },
@@ -4107,25 +4825,25 @@
           "with_counters" : false,
           "support_timeout" : false,
           "direct_meters" : null,
-          "action_ids" : [25],
-          "actions" : ["netflow596"],
-          "base_default_next" : "node_39",
+          "action_ids" : [29],
+          "actions" : ["netflow664"],
+          "base_default_next" : "node_45",
           "next_tables" : {
-            "netflow596" : "node_39"
+            "netflow664" : "node_45"
           },
           "default_entry" : {
-            "action_id" : 25,
+            "action_id" : 29,
             "action_const" : true,
             "action_data" : [],
             "action_entry_const" : true
           }
         },
         {
-          "name" : "tbl_netflow606",
-          "id" : 23,
+          "name" : "tbl_netflow674",
+          "id" : 27,
           "source_info" : {
             "filename" : "p4src/netflow.p4",
-            "line" : 606,
+            "line" : 674,
             "column" : 25,
             "source_fragment" : "max_tcp_win_src_to_dst_register.read( recorded_max_tcp_win_src_to_dst,current_flow_id)"
           },
@@ -4136,25 +4854,25 @@
           "with_counters" : false,
           "support_timeout" : false,
           "direct_meters" : null,
-          "action_ids" : [27],
-          "actions" : ["netflow606"],
-          "base_default_next" : "node_41",
+          "action_ids" : [31],
+          "actions" : ["netflow674"],
+          "base_default_next" : "node_47",
           "next_tables" : {
-            "netflow606" : "node_41"
+            "netflow674" : "node_47"
           },
           "default_entry" : {
-            "action_id" : 27,
+            "action_id" : 31,
             "action_const" : true,
             "action_data" : [],
             "action_entry_const" : true
           }
         },
         {
-          "name" : "tbl_netflow608",
-          "id" : 24,
+          "name" : "tbl_netflow676",
+          "id" : 28,
           "source_info" : {
             "filename" : "p4src/netflow.p4",
-            "line" : 608,
+            "line" : 676,
             "column" : 29,
             "source_fragment" : "max_tcp_win_src_to_dst_register.write(current_flow_id, hdr.tcp.window)"
           },
@@ -4165,25 +4883,25 @@
           "with_counters" : false,
           "support_timeout" : false,
           "direct_meters" : null,
-          "action_ids" : [26],
-          "actions" : ["netflow608"],
-          "base_default_next" : "tbl_netflow614",
+          "action_ids" : [30],
+          "actions" : ["netflow676"],
+          "base_default_next" : "tbl_netflow682",
           "next_tables" : {
-            "netflow608" : "tbl_netflow614"
+            "netflow676" : "tbl_netflow682"
           },
           "default_entry" : {
-            "action_id" : 26,
+            "action_id" : 30,
             "action_const" : true,
             "action_data" : [],
             "action_entry_const" : true
           }
         },
         {
-          "name" : "tbl_netflow614",
-          "id" : 25,
+          "name" : "tbl_netflow682",
+          "id" : 29,
           "source_info" : {
             "filename" : "p4src/netflow.p4",
-            "line" : 614,
+            "line" : 682,
             "column" : 25,
             "source_fragment" : "max_tcp_win_dst_to_src_register.read( recorded_max_tcp_win_dst_to_src,current_flow_r_id)"
           },
@@ -4194,25 +4912,25 @@
           "with_counters" : false,
           "support_timeout" : false,
           "direct_meters" : null,
-          "action_ids" : [29],
-          "actions" : ["netflow614"],
-          "base_default_next" : "node_44",
+          "action_ids" : [33],
+          "actions" : ["netflow682"],
+          "base_default_next" : "node_50",
           "next_tables" : {
-            "netflow614" : "node_44"
+            "netflow682" : "node_50"
           },
           "default_entry" : {
-            "action_id" : 29,
+            "action_id" : 33,
             "action_const" : true,
             "action_data" : [],
             "action_entry_const" : true
           }
         },
         {
-          "name" : "tbl_netflow616",
-          "id" : 26,
+          "name" : "tbl_netflow684",
+          "id" : 30,
           "source_info" : {
             "filename" : "p4src/netflow.p4",
-            "line" : 616,
+            "line" : 684,
             "column" : 29,
             "source_fragment" : "max_tcp_win_dst_to_src_register.write(current_flow_r_id, hdr.tcp.window)"
           },
@@ -4223,14 +4941,14 @@
           "with_counters" : false,
           "support_timeout" : false,
           "direct_meters" : null,
-          "action_ids" : [28],
-          "actions" : ["netflow616"],
+          "action_ids" : [32],
+          "actions" : ["netflow684"],
           "base_default_next" : "MyIngress.port_foward",
           "next_tables" : {
-            "netflow616" : "MyIngress.port_foward"
+            "netflow684" : "MyIngress.port_foward"
           },
           "default_entry" : {
-            "action_id" : 28,
+            "action_id" : 32,
             "action_const" : true,
             "action_data" : [],
             "action_entry_const" : true
@@ -4238,10 +4956,10 @@
         },
         {
           "name" : "MyIngress.port_foward",
-          "id" : 27,
+          "id" : 31,
           "source_info" : {
             "filename" : "p4src/netflow.p4",
-            "line" : 412,
+            "line" : 422,
             "column" : 10,
             "source_fragment" : "port_foward"
           },
@@ -4282,7 +5000,7 @@
           "id" : 0,
           "source_info" : {
             "filename" : "p4src/netflow.p4",
-            "line" : 427,
+            "line" : 437,
             "column" : 12,
             "source_fragment" : "hdr.ipv4.isValid()"
           },
@@ -4298,14 +5016,14 @@
             }
           },
           "false_next" : null,
-          "true_next" : "tbl_netflow428"
+          "true_next" : "tbl_netflow438"
         },
         {
           "name" : "node_4",
           "id" : 1,
           "source_info" : {
             "filename" : "p4src/netflow.p4",
-            "line" : 434,
+            "line" : 444,
             "column" : 20,
             "source_fragment" : "hdr.tcp.isValid() || hdr.udp.isValid()"
           },
@@ -4345,7 +5063,7 @@
           "id" : 2,
           "source_info" : {
             "filename" : "p4src/netflow.p4",
-            "line" : 437,
+            "line" : 447,
             "column" : 24,
             "source_fragment" : "hdr.tcp.isValid()"
           },
@@ -4360,15 +5078,15 @@
               }
             }
           },
-          "true_next" : "tbl_netflow438",
-          "false_next" : "tbl_netflow441"
+          "true_next" : "tbl_netflow448",
+          "false_next" : "tbl_netflow451"
         },
         {
           "name" : "node_12",
           "id" : 3,
           "source_info" : {
             "filename" : "p4src/netflow.p4",
-            "line" : 465,
+            "line" : 475,
             "column" : 24,
             "source_fragment" : "A_current_flow_transmitted_packet==0"
           },
@@ -4386,15 +5104,61 @@
               }
             }
           },
-          "true_next" : "tbl_netflow467",
-          "false_next" : "tbl_netflow480"
+          "true_next" : "tbl_netflow477",
+          "false_next" : "tbl_netflow490"
         },
         {
           "name" : "node_16",
           "id" : 4,
           "source_info" : {
             "filename" : "p4src/netflow.p4",
-            "line" : 500,
+            "line" : 507,
+            "column" : 24,
+            "source_fragment" : "flow_hold_time - processed_src_to_dst_last_time > 2000000"
+          },
+          "expression" : {
+            "type" : "expression",
+            "value" : {
+              "op" : ">",
+              "left" : {
+                "type" : "expression",
+                "value" : {
+                  "op" : "&",
+                  "left" : {
+                    "type" : "expression",
+                    "value" : {
+                      "op" : "-",
+                      "left" : {
+                        "type" : "field",
+                        "value" : ["scalars", "flow_hold_time_0"]
+                      },
+                      "right" : {
+                        "type" : "field",
+                        "value" : ["scalars", "processed_src_to_dst_last_time_0"]
+                      }
+                    }
+                  },
+                  "right" : {
+                    "type" : "hexstr",
+                    "value" : "0xffffffffffff"
+                  }
+                }
+              },
+              "right" : {
+                "type" : "hexstr",
+                "value" : "0x0000001e8480"
+              }
+            }
+          },
+          "true_next" : "tbl_netflow511",
+          "false_next" : "tbl_netflow532"
+        },
+        {
+          "name" : "node_19",
+          "id" : 5,
+          "source_info" : {
+            "filename" : "p4src/netflow.p4",
+            "line" : 540,
             "column" : 24,
             "source_fragment" : "A_current_flow_r_received_packet==0"
           },
@@ -4412,15 +5176,61 @@
               }
             }
           },
-          "true_next" : "tbl_netflow502",
-          "false_next" : "tbl_netflow515"
+          "true_next" : "tbl_netflow542",
+          "false_next" : "tbl_netflow555"
         },
         {
-          "name" : "node_20",
-          "id" : 5,
+          "name" : "node_23",
+          "id" : 6,
           "source_info" : {
             "filename" : "p4src/netflow.p4",
-            "line" : 538,
+            "line" : 569,
+            "column" : 24,
+            "source_fragment" : "reverse_flow_hold_time - processed_dst_to_src_last_time > 2000000"
+          },
+          "expression" : {
+            "type" : "expression",
+            "value" : {
+              "op" : ">",
+              "left" : {
+                "type" : "expression",
+                "value" : {
+                  "op" : "&",
+                  "left" : {
+                    "type" : "expression",
+                    "value" : {
+                      "op" : "-",
+                      "left" : {
+                        "type" : "field",
+                        "value" : ["scalars", "reverse_flow_hold_time_0"]
+                      },
+                      "right" : {
+                        "type" : "field",
+                        "value" : ["scalars", "processed_dst_to_src_last_time_0"]
+                      }
+                    }
+                  },
+                  "right" : {
+                    "type" : "hexstr",
+                    "value" : "0xffffffffffff"
+                  }
+                }
+              },
+              "right" : {
+                "type" : "hexstr",
+                "value" : "0x0000001e8480"
+              }
+            }
+          },
+          "true_next" : "tbl_netflow573",
+          "false_next" : "tbl_netflow595"
+        },
+        {
+          "name" : "node_26",
+          "id" : 7,
+          "source_info" : {
+            "filename" : "p4src/netflow.p4",
+            "line" : 606,
             "column" : 24,
             "source_fragment" : "hdr.ipv4.ttl > recorded_max_ttl"
           },
@@ -4438,15 +5248,15 @@
               }
             }
           },
-          "true_next" : "tbl_netflow540",
-          "false_next" : "node_22"
+          "true_next" : "tbl_netflow608",
+          "false_next" : "node_28"
         },
         {
-          "name" : "node_22",
-          "id" : 6,
+          "name" : "node_28",
+          "id" : 8,
           "source_info" : {
             "filename" : "p4src/netflow.p4",
-            "line" : 545,
+            "line" : 613,
             "column" : 24,
             "source_fragment" : "hdr.ipv4.ttl < recorded_min_ttl"
           },
@@ -4464,15 +5274,15 @@
               }
             }
           },
-          "true_next" : "tbl_netflow547",
-          "false_next" : "tbl_netflow555"
+          "true_next" : "tbl_netflow615",
+          "false_next" : "tbl_netflow623"
         },
         {
-          "name" : "node_25",
-          "id" : 7,
+          "name" : "node_31",
+          "id" : 9,
           "source_info" : {
             "filename" : "p4src/netflow.p4",
-            "line" : 558,
+            "line" : 626,
             "column" : 24,
             "source_fragment" : "hdr.ipv4.totalLen > recorded_max_ip_pkt_len"
           },
@@ -4490,15 +5300,15 @@
               }
             }
           },
-          "true_next" : "tbl_netflow560",
-          "false_next" : "node_27"
+          "true_next" : "tbl_netflow628",
+          "false_next" : "node_33"
         },
         {
-          "name" : "node_27",
-          "id" : 8,
+          "name" : "node_33",
+          "id" : 10,
           "source_info" : {
             "filename" : "p4src/netflow.p4",
-            "line" : 565,
+            "line" : 633,
             "column" : 24,
             "source_fragment" : "hdr.ipv4.totalLen < recorded_min_ip_pkt_len"
           },
@@ -4516,15 +5326,15 @@
               }
             }
           },
-          "true_next" : "tbl_netflow567",
-          "false_next" : "node_29"
+          "true_next" : "tbl_netflow635",
+          "false_next" : "node_35"
         },
         {
-          "name" : "node_29",
-          "id" : 9,
+          "name" : "node_35",
+          "id" : 11,
           "source_info" : {
             "filename" : "p4src/netflow.p4",
-            "line" : 573,
+            "line" : 641,
             "column" : 24,
             "source_fragment" : "(1024 < hdr.ipv4.totalLen) && (hdr.ipv4.totalLen <= 1514)"
           },
@@ -4562,15 +5372,15 @@
               }
             }
           },
-          "true_next" : "tbl_netflow576",
-          "false_next" : "node_31"
+          "true_next" : "tbl_netflow644",
+          "false_next" : "node_37"
         },
         {
-          "name" : "node_31",
-          "id" : 10,
+          "name" : "node_37",
+          "id" : 12,
           "source_info" : {
             "filename" : "p4src/netflow.p4",
-            "line" : 578,
+            "line" : 646,
             "column" : 30,
             "source_fragment" : "(512 < hdr.ipv4.totalLen)&&(hdr.ipv4.totalLen<= 1024)"
           },
@@ -4608,15 +5418,15 @@
               }
             }
           },
-          "true_next" : "tbl_netflow581",
-          "false_next" : "node_33"
+          "true_next" : "tbl_netflow649",
+          "false_next" : "node_39"
         },
         {
-          "name" : "node_33",
-          "id" : 11,
+          "name" : "node_39",
+          "id" : 13,
           "source_info" : {
             "filename" : "p4src/netflow.p4",
-            "line" : 583,
+            "line" : 651,
             "column" : 29,
             "source_fragment" : "(256 < hdr.ipv4.totalLen)&&(hdr.ipv4.totalLen <= 512)"
           },
@@ -4654,15 +5464,15 @@
               }
             }
           },
-          "true_next" : "tbl_netflow586",
-          "false_next" : "node_35"
+          "true_next" : "tbl_netflow654",
+          "false_next" : "node_41"
         },
         {
-          "name" : "node_35",
-          "id" : 12,
+          "name" : "node_41",
+          "id" : 14,
           "source_info" : {
             "filename" : "p4src/netflow.p4",
-            "line" : 588,
+            "line" : 656,
             "column" : 29,
             "source_fragment" : "(128 < hdr.ipv4.totalLen)&&(hdr.ipv4.totalLen <= 256)"
           },
@@ -4700,15 +5510,15 @@
               }
             }
           },
-          "true_next" : "tbl_netflow591",
-          "false_next" : "node_37"
+          "true_next" : "tbl_netflow659",
+          "false_next" : "node_43"
         },
         {
-          "name" : "node_37",
-          "id" : 13,
+          "name" : "node_43",
+          "id" : 15,
           "source_info" : {
             "filename" : "p4src/netflow.p4",
-            "line" : 593,
+            "line" : 661,
             "column" : 29,
             "source_fragment" : "hdr.ipv4.totalLen <= 128"
           },
@@ -4726,15 +5536,15 @@
               }
             }
           },
-          "true_next" : "tbl_netflow596",
-          "false_next" : "node_39"
+          "true_next" : "tbl_netflow664",
+          "false_next" : "node_45"
         },
         {
-          "name" : "node_39",
-          "id" : 14,
+          "name" : "node_45",
+          "id" : 16,
           "source_info" : {
             "filename" : "p4src/netflow.p4",
-            "line" : 603,
+            "line" : 671,
             "column" : 24,
             "source_fragment" : "hdr.tcp.isValid()"
           },
@@ -4749,15 +5559,15 @@
               }
             }
           },
-          "true_next" : "tbl_netflow606",
+          "true_next" : "tbl_netflow674",
           "false_next" : "MyIngress.port_foward"
         },
         {
-          "name" : "node_41",
-          "id" : 15,
+          "name" : "node_47",
+          "id" : 17,
           "source_info" : {
             "filename" : "p4src/netflow.p4",
-            "line" : 607,
+            "line" : 675,
             "column" : 28,
             "source_fragment" : "hdr.tcp.window > recorded_max_tcp_win_src_to_dst"
           },
@@ -4775,15 +5585,15 @@
               }
             }
           },
-          "true_next" : "tbl_netflow608",
-          "false_next" : "tbl_netflow614"
+          "true_next" : "tbl_netflow676",
+          "false_next" : "tbl_netflow682"
         },
         {
-          "name" : "node_44",
-          "id" : 16,
+          "name" : "node_50",
+          "id" : 18,
           "source_info" : {
             "filename" : "p4src/netflow.p4",
-            "line" : 615,
+            "line" : 683,
             "column" : 28,
             "source_fragment" : "hdr.tcp.window > recorded_max_tcp_win_dst_to_src"
           },
@@ -4801,7 +5611,7 @@
               }
             }
           },
-          "true_next" : "tbl_netflow616",
+          "true_next" : "tbl_netflow684",
           "false_next" : "MyIngress.port_foward"
         }
       ]
@@ -4811,7 +5621,7 @@
       "id" : 1,
       "source_info" : {
         "filename" : "p4src/netflow.p4",
-        "line" : 638,
+        "line" : 706,
         "column" : 8,
         "source_fragment" : "MyEgress"
       },
@@ -4827,7 +5637,7 @@
       "id" : 0,
       "source_info" : {
         "filename" : "p4src/netflow.p4",
-        "line" : 654,
+        "line" : 722,
         "column" : 8,
         "source_fragment" : "update_checksum( ..."
       },

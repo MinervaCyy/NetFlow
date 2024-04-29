@@ -2,6 +2,7 @@
 #include <core.p4>
 #include <v1model.p4>
 #include "division.p4"
+#include "bits_per_second.p4"
 
 const bit<16> TYPE_IPV4   = 0x800;
 const bit<16> TYPE_IPV6   = 0x86dd;
@@ -29,10 +30,23 @@ register<bit<8>>(AMOUNT_OF_FLOWS)   tcp_flag_register;
 */
 
 
-register<bit<48>>(AMOUNT_OF_FLOWS)  src_to_dst_last_time_register;
-register<bit<48>>(AMOUNT_OF_FLOWS)  dst_to_src_last_time_register;
-register<bit<48>>(AMOUNT_OF_FLOWS)  src_to_dst_flow_duration_register;
-register<bit<48>>(AMOUNT_OF_FLOWS)  dst_to_src_flow_duration_register;
+register<bit<48>>(AMOUNT_OF_FLOWS)   src_to_dst_last_time_register;
+register<bit<48>>(AMOUNT_OF_FLOWS)   dst_to_src_last_time_register;
+register<bit<48>>(AMOUNT_OF_FLOWS)   src_to_dst_last_calculated_time_register;
+register<bit<48>>(AMOUNT_OF_FLOWS)   dst_to_src_last_calculated_time_register;
+register<bit<48>>(AMOUNT_OF_FLOWS)   src_to_dst_flow_duration_register;
+register<bit<48>>(AMOUNT_OF_FLOWS)   dst_to_src_flow_duration_register;
+
+register<bit<32>>(AMOUNT_OF_FLOWS)   processed_transmitted_byte_counter;
+register<bit<32>>(AMOUNT_OF_FLOWS)   processed_received_byte_counter;
+
+//register<bit<32>>(AMOUNT_OF_FLOWS)   src_to_dst_num_of_2_microseconds_register;
+register<bit<32>>(AMOUNT_OF_FLOWS)   bytes_per_second_src_to_dst_register; 
+//register<bit<32>>(AMOUNT_OF_FLOWS)   dst_to_src_num_of_2_microseconds_register;
+register<bit<32>>(AMOUNT_OF_FLOWS)   bytes_per_second_dst_to_src_register;
+
+register<bit<32>>(AMOUNT_OF_FLOWS)   bits_per_second_src_to_dst_register; 
+register<bit<32>>(AMOUNT_OF_FLOWS)   bits_per_second_dst_to_src_register;
 
 register<bit<8>>(AMOUNT_OF_FLOWS)    max_ttl_register;
 register<bit<8>>(AMOUNT_OF_FLOWS)    min_ttl_register;
@@ -49,11 +63,7 @@ register<bit<32>>(AMOUNT_OF_FLOWS)   num_of_ip_totalLen_1024_to_1514_bytes_regis
 register<bit<16>>(AMOUNT_OF_FLOWS)   max_tcp_win_src_to_dst_register;
 register<bit<16>>(AMOUNT_OF_FLOWS)   max_tcp_win_dst_to_src_register;
 
-register<bit<32>>(AMOUNT_OF_FLOWS)   bytes_per_second_src_to_dst_register; 
-register<bit<32>>(AMOUNT_OF_FLOWS)   bytes_per_second_dst_to_src_register;
 
-register<bit<32>>(AMOUNT_OF_FLOWS)   bits_per_second_src_to_dst_register; 
-register<bit<32>>(AMOUNT_OF_FLOWS)   bits_per_second_dst_to_src_register;
 
 //for test
 register<bit<32>>(1) current_flow_id_reg;
@@ -486,8 +496,38 @@ control MyIngress(inout headers hdr,
                     src_to_dst_flow_duration_register.read(flow_hold_time,current_flow_id);
                     flow_hold_time = flow_hold_time + standard_metadata.ingress_global_timestamp;
                     src_to_dst_flow_duration_register.write(current_flow_id,flow_hold_time);
-                    // bytes_per_second
-
+                    
+                    // src_to_dst_bytes_per_second
+                    //bit<48> src_to_dst_num_of_2_microseconds;
+                    //src_to_dst_num_of_2_microseconds_register.read(src_to_dst_num_of_2_microseconds,current_flow_id);
+                    bit<32> processed_transmitted_byte;
+                    processed_transmitted_byte_counter.read(processed_transmitted_byte,current_flow_id);
+                    bit<48> processed_src_to_dst_last_time;
+                    src_to_dst_last_calculated_time_register.read(processed_src_to_dst_last_time,current_flow_id);
+                    if (flow_hold_time - processed_src_to_dst_last_time > 2000000 ){
+                        // if time difference over 2 microseconds, update the bytes_per_second_src_to_dst_register by dividing bytes by 2 microseconds
+                        bit<32> need_calculated_transmitted_bytes = A_current_flow_transmitted_byte + (bit<32>)hdr.ipv4.totalLen - processed_transmitted_byte;
+                        bit<32> src_to_dst_bytes_speed = need_calculated_transmitted_bytes >> 1;
+                        bytes_per_second_src_to_dst_register.write(current_flow_id,src_to_dst_bytes_speed);
+                        processed_transmitted_byte_counter.write(current_flow_id,(A_current_flow_transmitted_byte + (bit<32>)hdr.ipv4.totalLen));
+                        src_to_dst_last_calculated_time_register.write(current_flow_id,flow_hold_time);
+                    }
+                    /*
+                    // src_to_dst_bits_per_second
+                    bit<48> src_to_dst_bits_per_second;
+                    bits_per_second_calculation (src_to_dst_num_of_2_microseconds,(bit<48>)((A_current_flow_transmitted_byte + ((bit<32>)hdr.ipv4.totalLen))*1000000), src_to_dst_bits_per_second);
+                    bits_per_second_src_to_dst_register.write(current_flow_id,src_to_dst_bits_per_second);
+                    */
+                    /*if ( src_to_dst_num_of_2_microseconds == 8 ){
+                        // src_to_dst_bytes_speed << 8, namely (A_current_flow_transmitted_byte + ((bit<32>)hdr.ipv4.totalLen))*1000000 >> 8) << 8
+                        bits_per_second_src_to_dst_register.write(current_flow_id,(A_current_flow_transmitted_byte + ((bit<32>)hdr.ipv4.totalLen))*1000000 );
+                    }else if (src_to_dst_num_of_2_microseconds > 8){
+                        // src_to_dst_bytes_speed << 8, namely (A_current_flow_transmitted_byte + ((bit<32>)hdr.ipv4.totalLen))*1000000 >> 10) << 8
+                        bits_per_second_src_to_dst_register.write(current_flow_id,(A_current_flow_transmitted_byte + ((bit<32>)hdr.ipv4.totalLen))*1000000 >> (src_to_dst_num_of_2_microseconds - 8));
+                    }else (src_to_dst_num_of_2_microseconds < 8){
+                        // src_to_dst_bytes_speed << 8, namely (A_current_flow_transmitted_byte + ((bit<32>)hdr.ipv4.totalLen))*1000000 >> 3) << 8
+                        bits_per_second_src_to_dst_register.write(current_flow_id,(A_current_flow_transmitted_byte + ((bit<32>)hdr.ipv4.totalLen))*1000000 << ( 8 - src_to_dst_num_of_2_microseconds));
+                    }*/
                     // record the current timestamp
                     src_to_dst_last_time_register.write(current_flow_id,standard_metadata.ingress_global_timestamp);
                  
@@ -521,8 +561,36 @@ control MyIngress(inout headers hdr,
                     dst_to_src_flow_duration_register.read(reverse_flow_hold_time,current_flow_r_id);
                     reverse_flow_hold_time = reverse_flow_hold_time + standard_metadata.ingress_global_timestamp;
                     dst_to_src_flow_duration_register.write(current_flow_r_id,reverse_flow_hold_time);
-                    // bytes_per_second
-
+                    // dst_to_src_bytes_per_second
+                    bit<32> processed_received_byte;
+                    processed_received_byte_counter.read(processed_received_byte,current_flow_r_id);
+                    bit<48> processed_dst_to_src_last_time;
+                    dst_to_src_last_calculated_time_register.read(processed_dst_to_src_last_time,current_flow_r_id);
+                    if (reverse_flow_hold_time - processed_dst_to_src_last_time > 2000000 ){
+                        // if time difference over 2 microseconds, update the bytes_per_second_dst_to_src_register by dividing bytes by 2 microseconds
+                        bit<32> need_calculated_received_bytes = A_current_flow_r_received_byte + (bit<32>)hdr.ipv4.totalLen - processed_received_byte;
+                        bit<32> dst_to_src_bytes_speed = need_calculated_received_bytes >> 1;
+                        bytes_per_second_dst_to_src_register.write(current_flow_r_id,dst_to_src_bytes_speed);
+                        processed_received_byte_counter.write(current_flow_r_id,(A_current_flow_r_received_byte + (bit<32>)hdr.ipv4.totalLen));
+                        dst_to_src_last_calculated_time_register.write(current_flow_r_id,reverse_flow_hold_time);
+                    }   
+                    /*
+                    // dst_to_src_bytes_per_second
+                    bit<48> dst_to_src_num_of_2_microseconds;
+                    dst_to_src_num_of_2_microseconds_register.read(dst_to_src_num_of_2_microseconds,current_flow_id);
+                    if (flow_hold_time > (2000000 + dst_to_src_num_of_2_microseconds * 2000000)){
+                        // if time difference over 2 microseconds, update the bytes_per_second_dst_to_src_register by dividing bytes by 2 microseconds
+                        dst_to_src_num_of_2_microseconds = dst_to_src_num_of_2_microseconds + 1;
+                       // bit<48> dst_to_src_bytes_speed = (bit<48>)(A_current_flow_transmitted_byte + ((bit<32>)hdr.ipv4.totalLen))*1000000 >> dst_to_src_num_of_2_microseconds;
+                        //bytes_per_second_dst_to_src_register.write(current_flow_id,dst_to_src_bytes_speed);
+                        dst_to_src_num_of_2_microseconds_register.write(current_flow_id,dst_to_src_num_of_2_microseconds);
+                    }
+                    /*
+                    // dst_to_src_bits_per_second
+                    bit<48> dst_to_src_bits_per_second;
+                    bits_per_second_calculation (dst_to_src_num_of_2_microseconds,(bit<48>)((A_current_flow_transmitted_byte + ((bit<32>)hdr.ipv4.totalLen))*1000000), dst_to_src_bits_per_second);
+                    bits_per_second_dst_to_src_register.write(current_flow_id,dst_to_src_bits_per_second);
+                    */
                     // record the current timestamp
                     dst_to_src_last_time_register.write(current_flow_r_id,standard_metadata.ingress_global_timestamp);
 
