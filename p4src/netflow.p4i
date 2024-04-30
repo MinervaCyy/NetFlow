@@ -781,290 +781,6 @@ package V1Switch<H, M>(Parser<H, M> p,
                        Deparser<H> dep
                        );
 # 4 "p4src/netflow.p4" 2
-# 1 "p4src/division.p4" 1
-   /* -*- P4_16 -*- */
-# 1 "/usr/local/share/p4c/p4include/core.p4" 1
-/*
-Copyright 2013-present Barefoot Networks, Inc.
-
-Licensed under the Apache License, Version 2.0 (the "License");
-you may not use this file except in compliance with the License.
-You may obtain a copy of the License at
-
-    http://www.apache.org/licenses/LICENSE-2.0
-
-Unless required by applicable law or agreed to in writing, software
-distributed under the License is distributed on an "AS IS" BASIS,
-WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
-See the License for the specific language governing permissions and
-limitations under the License.
-*/
-
-/* This is the P4-16 core library, which declares some built-in P4 constructs using P4 */
-# 3 "p4src/division.p4" 2
-# 1 "/usr/local/share/p4c/p4include/v1model.p4" 1
-/*
-Copyright 2013-present Barefoot Networks, Inc.
-
-Licensed under the Apache License, Version 2.0 (the "License");
-you may not use this file except in compliance with the License.
-You may obtain a copy of the License at
-
-    http://www.apache.org/licenses/LICENSE-2.0
-
-Unless required by applicable law or agreed to in writing, software
-distributed under the License is distributed on an "AS IS" BASIS,
-WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
-See the License for the specific language governing permissions and
-limitations under the License.
-*/
-
-/* P4-16 declaration of the P4 v1.0 switch model */
-
-/* Note 1: More details about the definition of v1model architecture
- * can be found at the location below.
- *
- * https://github.com/p4lang/behavioral-model/blob/master/docs/simple_switch.md
- *
- * Note 2: There are ongoing discussions among P4 working group
- * members in 2019-Apr regarding exactly how resubmit, recirculate,
- * and clone3 operations can be called anywhere in their respective
- * controls, but the values of the fields to be preserved is the value
- * they have when that control is finished executing.  That is how
- * these operations behave in P4_14, but this requires some care in
- * making this happen in P4_16.
- *
- * Note 3: There are at least some P4_14 implementations where
- * invoking a generate_digest operation on a field_list will create a
- * message to the control plane that contains the values of those
- * fields when the ingress control is finished executing, which can be
- * different than the values those fields have at the time the
- * generate_digest operation is invoked in the program, if those field
- * values are changed later in the execution of the P4_14 ingress
- * control.
- *
- * The P4_16 plus v1model implementation should always create digest
- * messages that contain the values of the specified fields at the
- * time that the digest extern function is called.  Thus if a P4_14
- * program expecting the behavior described above is compiled using
- * p4c, it may behave differently.
- */
-# 4 "p4src/division.p4" 2
-action calculate_division_precise(in bit<32> numerator, in bit<32> denominator, inout bit<32> quotient_integer, inout bit<32> quotientdecimal){
-
-        bit<32> tmp_difference=0;
-        bit<32> tmp_difference_double=0;
-        bit<32> numerator_double=0;
-        if (numerator < denominator){// asymmetry less than 1 by division
-            quotient_integer = 0;
-            numerator_double = numerator *2;
-            if (numerator_double > denominator){//the decimal part should be nearly 0.75, because denominator/2 <= tmp_difference < denominator
-                quotientdecimal = 75;
-            }else if (numerator_double == denominator){//the decimal part should be nearly 0.25, because  0 <= tmp_difference < denominator/2
-                quotientdecimal = 50;
-            }else{
-                quotientdecimal = 25;
-            }
-        }else if (numerator == denominator){
-            quotient_integer = 0;
-            quotientdecimal = 0;
-        }else{//the integer part of the division result is bigger than 0
-            quotient_integer = 1;
-            tmp_difference = numerator - denominator;
-            if (tmp_difference < denominator){
-                //calculate decimal part
-                if (tmp_difference==0){
-                    quotientdecimal = 0;
-                }else{
-                    tmp_difference_double = tmp_difference * 2;
-                    if (tmp_difference_double > denominator){//the decimal part should be nearly 0.75, because denominator/2 <= tmp_difference < denominator
-                        quotientdecimal = 75;
-                    }else if (tmp_difference_double == denominator){//the decimal part should be nearly 0.25, because  0 <= tmp_difference < denominator/2
-                        quotientdecimal = 50;
-                    }else{
-                        quotientdecimal = 25;
-                    }
-                }
-            }else{//the integer part of the division result is bigger than 1 //8=8
-                quotient_integer = 2;
-                tmp_difference = tmp_difference - denominator; //8-8=0
-                if (tmp_difference < denominator){
-                    //calculate decimal part
-                    if (tmp_difference==0){
-                        quotientdecimal = 0;
-                    }else{
-                        tmp_difference_double = tmp_difference * 2;
-                        if (tmp_difference_double > denominator){//the decimal part should be nearly 0.75, because denominator/2 <= tmp_difference < denominator
-                            quotientdecimal = 75;
-                        }else if (tmp_difference_double == denominator){//the decimal part should be nearly 0.25, because  0 <= tmp_difference < denominator/2
-                            quotientdecimal = 50;
-                        }else{
-                            quotientdecimal = 25;
-                        }
-                    }
-                }else{//the integer part of the division result is bigger than 2 
-                    quotient_integer = 3;
-                    tmp_difference = tmp_difference - denominator;
-                    if (tmp_difference < denominator){
-                        //calculate decimal part
-                        if (tmp_difference==0){
-                            quotientdecimal = 0;
-                        }else{
-                            tmp_difference_double = tmp_difference * 2;
-                            if (tmp_difference_double > denominator){//the decimal part should be nearly 0.75, because denominator/2 <= tmp_difference < denominator
-                                quotientdecimal = 75;
-                            }else if (tmp_difference_double == denominator){//the decimal part should be nearly 0.25, because  0 <= tmp_difference < denominator/2
-                                quotientdecimal = 50;
-                            }else{
-                                quotientdecimal = 25;
-                            }
-                        }
-                    }else{//the integer part of the division result is bigger than 3
-                        quotient_integer = 4;
-                        tmp_difference = tmp_difference - denominator;
-                        if (tmp_difference < denominator){
-                            //calculate decimal part
-                            if (tmp_difference==0){
-                                quotientdecimal = 0;
-                            }else{
-                                tmp_difference_double = tmp_difference * 2;
-                                if (tmp_difference_double > denominator){//the decimal part should be nearly 0.75, because denominator/2 <= tmp_difference < denominator
-                                    quotientdecimal = 75;
-                                }else if (tmp_difference_double == denominator){//the decimal part should be nearly 0.25, because  0 <= tmp_difference < denominator/2
-                                    quotientdecimal = 50;
-                                }else{
-                                    quotientdecimal = 25;
-                                }
-                            }
-                        }else{//the integer part of the division result is bigger than 4
-                            quotient_integer = 5;
-                            tmp_difference = tmp_difference - denominator;
-                            if (tmp_difference < denominator){
-                                //calculate decimal part
-                                if (tmp_difference==0){
-                                    quotientdecimal = 0;
-                                }else{
-                                    tmp_difference_double = tmp_difference * 2;
-                                    if (tmp_difference_double > denominator){//the decimal part should be nearly 0.75, because denominator/2 <= tmp_difference < denominator
-                                       quotientdecimal = 75;
-                                    }else if (tmp_difference_double == denominator){//the decimal part should be nearly 0.25, because  0 <= tmp_difference < denominator/2
-                                        quotientdecimal = 50;
-                                    }else{
-                                        quotientdecimal = 25;
-                                    }
-                                }
-                            }else{//the integer part of the division result is bigger than 5
-                                quotient_integer = 6;
-                                tmp_difference = tmp_difference - denominator;
-                                if (tmp_difference < denominator){
-                                    //calculate decimal part
-                                    if (tmp_difference==0){
-                                       quotientdecimal = 0;
-                                    }else{
-                                        tmp_difference_double = tmp_difference * 2;
-                                        if (tmp_difference_double > denominator){//the decimal part should be nearly 0.75, because denominator/2 <= tmp_difference < denominator
-                                            quotientdecimal = 75;
-                                        }else if (tmp_difference_double == denominator){//the decimal part should be nearly 0.25, because  0 <= tmp_difference < denominator/2
-                                            quotientdecimal = 50;
-                                        }else{
-                                            quotientdecimal = 25;
-                                        }
-                                    }
-                                }else{//the integer part of the division result is bigger than 6
-                                    quotient_integer = 7;
-                                    quotientdecimal = 0;
-                                }
-                            }
-                        }
-                    }
-                }
-            }
-        }
-
-    }
-# 5 "p4src/netflow.p4" 2
-# 1 "p4src/bits_per_second.p4" 1
-   /* -*- P4_16 -*- */
-# 1 "/usr/local/share/p4c/p4include/core.p4" 1
-/*
-Copyright 2013-present Barefoot Networks, Inc.
-
-Licensed under the Apache License, Version 2.0 (the "License");
-you may not use this file except in compliance with the License.
-You may obtain a copy of the License at
-
-    http://www.apache.org/licenses/LICENSE-2.0
-
-Unless required by applicable law or agreed to in writing, software
-distributed under the License is distributed on an "AS IS" BASIS,
-WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
-See the License for the specific language governing permissions and
-limitations under the License.
-*/
-
-/* This is the P4-16 core library, which declares some built-in P4 constructs using P4 */
-# 3 "p4src/bits_per_second.p4" 2
-# 1 "/usr/local/share/p4c/p4include/v1model.p4" 1
-/*
-Copyright 2013-present Barefoot Networks, Inc.
-
-Licensed under the Apache License, Version 2.0 (the "License");
-you may not use this file except in compliance with the License.
-You may obtain a copy of the License at
-
-    http://www.apache.org/licenses/LICENSE-2.0
-
-Unless required by applicable law or agreed to in writing, software
-distributed under the License is distributed on an "AS IS" BASIS,
-WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
-See the License for the specific language governing permissions and
-limitations under the License.
-*/
-
-/* P4-16 declaration of the P4 v1.0 switch model */
-
-/* Note 1: More details about the definition of v1model architecture
- * can be found at the location below.
- *
- * https://github.com/p4lang/behavioral-model/blob/master/docs/simple_switch.md
- *
- * Note 2: There are ongoing discussions among P4 working group
- * members in 2019-Apr regarding exactly how resubmit, recirculate,
- * and clone3 operations can be called anywhere in their respective
- * controls, but the values of the fields to be preserved is the value
- * they have when that control is finished executing.  That is how
- * these operations behave in P4_14, but this requires some care in
- * making this happen in P4_16.
- *
- * Note 3: There are at least some P4_14 implementations where
- * invoking a generate_digest operation on a field_list will create a
- * message to the control plane that contains the values of those
- * fields when the ingress control is finished executing, which can be
- * different than the values those fields have at the time the
- * generate_digest operation is invoked in the program, if those field
- * values are changed later in the execution of the P4_14 ingress
- * control.
- *
- * The P4_16 plus v1model implementation should always create digest
- * messages that contain the values of the specified fields at the
- * time that the digest extern function is called.  Thus if a P4_14
- * program expecting the behavior described above is compiled using
- * p4c, it may behave differently.
- */
-# 4 "p4src/bits_per_second.p4" 2
-action bits_per_second_calculation(in bit<48> num_of_2_microseconds, in bit<48> transmitted_byte, out bit<48> bits_per_second){
-    if ( num_of_2_microseconds == 3 ){
-        // src_to_dst_bytes_speed << 3, namely (transmitted_byte >> 3) << 3
-        bits_per_second = transmitted_byte;
-        }else if (num_of_2_microseconds > 3){
-        // src_to_dst_bytes_speed << 3, namely (transmitted_byte>> 10) << 3
-        bits_per_second = transmitted_byte >> (num_of_2_microseconds - 3);
-        }else{
-        // src_to_dst_bytes_speed << 3, namely (transmitted_byte >> 3) << 3
-        bits_per_second = transmitted_byte << ( 3 - num_of_2_microseconds);
-        }
-}
-# 6 "p4src/netflow.p4" 2
 
 const bit<16> TYPE_IPV4 = 0x800;
 const bit<16> TYPE_IPV6 = 0x86dd;
@@ -1094,21 +810,8 @@ register<bit<8>>(AMOUNT_OF_FLOWS)   tcp_flag_register;
 
 register<bit<48>>(8192) src_to_dst_last_time_register;
 register<bit<48>>(8192) dst_to_src_last_time_register;
-register<bit<48>>(8192) src_to_dst_last_calculated_time_register;
-register<bit<48>>(8192) dst_to_src_last_calculated_time_register;
-register<bit<48>>(8192) src_to_dst_flow_duration_register;
-register<bit<48>>(8192) dst_to_src_flow_duration_register;
+register<bit<48>>(8192) flow_duration_register;
 
-register<bit<32>>(8192) processed_transmitted_byte_counter;
-register<bit<32>>(8192) processed_received_byte_counter;
-
-//register<bit<32>>(AMOUNT_OF_FLOWS)   src_to_dst_num_of_2_microseconds_register;
-register<bit<32>>(8192) bytes_per_second_src_to_dst_register;
-//register<bit<32>>(AMOUNT_OF_FLOWS)   dst_to_src_num_of_2_microseconds_register;
-register<bit<32>>(8192) bytes_per_second_dst_to_src_register;
-
-register<bit<32>>(8192) bits_per_second_src_to_dst_register;
-register<bit<32>>(8192) bits_per_second_dst_to_src_register;
 
 register<bit<8>>(8192) max_ttl_register;
 register<bit<8>>(8192) min_ttl_register;
@@ -1130,6 +833,19 @@ register<bit<16>>(8192) max_tcp_win_dst_to_src_register;
 //for test
 register<bit<32>>(1) current_flow_id_reg;
 register<bit<32>>(1) current_flow_r_id_reg;
+
+
+//register<bit<48>>(AMOUNT_OF_FLOWS)   src_to_dst_last_calculated_time_register;
+//register<bit<48>>(AMOUNT_OF_FLOWS)   dst_to_src_last_calculated_time_register;
+//register<bit<32>>(AMOUNT_OF_FLOWS)   processed_transmitted_byte_counter;
+//register<bit<32>>(AMOUNT_OF_FLOWS)   processed_received_byte_counter;
+//register<bit<32>>(AMOUNT_OF_FLOWS)   src_to_dst_num_of_2_microseconds_register;
+//register<bit<32>>(AMOUNT_OF_FLOWS)   bytes_per_second_src_to_dst_register; 
+//register<bit<32>>(AMOUNT_OF_FLOWS)   dst_to_src_num_of_2_microseconds_register;
+//register<bit<32>>(AMOUNT_OF_FLOWS)   bytes_per_second_dst_to_src_register;
+
+//register<bit<32>>(AMOUNT_OF_FLOWS)   bits_per_second_src_to_dst_register; 
+//register<bit<32>>(AMOUNT_OF_FLOWS)   bits_per_second_dst_to_src_register;
 
 /*************************************************************************
 *********************** H E A D E R S  ***********************************
@@ -1555,41 +1271,10 @@ control MyIngress(inout headers hdr,
                     }
                     // accumulate current timestamp
                     bit<48> flow_hold_time;
-                    src_to_dst_flow_duration_register.read(flow_hold_time,current_flow_id);
+                    flow_duration_register.read(flow_hold_time,current_flow_id);
                     flow_hold_time = flow_hold_time + standard_metadata.ingress_global_timestamp;
-                    src_to_dst_flow_duration_register.write(current_flow_id,flow_hold_time);
+                    flow_duration_register.write(current_flow_id,flow_hold_time);
 
-                    // src_to_dst_bytes_per_second
-                    //bit<48> src_to_dst_num_of_2_microseconds;
-                    //src_to_dst_num_of_2_microseconds_register.read(src_to_dst_num_of_2_microseconds,current_flow_id);
-                    bit<32> processed_transmitted_byte;
-                    processed_transmitted_byte_counter.read(processed_transmitted_byte,current_flow_id);
-                    bit<48> processed_src_to_dst_last_time;
-                    src_to_dst_last_calculated_time_register.read(processed_src_to_dst_last_time,current_flow_id);
-                    if (flow_hold_time - processed_src_to_dst_last_time > 2000000 ){
-                        // if time difference over 2 microseconds, update the bytes_per_second_src_to_dst_register by dividing bytes by 2 microseconds
-                        bit<32> need_calculated_transmitted_bytes = A_current_flow_transmitted_byte + (bit<32>)hdr.ipv4.totalLen - processed_transmitted_byte;
-                        bit<32> src_to_dst_bytes_speed = need_calculated_transmitted_bytes >> 1;
-                        bytes_per_second_src_to_dst_register.write(current_flow_id,src_to_dst_bytes_speed);
-                        processed_transmitted_byte_counter.write(current_flow_id,(A_current_flow_transmitted_byte + (bit<32>)hdr.ipv4.totalLen));
-                        src_to_dst_last_calculated_time_register.write(current_flow_id,flow_hold_time);
-                    }
-                    /*
-                    // src_to_dst_bits_per_second
-                    bit<48> src_to_dst_bits_per_second;
-                    bits_per_second_calculation (src_to_dst_num_of_2_microseconds,(bit<48>)((A_current_flow_transmitted_byte + ((bit<32>)hdr.ipv4.totalLen))*1000000), src_to_dst_bits_per_second);
-                    bits_per_second_src_to_dst_register.write(current_flow_id,src_to_dst_bits_per_second);
-                    */
-                    /*if ( src_to_dst_num_of_2_microseconds == 8 ){
-                        // src_to_dst_bytes_speed << 8, namely (A_current_flow_transmitted_byte + ((bit<32>)hdr.ipv4.totalLen))*1000000 >> 8) << 8
-                        bits_per_second_src_to_dst_register.write(current_flow_id,(A_current_flow_transmitted_byte + ((bit<32>)hdr.ipv4.totalLen))*1000000 );
-                    }else if (src_to_dst_num_of_2_microseconds > 8){
-                        // src_to_dst_bytes_speed << 8, namely (A_current_flow_transmitted_byte + ((bit<32>)hdr.ipv4.totalLen))*1000000 >> 10) << 8
-                        bits_per_second_src_to_dst_register.write(current_flow_id,(A_current_flow_transmitted_byte + ((bit<32>)hdr.ipv4.totalLen))*1000000 >> (src_to_dst_num_of_2_microseconds - 8));
-                    }else (src_to_dst_num_of_2_microseconds < 8){
-                        // src_to_dst_bytes_speed << 8, namely (A_current_flow_transmitted_byte + ((bit<32>)hdr.ipv4.totalLen))*1000000 >> 3) << 8
-                        bits_per_second_src_to_dst_register.write(current_flow_id,(A_current_flow_transmitted_byte + ((bit<32>)hdr.ipv4.totalLen))*1000000 << ( 8 - src_to_dst_num_of_2_microseconds));
-                    }*/
                     // record the current timestamp
                     src_to_dst_last_time_register.write(current_flow_id,standard_metadata.ingress_global_timestamp);
 
@@ -1620,39 +1305,10 @@ control MyIngress(inout headers hdr,
                     }
                     // accumulate current timestamp
                     bit<48> reverse_flow_hold_time;
-                    dst_to_src_flow_duration_register.read(reverse_flow_hold_time,current_flow_r_id);
+                   flow_duration_register.read(reverse_flow_hold_time,current_flow_r_id);
                     reverse_flow_hold_time = reverse_flow_hold_time + standard_metadata.ingress_global_timestamp;
-                    dst_to_src_flow_duration_register.write(current_flow_r_id,reverse_flow_hold_time);
-                    // dst_to_src_bytes_per_second
-                    bit<32> processed_received_byte;
-                    processed_received_byte_counter.read(processed_received_byte,current_flow_r_id);
-                    bit<48> processed_dst_to_src_last_time;
-                    dst_to_src_last_calculated_time_register.read(processed_dst_to_src_last_time,current_flow_r_id);
-                    if (reverse_flow_hold_time - processed_dst_to_src_last_time > 2000000 ){
-                        // if time difference over 2 microseconds, update the bytes_per_second_dst_to_src_register by dividing bytes by 2 microseconds
-                        bit<32> need_calculated_received_bytes = A_current_flow_r_received_byte + (bit<32>)hdr.ipv4.totalLen - processed_received_byte;
-                        bit<32> dst_to_src_bytes_speed = need_calculated_received_bytes >> 1;
-                        bytes_per_second_dst_to_src_register.write(current_flow_r_id,dst_to_src_bytes_speed);
-                        processed_received_byte_counter.write(current_flow_r_id,(A_current_flow_r_received_byte + (bit<32>)hdr.ipv4.totalLen));
-                        dst_to_src_last_calculated_time_register.write(current_flow_r_id,reverse_flow_hold_time);
-                    }
-                    /*
-                    // dst_to_src_bytes_per_second
-                    bit<48> dst_to_src_num_of_2_microseconds;
-                    dst_to_src_num_of_2_microseconds_register.read(dst_to_src_num_of_2_microseconds,current_flow_id);
-                    if (flow_hold_time > (2000000 + dst_to_src_num_of_2_microseconds * 2000000)){
-                        // if time difference over 2 microseconds, update the bytes_per_second_dst_to_src_register by dividing bytes by 2 microseconds
-                        dst_to_src_num_of_2_microseconds = dst_to_src_num_of_2_microseconds + 1;
-                       // bit<48> dst_to_src_bytes_speed = (bit<48>)(A_current_flow_transmitted_byte + ((bit<32>)hdr.ipv4.totalLen))*1000000 >> dst_to_src_num_of_2_microseconds;
-                        //bytes_per_second_dst_to_src_register.write(current_flow_id,dst_to_src_bytes_speed);
-                        dst_to_src_num_of_2_microseconds_register.write(current_flow_id,dst_to_src_num_of_2_microseconds);
-                    }
-                    /*
-                    // dst_to_src_bits_per_second
-                    bit<48> dst_to_src_bits_per_second;
-                    bits_per_second_calculation (dst_to_src_num_of_2_microseconds,(bit<48>)((A_current_flow_transmitted_byte + ((bit<32>)hdr.ipv4.totalLen))*1000000), dst_to_src_bits_per_second);
-                    bits_per_second_dst_to_src_register.write(current_flow_id,dst_to_src_bits_per_second);
-                    */
+                    flow_duration_register.write(current_flow_r_id,reverse_flow_hold_time);
+
                     // record the current timestamp
                     dst_to_src_last_time_register.write(current_flow_r_id,standard_metadata.ingress_global_timestamp);
 
