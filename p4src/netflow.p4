@@ -12,8 +12,6 @@ const bit<8>  TYPE_ICMPV6 = 58;
 
 #define AMOUNT_OF_FLOWS 8192
 
-
-//register<bit<32>>(1) flow_counter;
 register<bit<32>>(AMOUNT_OF_FLOWS)  transmitted_packet_counter;
 register<bit<32>>(AMOUNT_OF_FLOWS)  received_packet_counter;
 register<bit<32>>(AMOUNT_OF_FLOWS)  transmitted_byte_counter;
@@ -24,6 +22,8 @@ register<bit<16>>(AMOUNT_OF_FLOWS)  dstport_register;
 register<bit<16>>(AMOUNT_OF_FLOWS)  srcport_register;
 register<bit<8>>(AMOUNT_OF_FLOWS)   protocol_register;
 
+register<bit<48>>(AMOUNT_OF_FLOWS)   src_to_dst_first_time_register;
+register<bit<48>>(AMOUNT_OF_FLOWS)   dst_to_src_first_time_register;
 register<bit<48>>(AMOUNT_OF_FLOWS)   src_to_dst_last_time_register;
 register<bit<48>>(AMOUNT_OF_FLOWS)   dst_to_src_last_time_register;
 register<bit<48>>(AMOUNT_OF_FLOWS)   flow_duration_register;
@@ -45,31 +45,12 @@ register<bit<16>>(AMOUNT_OF_FLOWS)   max_tcp_win_dst_to_src_register;
 
 register<bit<6>>(AMOUNT_OF_FLOWS)   tcp_flag_register;
 
-//register<bit<2>>(AMOUNT_OF_FLOWS)   srcip_role_register;//00:none; 01:client; 10:server; 
-
-//register<bit<6>>(AMOUNT_OF_FLOWS)   client_tcp_flag_register;
-//register<bit<6>>(AMOUNT_OF_FLOWS)   server_tcp_flag_register;
-//register<bit<48>>(AMOUNT_OF_FLOWS)  client_to_server_duration_register;
-//register<bit<48>>(AMOUNT_OF_FLOWS)  server_to_client_duration_register;
-
-
+register<bit<1>>(AMOUNT_OF_FLOWS)   malicious_flag_register;
 
 //for test
 register<bit<32>>(1) current_flow_id_reg;
 register<bit<32>>(1) current_flow_r_id_reg;
 
-
-//register<bit<48>>(AMOUNT_OF_FLOWS)   src_to_dst_last_calculated_time_register;
-//register<bit<48>>(AMOUNT_OF_FLOWS)   dst_to_src_last_calculated_time_register;
-//register<bit<32>>(AMOUNT_OF_FLOWS)   processed_transmitted_byte_counter;
-//register<bit<32>>(AMOUNT_OF_FLOWS)   processed_received_byte_counter;
-//register<bit<32>>(AMOUNT_OF_FLOWS)   src_to_dst_num_of_2_microseconds_register;
-//register<bit<32>>(AMOUNT_OF_FLOWS)   bytes_per_second_src_to_dst_register; 
-//register<bit<32>>(AMOUNT_OF_FLOWS)   dst_to_src_num_of_2_microseconds_register;
-//register<bit<32>>(AMOUNT_OF_FLOWS)   bytes_per_second_dst_to_src_register;
-
-//register<bit<32>>(AMOUNT_OF_FLOWS)   bits_per_second_src_to_dst_register; 
-//register<bit<32>>(AMOUNT_OF_FLOWS)   bits_per_second_dst_to_src_register;
 
 /*************************************************************************
 *********************** H E A D E R S  ***********************************
@@ -286,139 +267,7 @@ control MyIngress(inout headers hdr,
        
        hash(flow_id, HashAlgorithm.crc32, (bit<32>)0, {ipAddr1,ipAddr2,port1,port2,hdr.ipv4.protocol},(bit<32>)AMOUNT_OF_FLOWS);
     }
-/*
-    action calculate_division_precise(bit<32> numerator, bit<32> denominator){
-      
-        bit<32> tmp_difference=0;
-        bit<32> tmp_difference_double=0;
-        bit<32> numerator_double=0;
-        if (numerator < denominator){// asymmetry less than 1 by division
-            quotient_integer = 0;
-            numerator_double = numerator *2;
-            if (numerator_double > denominator){//the decimal part should be nearly 0.75, because denominator/2 <= tmp_difference < denominator
-                quotientdecimal = 75;
-            }else if (numerator_double == denominator){//the decimal part should be nearly 0.25, because  0 <= tmp_difference < denominator/2
-                quotientdecimal = 50;
-            }else{
-                quotientdecimal = 25;
-            }
-        }else if (numerator == denominator){
-            quotient_integer = 0;
-            quotientdecimal = 0;
-        }else{//the integer part of the division result is bigger than 0
-            quotient_integer = 1;
-            tmp_difference = numerator - denominator;
-            if (tmp_difference < denominator){
-                //calculate decimal part
-                if (tmp_difference==0){
-                    quotientdecimal = 0;
-                }else{
-                    tmp_difference_double = tmp_difference * 2;
-                    if (tmp_difference_double > denominator){//the decimal part should be nearly 0.75, because denominator/2 <= tmp_difference < denominator
-                        quotientdecimal = 75;
-                    }else if (tmp_difference_double == denominator){//the decimal part should be nearly 0.25, because  0 <= tmp_difference < denominator/2
-                        quotientdecimal = 50;
-                    }else{
-                        quotientdecimal = 25;
-                    }
-                }
-            }else{//the integer part of the division result is bigger than 1 //8=8
-                quotient_integer = 2;
-                tmp_difference = tmp_difference - denominator; //8-8=0
-                if (tmp_difference < denominator){
-                    //calculate decimal part
-                    if (tmp_difference==0){
-                        quotientdecimal = 0;
-                    }else{
-                        tmp_difference_double = tmp_difference * 2;
-                        if (tmp_difference_double > denominator){//the decimal part should be nearly 0.75, because denominator/2 <= tmp_difference < denominator
-                            quotientdecimal = 75;
-                        }else if (tmp_difference_double == denominator){//the decimal part should be nearly 0.25, because  0 <= tmp_difference < denominator/2
-                            quotientdecimal = 50;
-                        }else{
-                            quotientdecimal = 25;
-                        }
-                    }
-                }else{//the integer part of the division result is bigger than 2 
-                    quotient_integer = 3;
-                    tmp_difference = tmp_difference - denominator;
-                    if (tmp_difference < denominator){
-                        //calculate decimal part
-                        if (tmp_difference==0){
-                            quotientdecimal = 0;
-                        }else{
-                            tmp_difference_double = tmp_difference * 2;
-                            if (tmp_difference_double > denominator){//the decimal part should be nearly 0.75, because denominator/2 <= tmp_difference < denominator
-                                quotientdecimal = 75;
-                            }else if (tmp_difference_double == denominator){//the decimal part should be nearly 0.25, because  0 <= tmp_difference < denominator/2
-                                quotientdecimal = 50;
-                            }else{
-                                quotientdecimal = 25;
-                            }
-                        }
-                    }else{//the integer part of the division result is bigger than 3
-                        quotient_integer = 4;
-                        tmp_difference = tmp_difference - denominator;
-                        if (tmp_difference < denominator){
-                            //calculate decimal part
-                            if (tmp_difference==0){
-                                quotientdecimal = 0;
-                            }else{
-                                tmp_difference_double = tmp_difference * 2;
-                                if (tmp_difference_double > denominator){//the decimal part should be nearly 0.75, because denominator/2 <= tmp_difference < denominator
-                                    quotientdecimal = 75;
-                                }else if (tmp_difference_double == denominator){//the decimal part should be nearly 0.25, because  0 <= tmp_difference < denominator/2
-                                    quotientdecimal = 50;
-                                }else{
-                                    quotientdecimal = 25;
-                                }
-                            }
-                        }else{//the integer part of the division result is bigger than 4
-                            quotient_integer = 5;
-                            tmp_difference = tmp_difference - denominator;
-                            if (tmp_difference < denominator){
-                                //calculate decimal part
-                                if (tmp_difference==0){
-                                    quotientdecimal = 0;
-                                }else{
-                                    tmp_difference_double = tmp_difference * 2;
-                                    if (tmp_difference_double > denominator){//the decimal part should be nearly 0.75, because denominator/2 <= tmp_difference < denominator
-                                       quotientdecimal = 75;
-                                    }else if (tmp_difference_double == denominator){//the decimal part should be nearly 0.25, because  0 <= tmp_difference < denominator/2
-                                        quotientdecimal = 50;
-                                    }else{
-                                        quotientdecimal = 25;
-                                    }
-                                }
-                            }else{//the integer part of the division result is bigger than 5
-                                quotient_integer = 6;
-                                tmp_difference = tmp_difference - denominator;
-                                if (tmp_difference < denominator){
-                                    //calculate decimal part
-                                    if (tmp_difference==0){
-                                       quotientdecimal = 0;
-                                    }else{
-                                        tmp_difference_double = tmp_difference * 2;
-                                        if (tmp_difference_double > denominator){//the decimal part should be nearly 0.75, because denominator/2 <= tmp_difference < denominator
-                                            quotientdecimal = 75;
-                                        }else if (tmp_difference_double == denominator){//the decimal part should be nearly 0.25, because  0 <= tmp_difference < denominator/2
-                                            quotientdecimal = 50;
-                                        }else{
-                                            quotientdecimal = 25;
-                                        }
-                                    }
-                                }else{//the integer part of the division result is bigger than 6
-                                    quotient_integer = 7;
-                                    quotientdecimal = 0;
-                                }
-                            }
-                        }
-                    }
-                }
-            }
-        }
 
-    }*/
 
     table port_foward {
         key = {
@@ -442,6 +291,7 @@ control MyIngress(inout headers hdr,
                 bit<16> tmpdstPort=0;
 
                 /**********************************NetFlow Function*****************************/
+                
                 if (hdr.tcp.isValid() || hdr.udp.isValid()){
 
                     //get srcport and dstport
@@ -480,22 +330,24 @@ control MyIngress(inout headers hdr,
                          dstport_register.write((bit<32>)current_flow_id,tmpdstPort);
                          srcport_register.write((bit<32>)current_flow_id,tmpsrcPort);
                          protocol_register.write((bit<32>)current_flow_id,hdr.ipv4.protocol);
-
+                         //record the time for the first packet in this flow
+                         src_to_dst_first_time_register.write((bit<32>)current_flow_id,standard_metadata.ingress_global_timestamp);
                         //refresh the packet amount according to the current_flow_id
                          transmitted_packet_counter.write(current_flow_id,(A_current_flow_transmitted_packet+1));
                         //refresh the byte amount according to the current_flow_id
-                         transmitted_byte_counter.write(current_flow_id,(A_current_flow_transmitted_byte + ((bit<32>)hdr.ipv4.totalLen)));
+                         transmitted_byte_counter.write(current_flow_id,(A_current_flow_transmitted_byte + standard_metadata.packet_length));
                     }else{
                         // if the flow has been recorded
                         //refresh the packet amount according to the current_flow_id
                          transmitted_packet_counter.write(current_flow_id,(A_current_flow_transmitted_packet+1));
                         //refresh the byte amount according to the current_flow_id
-                         transmitted_byte_counter.write(current_flow_id,(A_current_flow_transmitted_byte + ((bit<32>)hdr.ipv4.totalLen)));
+                         transmitted_byte_counter.write(current_flow_id,(A_current_flow_transmitted_byte + standard_metadata.packet_length));
                     }
                     // accumulate current timestamp
                     bit<48> flow_hold_time;
-                    flow_duration_register.read(flow_hold_time,current_flow_id);
-                    flow_hold_time = flow_hold_time + standard_metadata.ingress_global_timestamp;
+                    bit<48> src_to_dst_first_time;
+                    src_to_dst_first_time_register.read(src_to_dst_first_time,current_flow_id);
+                    flow_hold_time = standard_metadata.ingress_global_timestamp - src_to_dst_first_time;
                     flow_duration_register.write(current_flow_id,flow_hold_time);
                     
                     // record the current timestamp
@@ -514,22 +366,24 @@ control MyIngress(inout headers hdr,
                          dstport_register.write((bit<32>)current_flow_r_id,tmpsrcPort);
                          srcport_register.write((bit<32>)current_flow_r_id,tmpdstPort);
                          protocol_register.write((bit<32>)current_flow_r_id,hdr.ipv4.protocol);
-                        
+                        //record the time for the first packet in this flow
+                         dst_to_src_first_time_register.write((bit<32>)current_flow_r_id,standard_metadata.ingress_global_timestamp);
                         //refresh the packet amount according to the current_flow_id
                          received_packet_counter.write(current_flow_r_id,(A_current_flow_r_received_packet+1));
                         //refresh the byte amount according to the current_flow_id
-                         received_byte_counter.write(current_flow_r_id,(A_current_flow_r_received_byte + ((bit<32>)hdr.ipv4.totalLen)));
+                         received_byte_counter.write(current_flow_r_id,(A_current_flow_r_received_byte + standard_metadata.packet_length));
                     }else{
                         // if the flow has been recorded
                         //refresh the packet amount according to the current_flow_id
                          received_packet_counter.write(current_flow_r_id,(A_current_flow_r_received_packet+1));
                         //refresh the byte amount according to the current_flow_id
-                         received_byte_counter.write(current_flow_r_id,(A_current_flow_r_received_byte + ((bit<32>)hdr.ipv4.totalLen)));
+                         received_byte_counter.write(current_flow_r_id,(A_current_flow_r_received_byte + standard_metadata.packet_length));
                     }
                     // accumulate current timestamp
                     bit<48> reverse_flow_hold_time;
-                    flow_duration_register.read(reverse_flow_hold_time,current_flow_r_id);
-                    reverse_flow_hold_time = reverse_flow_hold_time + standard_metadata.ingress_global_timestamp;
+                    bit<48> dst_to_src_first_time;
+                    dst_to_src_first_time_register.read(dst_to_src_first_time,current_flow_r_id);
+                    reverse_flow_hold_time = standard_metadata.ingress_global_timestamp - dst_to_src_first_time;
                     flow_duration_register.write(current_flow_r_id,reverse_flow_hold_time);
                    
                     // record the current timestamp
@@ -632,46 +486,38 @@ control MyIngress(inout headers hdr,
                         tcp_flag_register.read(tmp_tcp_flag,current_flow_id);
                         tmp_tcp_flag = tmp_tcp_flag | hdr.tcp.flag;
                         tcp_flag_register.write(current_flow_id,tmp_tcp_flag);
-/*
-                        //dstip_role_register: 00:none; 01:client; 10:server; 
-                        if (hdr.tcp.flag==2){
-                            // TCP flag : 000010 syn
-                            srcip_role_register.write(current_flow_id,1);//01:client
-                            srcip_role_register.write(current_flow_r_id,2);//10:server
-
-                            //update client_tcp_flag_register
-                            bit<6> tmp_client_flag;
-                            client_tcp_flag_register.read(tmp_client_flag,current_flow_id);
-                            tmp_client_flag = tmp_client_flag | hdr.tcp.flag;
-                            client_tcp_flag_register.write(current_flow_id,tmp_client_flag);
-                        }else{
-                           bit<2> srcip_role;
-                           srcip_role_register.read(srcip_role,current_flow_id);
-                           if(srcip_role == 1){//srcip of current packet is client
-                            //update client_tcp_flag_register
-                            bit<6> tmp_client_flag;
-                            client_tcp_flag_register.read(tmp_client_flag,current_flow_id);
-                            tmp_client_flag = tmp_client_flag | hdr.tcp.flag;
-                            client_tcp_flag_register.write(current_flow_id,tmp_client_flag);
-                           }else if(srcip_role == 2){//srcip of current packet is server
-                              //update server_tcp_flag_register
-                              bit<6> tmp_server_flag;
-                              server_tcp_flag_register.read(tmp_server_flag,current_flow_id);
-                              tmp_serverflag = tmp_server_flag | hdr.tcp.flag;
-                              server_tcp_flag_register.write(current_flow_id,tmp_server_flag);
-                           }else{}// cannot identify the role of srcip host now, no action
-
-                        }
-
-*/
-
                     }else{
                         // no action
                     }
-
-
-                
-
+/*
+                    //decision tree
+                    bit<8>  protocol;
+                    bit<16> max_ip_pkt_len;
+                    protocol_register.read(protocol,current_flow_id);
+                    max_ip_pkt_len_register.read(max_ip_pkt_len,current_flow_id);
+                    if (max_ip_pkt_len <= 48){//max_ip_pkt_len <= 48 Bytes
+                        if (protocol <= 1){ // protocol <=1
+                            if (max_ip_pkt_len <= 41){//max_ip_pkt_len <= 41 Bytes
+                                // malicious traffic
+                                malicious_flag_register.write(current_flow_id,1);
+                            }else{
+                                // benign traffic
+                                malicious_flag_register.write(current_flow_id,0);
+                            }
+                        }else{
+                            if (protocol <= 92){// protocol <= 92
+                               // malicious traffic
+                               malicious_flag_register.write(current_flow_id,1);
+                            }else{
+                                // benign traffic
+                                malicious_flag_register.write(current_flow_id,0);
+                            }
+                        }
+                    }else{
+                        // benign traffic
+                        malicious_flag_register.write(current_flow_id,0);
+                    }
+*/
             
             //basic forwarding
             port_foward.apply();
