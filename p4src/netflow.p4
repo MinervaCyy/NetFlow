@@ -13,7 +13,7 @@ const bit<8>  TYPE_ICMPV6 = 58;
 #define AMOUNT_OF_FLOWS 8192
 
 
-register<bit<32>>(1) flow_counter;
+//register<bit<32>>(1) flow_counter;
 register<bit<32>>(AMOUNT_OF_FLOWS)  transmitted_packet_counter;
 register<bit<32>>(AMOUNT_OF_FLOWS)  received_packet_counter;
 register<bit<32>>(AMOUNT_OF_FLOWS)  transmitted_byte_counter;
@@ -23,15 +23,10 @@ register<bit<32>>(AMOUNT_OF_FLOWS)  srcip_register;
 register<bit<16>>(AMOUNT_OF_FLOWS)  dstport_register;
 register<bit<16>>(AMOUNT_OF_FLOWS)  srcport_register;
 register<bit<8>>(AMOUNT_OF_FLOWS)   protocol_register;
-/*
-register<bit<8>>(AMOUNT_OF_FLOWS)   tcp_flag_register;
-*/
-
 
 register<bit<48>>(AMOUNT_OF_FLOWS)   src_to_dst_last_time_register;
 register<bit<48>>(AMOUNT_OF_FLOWS)   dst_to_src_last_time_register;
 register<bit<48>>(AMOUNT_OF_FLOWS)   flow_duration_register;
-
 
 register<bit<8>>(AMOUNT_OF_FLOWS)    max_ttl_register;
 register<bit<8>>(AMOUNT_OF_FLOWS)    min_ttl_register;
@@ -47,6 +42,15 @@ register<bit<32>>(AMOUNT_OF_FLOWS)   num_of_ip_totalLen_1024_to_1514_bytes_regis
 
 register<bit<16>>(AMOUNT_OF_FLOWS)   max_tcp_win_src_to_dst_register;
 register<bit<16>>(AMOUNT_OF_FLOWS)   max_tcp_win_dst_to_src_register;
+
+register<bit<6>>(AMOUNT_OF_FLOWS)   tcp_flag_register;
+
+//register<bit<2>>(AMOUNT_OF_FLOWS)   srcip_role_register;//00:none; 01:client; 10:server; 
+
+//register<bit<6>>(AMOUNT_OF_FLOWS)   client_tcp_flag_register;
+//register<bit<6>>(AMOUNT_OF_FLOWS)   server_tcp_flag_register;
+//register<bit<48>>(AMOUNT_OF_FLOWS)  client_to_server_duration_register;
+//register<bit<48>>(AMOUNT_OF_FLOWS)  server_to_client_duration_register;
 
 
 
@@ -120,9 +124,8 @@ header tcp_t {
     bit<32> seqNo;
     bit<32> ackNo;
     bit<4>  dataOffset;
-    bit<3>  res;
-    bit<3>  ecn;
-    bit<6>  ctrl;
+    bit<6>  res;
+    bit<6>  flag;
     bit<16> window;
     bit<16> checksum;
     bit<16> urgentPtr;
@@ -525,7 +528,7 @@ control MyIngress(inout headers hdr,
                     }
                     // accumulate current timestamp
                     bit<48> reverse_flow_hold_time;
-                   flow_duration_register.read(reverse_flow_hold_time,current_flow_r_id);
+                    flow_duration_register.read(reverse_flow_hold_time,current_flow_r_id);
                     reverse_flow_hold_time = reverse_flow_hold_time + standard_metadata.ingress_global_timestamp;
                     flow_duration_register.write(current_flow_r_id,reverse_flow_hold_time);
                    
@@ -623,9 +626,49 @@ control MyIngress(inout headers hdr,
                         }else{
                             // no action
                         }
+
+                        //tcp_flag_register
+                        bit<6> tmp_tcp_flag;
+                        tcp_flag_register.read(tmp_tcp_flag,current_flow_id);
+                        tmp_tcp_flag = tmp_tcp_flag | hdr.tcp.flag;
+                        tcp_flag_register.write(current_flow_id,tmp_tcp_flag);
+/*
+                        //dstip_role_register: 00:none; 01:client; 10:server; 
+                        if (hdr.tcp.flag==2){
+                            // TCP flag : 000010 syn
+                            srcip_role_register.write(current_flow_id,1);//01:client
+                            srcip_role_register.write(current_flow_r_id,2);//10:server
+
+                            //update client_tcp_flag_register
+                            bit<6> tmp_client_flag;
+                            client_tcp_flag_register.read(tmp_client_flag,current_flow_id);
+                            tmp_client_flag = tmp_client_flag | hdr.tcp.flag;
+                            client_tcp_flag_register.write(current_flow_id,tmp_client_flag);
+                        }else{
+                           bit<2> srcip_role;
+                           srcip_role_register.read(srcip_role,current_flow_id);
+                           if(srcip_role == 1){//srcip of current packet is client
+                            //update client_tcp_flag_register
+                            bit<6> tmp_client_flag;
+                            client_tcp_flag_register.read(tmp_client_flag,current_flow_id);
+                            tmp_client_flag = tmp_client_flag | hdr.tcp.flag;
+                            client_tcp_flag_register.write(current_flow_id,tmp_client_flag);
+                           }else if(srcip_role == 2){//srcip of current packet is server
+                              //update server_tcp_flag_register
+                              bit<6> tmp_server_flag;
+                              server_tcp_flag_register.read(tmp_server_flag,current_flow_id);
+                              tmp_serverflag = tmp_server_flag | hdr.tcp.flag;
+                              server_tcp_flag_register.write(current_flow_id,tmp_server_flag);
+                           }else{}// cannot identify the role of srcip host now, no action
+
+                        }
+
+*/
+
                     }else{
                         // no action
                     }
+
 
                 
 
