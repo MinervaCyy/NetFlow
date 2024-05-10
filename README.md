@@ -1,6 +1,6 @@
 # NetFlow
 ## Required Environment
-Python, P4, P4-Utils, Mininet,tcereplay 
+Python, P4, P4-Utils, Mininet, Tcereplay 
 ## Network Topology
 ```
 +--+      +--+     ++-+
