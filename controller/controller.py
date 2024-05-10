@@ -123,10 +123,10 @@ class ReadRegisters(object):
 
 
 if __name__ == "__main__":
-    while True: #i*5
+    while True: 
         for i in range(0,1200):
            ReadRegisters("s1").read()
-           ReadRegisters("s1").outcsv(i)
+           ReadRegisters("s1").outcsv(i*5)
            time.sleep(5)
 
 
