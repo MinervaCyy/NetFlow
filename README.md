@@ -1,5 +1,7 @@
 # NetFlow
-
+## Required Environment
+Python, P4, P4-Utils, Mininet,tcereplay 
+## Network Topology
 ```
 +--+      +--+     ++-+
 |h1+------+s1+-----+h2+
@@ -7,7 +9,6 @@
 
 
 ```
-
 NetFlow based on BMV2.
 
 ## How to run
