@@ -1,4 +1,4 @@
-# FlowRecorder
+# NetFlow
 
 ```
 +--+      +--+     ++-+
@@ -8,56 +8,54 @@
 
 ```
 
-Simple example of direct and indirect counters that count the packets and bytes arriving at each ingress port.
-
+NetFlow based on BMV2.
 
 ## How to run
 
-Run the topology, by starting either the direct or indirect examples:
-
 ```
-make 
+sudo p4run
 ```
 
-
-
-### Using a simple control plane to read the counters
+### Using a simple control plane to read the registers
 
 The following controller program will establish a connection with the switch
-and through a thrift API it will read all the counter values.
+and through a thrift API it will read xxx register.
 
 open another terminal using 'help'
 ```
 $ simple_switch_CLI --thrift-port 9090
 
 $ help
-$ register_read ingress_port_counter
-$ register_read egress_port_counter
-$ register_read sys_port_register
+$ register_read xxx
 ```
+### Using /controller/controller.py to read the registers and export them to out.csv file every 5 seconds
+'''
+$ python mycontroller.py 
+'''
+## Using cpu_usage_top.sh to record CPU load to xxx.txt during the implementation
+'''
+$ sudo ./cpu_usage_top.sh simple_switch xxx.txt
+'''
 
-### Using Wireshark
-### Filter ip.dst==10.0.2.2 || ip.dst==10.0.1.1
+## In the Mininet Network
+use the following command to monitor the packet flow's throughput and packet loss
+'''
+$ s1 wireshark &
+'''
+use the following command to locate the host 1
+'''
+$ xterm h1
+'''
+   ## At the Host 1
+   use the following command to send desired packets (xxx.pacap) to Host 2 with specific speed packets/second
+   '''
+   $ tcereplay -i h1-eth0 -p speed xxx.pcap
+   '''
 
-### ab Apache (simpler & lightweight) benchmark http method 
-### J meter (powerful complex)
+## Using the cal_avg_cpu_load.py to calculate the average CPU load during the implementation
+'''
+$ python cal_avg_cpu_load.py 
+'''
 
-### configure server
-sudo python -m http.server 80 &
-### CPU limit on the server 
-### check pid :
-ps aux
-### limit pid:
-sudo cpulimit -p [PID] -l 20
-
-
-### Time window
-
-
-### Aim to overload the server
-### 
-
-### NetFlow 
-### Hash 
 
 
