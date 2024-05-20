@@ -24,6 +24,8 @@ register<bit<8>>(AMOUNT_OF_FLOWS)   protocol_register;
 
 register<bit<48>>(AMOUNT_OF_FLOWS)   src_to_dst_first_time_register;
 register<bit<48>>(AMOUNT_OF_FLOWS)   dst_to_src_first_time_register;
+register<bit<48>>(AMOUNT_OF_FLOWS)   src_to_dst_first_time_register;
+register<bit<48>>(AMOUNT_OF_FLOWS)   dst_to_src_first_time_register;
 register<bit<48>>(AMOUNT_OF_FLOWS)   src_to_dst_last_time_register;
 register<bit<48>>(AMOUNT_OF_FLOWS)   dst_to_src_last_time_register;
 register<bit<48>>(AMOUNT_OF_FLOWS)   flow_duration_register;
@@ -45,6 +47,7 @@ register<bit<16>>(AMOUNT_OF_FLOWS)   max_tcp_win_dst_to_src_register;
 
 register<bit<6>>(AMOUNT_OF_FLOWS)   tcp_flag_register;
 
+register<bit<1>>(AMOUNT_OF_FLOWS)   malicious_flag_register;
 register<bit<1>>(AMOUNT_OF_FLOWS)   malicious_flag_register;
 
 //for test
@@ -292,6 +295,7 @@ control MyIngress(inout headers hdr,
 
                 /**********************************NetFlow Function*****************************/
                 
+                
                 if (hdr.tcp.isValid() || hdr.udp.isValid()){
 
                     //get srcport and dstport
@@ -332,9 +336,12 @@ control MyIngress(inout headers hdr,
                          protocol_register.write((bit<32>)current_flow_id,hdr.ipv4.protocol);
                          //record the time for the first packet in this flow
                          src_to_dst_first_time_register.write((bit<32>)current_flow_id,standard_metadata.ingress_global_timestamp);
+                         //record the time for the first packet in this flow
+                         src_to_dst_first_time_register.write((bit<32>)current_flow_id,standard_metadata.ingress_global_timestamp);
                         //refresh the packet amount according to the current_flow_id
                          transmitted_packet_counter.write(current_flow_id,(A_current_flow_transmitted_packet+1));
                         //refresh the byte amount according to the current_flow_id
+                         transmitted_byte_counter.write(current_flow_id,(A_current_flow_transmitted_byte + standard_metadata.packet_length));
                          transmitted_byte_counter.write(current_flow_id,(A_current_flow_transmitted_byte + standard_metadata.packet_length));
                     }else{
                         // if the flow has been recorded
@@ -342,9 +349,13 @@ control MyIngress(inout headers hdr,
                          transmitted_packet_counter.write(current_flow_id,(A_current_flow_transmitted_packet+1));
                         //refresh the byte amount according to the current_flow_id
                          transmitted_byte_counter.write(current_flow_id,(A_current_flow_transmitted_byte + standard_metadata.packet_length));
+                         transmitted_byte_counter.write(current_flow_id,(A_current_flow_transmitted_byte + standard_metadata.packet_length));
                     }
                     // accumulate current timestamp
                     bit<48> flow_hold_time;
+                    bit<48> src_to_dst_first_time;
+                    src_to_dst_first_time_register.read(src_to_dst_first_time,current_flow_id);
+                    flow_hold_time = standard_metadata.ingress_global_timestamp - src_to_dst_first_time;
                     bit<48> src_to_dst_first_time;
                     src_to_dst_first_time_register.read(src_to_dst_first_time,current_flow_id);
                     flow_hold_time = standard_metadata.ingress_global_timestamp - src_to_dst_first_time;
@@ -368,9 +379,12 @@ control MyIngress(inout headers hdr,
                          protocol_register.write((bit<32>)current_flow_r_id,hdr.ipv4.protocol);
                         //record the time for the first packet in this flow
                          dst_to_src_first_time_register.write((bit<32>)current_flow_r_id,standard_metadata.ingress_global_timestamp);
+                        //record the time for the first packet in this flow
+                         dst_to_src_first_time_register.write((bit<32>)current_flow_r_id,standard_metadata.ingress_global_timestamp);
                         //refresh the packet amount according to the current_flow_id
                          received_packet_counter.write(current_flow_r_id,(A_current_flow_r_received_packet+1));
                         //refresh the byte amount according to the current_flow_id
+                         received_byte_counter.write(current_flow_r_id,(A_current_flow_r_received_byte + standard_metadata.packet_length));
                          received_byte_counter.write(current_flow_r_id,(A_current_flow_r_received_byte + standard_metadata.packet_length));
                     }else{
                         // if the flow has been recorded
@@ -378,9 +392,13 @@ control MyIngress(inout headers hdr,
                          received_packet_counter.write(current_flow_r_id,(A_current_flow_r_received_packet+1));
                         //refresh the byte amount according to the current_flow_id
                          received_byte_counter.write(current_flow_r_id,(A_current_flow_r_received_byte + standard_metadata.packet_length));
+                         received_byte_counter.write(current_flow_r_id,(A_current_flow_r_received_byte + standard_metadata.packet_length));
                     }
                     // accumulate current timestamp
                     bit<48> reverse_flow_hold_time;
+                    bit<48> dst_to_src_first_time;
+                    dst_to_src_first_time_register.read(dst_to_src_first_time,current_flow_r_id);
+                    reverse_flow_hold_time = standard_metadata.ingress_global_timestamp - dst_to_src_first_time;
                     bit<48> dst_to_src_first_time;
                     dst_to_src_first_time_register.read(dst_to_src_first_time,current_flow_r_id);
                     reverse_flow_hold_time = standard_metadata.ingress_global_timestamp - dst_to_src_first_time;
@@ -487,37 +505,102 @@ control MyIngress(inout headers hdr,
                         tmp_tcp_flag = tmp_tcp_flag | hdr.tcp.flag;
                         tcp_flag_register.write(current_flow_id,tmp_tcp_flag);
                     }else{
-                        // no action
-                    }
-/*
-                    //decision tree
-                    bit<8>  protocol;
-                    bit<16> max_ip_pkt_len;
-                    protocol_register.read(protocol,current_flow_id);
-                    max_ip_pkt_len_register.read(max_ip_pkt_len,current_flow_id);
-                    if (max_ip_pkt_len <= 48){//max_ip_pkt_len <= 48 Bytes
-                        if (protocol <= 1){ // protocol <=1
-                            if (max_ip_pkt_len <= 41){//max_ip_pkt_len <= 41 Bytes
-                                // malicious traffic
-                                malicious_flag_register.write(current_flow_id,1);
-                            }else{
-                                // benign traffic
-                                malicious_flag_register.write(current_flow_id,0);
-                            }
-                        }else{
-                            if (protocol <= 92){// protocol <= 92
-                               // malicious traffic
-                               malicious_flag_register.write(current_flow_id,1);
-                            }else{
-                                // benign traffic
-                                malicious_flag_register.write(current_flow_id,0);
-                            }
-                        }
-                    }else{
                         // benign traffic
                         malicious_flag_register.write(current_flow_id,0);
                     }
-*/
+
+                    //decision tree
+                    bit<32> IN_PKTS;//1
+                    bit<16> MIN_IP_PKT_LEN;//5
+                    bit<8>  MIN_TTL;//6
+                    bit<32> NUM_PKTS_1024_TO_1514_BYTES;//7
+                    bit<32> NUM_PKTS_256_TO_512_BYTES;//9
+                    bit<16> TCP_WIN_MAX_OUT;//16
+                    bit<16> L4_DST_PORT;//17
+                    bit<16> L4_SRC_PORT;//18
+
+                    received_packet_counter.read(IN_PKTS,current_flow_id);
+                    min_ip_pkt_len_register.read(MIN_IP_PKT_LEN,current_flow_id);
+                    min_ttl_register.read(MIN_TTL,current_flow_id);
+                    num_of_ip_totalLen_1024_to_1514_bytes_register.read(NUM_PKTS_1024_TO_1514_BYTES,current_flow_id);
+                    num_of_ip_totalLen_256_to_512_bytes_register.read(NUM_PKTS_256_TO_512_BYTES,current_flow_id);
+                    max_tcp_win_dst_to_src_register.read(TCP_WIN_MAX_OUT,current_flow_id);
+                    dstport_register.read(L4_DST_PORT,current_flow_id);
+                    srcport_register.read(L4_SRC_PORT,current_flow_id);
+
+                    if(TCP_WIN_MAX_OUT <= 26865){
+                        if(NUM_PKTS_1024_TO_1514_BYTES <= 120){
+                            if(IN_PKTS <= 45){
+                                if(MIN_TTL <= 36){
+                                    if(TCP_WIN_MAX_OUT <= 2){
+                                        malicious_flag_register.write(current_flow_id,1);
+                                    } else {
+                                        malicious_flag_register.write(current_flow_id,0);
+                                    }
+                                } else {
+                                malicious_flag_register.write(current_flow_id,1);
+                                }
+                        } else {
+                            if(L4_SRC_PORT <= 138){
+                                if(L4_DST_PORT <= 110){
+                                malicious_flag_register.write(current_flow_id,0);
+                            } else {
+                                malicious_flag_register.write(current_flow_id,1);
+                            }
+                            } else {
+                            malicious_flag_register.write(current_flow_id,0);
+                            }
+                        }
+                        } else {
+                            if(NUM_PKTS_1024_TO_1514_BYTES <= 128){
+                            if(NUM_PKTS_256_TO_512_BYTES <= 1){
+                            malicious_flag_register.write(current_flow_id,1);
+                            } else {
+                            malicious_flag_register.write(current_flow_id,0);
+                            }
+                        } else {
+                            if(L4_SRC_PORT <= 444){
+                                if(L4_DST_PORT <= 8202){
+                                malicious_flag_register.write(current_flow_id,0);
+                            } else {
+                                malicious_flag_register.write(current_flow_id,0);
+                            }
+                            } else {
+                                if(NUM_PKTS_1024_TO_1514_BYTES <= 169){
+                                malicious_flag_register.write(current_flow_id,1);
+                            } else {
+                                malicious_flag_register.write(current_flow_id,0);
+                            }
+                            }
+                        }
+                        }
+                    } else {
+                        if(L4_SRC_PORT <= 81){
+                            if(MIN_IP_PKT_LEN <= 54){
+                            malicious_flag_register.write(current_flow_id,0);
+                        } else {
+                            if(NUM_PKTS_1024_TO_1514_BYTES <= 128){
+                            malicious_flag_register.write(current_flow_id,1);
+                            } else {
+                            malicious_flag_register.write(current_flow_id,0);
+                            }
+                        }
+                            } else {
+                                if(NUM_PKTS_1024_TO_1514_BYTES <= 105){
+                                malicious_flag_register.write(current_flow_id,0);
+                               } else {
+                                    if(MIN_IP_PKT_LEN <= 106){
+                                        if(TCP_WIN_MAX_OUT <= 64250){
+                                            malicious_flag_register.write(current_flow_id,1);
+                                        } else {
+                                            malicious_flag_register.write(current_flow_id,0);
+                                        }
+                                    } else {
+                                    malicious_flag_register.write(current_flow_id,0);
+                                    }
+                                }
+                            }
+                    } 
             
             //basic forwarding
             port_foward.apply();
