@@ -22,8 +22,7 @@ register<bit<16>>(AMOUNT_OF_FLOWS)  dstport_register;
 register<bit<16>>(AMOUNT_OF_FLOWS)  srcport_register;
 register<bit<8>>(AMOUNT_OF_FLOWS)   protocol_register;
 
-register<bit<48>>(AMOUNT_OF_FLOWS)   src_to_dst_first_time_register;
-register<bit<48>>(AMOUNT_OF_FLOWS)   dst_to_src_first_time_register;
+
 register<bit<48>>(AMOUNT_OF_FLOWS)   src_to_dst_first_time_register;
 register<bit<48>>(AMOUNT_OF_FLOWS)   dst_to_src_first_time_register;
 register<bit<48>>(AMOUNT_OF_FLOWS)   src_to_dst_last_time_register;
@@ -47,7 +46,6 @@ register<bit<16>>(AMOUNT_OF_FLOWS)   max_tcp_win_dst_to_src_register;
 
 register<bit<6>>(AMOUNT_OF_FLOWS)   tcp_flag_register;
 
-register<bit<1>>(AMOUNT_OF_FLOWS)   malicious_flag_register;
 register<bit<1>>(AMOUNT_OF_FLOWS)   malicious_flag_register;
 
 //for test
@@ -356,9 +354,6 @@ control MyIngress(inout headers hdr,
                     bit<48> src_to_dst_first_time;
                     src_to_dst_first_time_register.read(src_to_dst_first_time,current_flow_id);
                     flow_hold_time = standard_metadata.ingress_global_timestamp - src_to_dst_first_time;
-                    bit<48> src_to_dst_first_time;
-                    src_to_dst_first_time_register.read(src_to_dst_first_time,current_flow_id);
-                    flow_hold_time = standard_metadata.ingress_global_timestamp - src_to_dst_first_time;
                     flow_duration_register.write(current_flow_id,flow_hold_time);
                     
                     // record the current timestamp
@@ -396,9 +391,6 @@ control MyIngress(inout headers hdr,
                     }
                     // accumulate current timestamp
                     bit<48> reverse_flow_hold_time;
-                    bit<48> dst_to_src_first_time;
-                    dst_to_src_first_time_register.read(dst_to_src_first_time,current_flow_r_id);
-                    reverse_flow_hold_time = standard_metadata.ingress_global_timestamp - dst_to_src_first_time;
                     bit<48> dst_to_src_first_time;
                     dst_to_src_first_time_register.read(dst_to_src_first_time,current_flow_r_id);
                     reverse_flow_hold_time = standard_metadata.ingress_global_timestamp - dst_to_src_first_time;
