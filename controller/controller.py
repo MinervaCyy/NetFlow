@@ -49,13 +49,10 @@ class ReadRegisters(object):
         return value_out
 
     def outcsv(self,time_num):
-    def outcsv(self,time_num):
 
        txt_file = 'switchoutput.txt'
        df = pd.read_csv(txt_file, delimiter=',')
 
-    
-       csv_file = 'output_'+str(time_num)+'s.csv'
        csv_file = 'output_'+str(time_num)+'s.csv'
        df.to_csv(csv_file, index=False,header=True)
 
@@ -83,10 +80,6 @@ class ReadRegisters(object):
                 dst_to_src_first_time    = self.controller.register_read("dst_to_src_first_time_register", i)
                 src_to_dst_last_time     = self.controller.register_read("src_to_dst_last_time_register", i)
                 dst_to_src_last_time     = self.controller.register_read("dst_to_src_last_time_register", i)
-                src_to_dst_first_time    = self.controller.register_read("src_to_dst_first_time_register", i)
-                dst_to_src_first_time    = self.controller.register_read("dst_to_src_first_time_register", i)
-                src_to_dst_last_time     = self.controller.register_read("src_to_dst_last_time_register", i)
-                dst_to_src_last_time     = self.controller.register_read("dst_to_src_last_time_register", i)
                 max_ttl                  = self.controller.register_read("max_ttl_register", i)
                 min_ttl                  = self.controller.register_read("min_ttl_register", i)
                 max_ip_pkt_len           = self.controller.register_read("max_ip_pkt_len_register", i)
@@ -106,9 +99,6 @@ class ReadRegisters(object):
                     bytes_per_second_src_to_dst = round((float(transmitted_byte) * 1000000 / flow_duration),2)
                     bytes_per_second_dst_to_src = round((float(received_byte)  * 1000000 / flow_duration),2)
                 
-                    bytes_per_second_src_to_dst = round((float(transmitted_byte) * 1000000 / flow_duration),2)
-                    bytes_per_second_dst_to_src = round((float(received_byte)  * 1000000 / flow_duration),2)
-                
                 else:
                     bytes_per_second_src_to_dst = 0
                     bytes_per_second_dst_to_src = 0
@@ -116,22 +106,13 @@ class ReadRegisters(object):
 
                 bits_per_second_src_to_dst = bytes_per_second_src_to_dst * 8
                 bits_per_second_dst_to_src = bytes_per_second_dst_to_src * 8
-                
-
-                bits_per_second_src_to_dst = bytes_per_second_src_to_dst * 8
-                bits_per_second_dst_to_src = bytes_per_second_dst_to_src * 8
+ 
 
                 if ((transmitted_packet>0) | (received_packet>0)) :
                   f.write(str(i)+","+ str(transmitted_packet) +","+str(received_packet)+","+str(transmitted_byte)+","+str(received_byte)+","+self.hex_to_ipaddr(srcip)+","+ self.hex_to_ipaddr(dstip)+","+str(dstport)+","+str(srcport)+","+str(protocol) +","+str(self.transfer_micro_to_milli(flow_duration)) + ","+str(src_to_dst_first_time)+","+str(src_to_dst_last_time)+","+str(dst_to_src_first_time)+","+str(dst_to_src_last_time)+","+ str(bytes_per_second_src_to_dst) + "," +str(bytes_per_second_dst_to_src) + ","+str(bits_per_second_src_to_dst) + "," +str(bits_per_second_dst_to_src) + "," +str(max_ttl)+","+str(min_ttl)+","+str(max_ip_pkt_len)+","+str(min_ip_pkt_len)+","+str(num_of_ip_totalLen_up_to_128_bytes)+","+str(num_of_ip_totalLen_128_to_256_bytes)+","+str(num_of_ip_totalLen_256_to_512_bytes)+","+str(num_of_ip_totalLen_512_to_1024_bytes)+","+str(num_of_ip_totalLen_1024_to_1514_bytes)+","+str(max_tcp_win_src_to_dst)+","+str(max_tcp_win_dst_to_src)+","+str(malicious_flag)+"\n")
                 
-                #f.write(str(i)+","+ str(transmitted_packet) +","+str(received_packet)+","+str(transmitted_byte)+","+str(received_byte)+","+ self.hex_to_ipaddr(dstip)+","+self.hex_to_ipaddr(srcip)+","+str(dstport)+","+str(srcport)+","+str(ln_packetasymmetry_flag)+","+str(ln_packetasymmetry)+","+str(real_ln_asymmetry)+","+str(expected_ln_asymmetry)+","+str(error_ln_asymmetry)+","+str(precise_packetasymmetry_int) +","+str(precise_packetasymmetry_dec) + ","+ str(real_precise_asymmetry)+","+str(expected_precise_asymmetry)+","+str(error_precise_asymmetry)+"\n")
-             
-            #f.write("----------------------------------" + "\n")
             all_packets_bytes_counter = self.controller.counter_read('all_packets_bytes_counter', 0)
-            all_packets_bytes_counter = self.controller.counter_read('all_packets_bytes_counter', 0)
-            #f.write(str(all_packets_bytes_counter))
            
-            f.write("total packets:"+ str(all_packets_bytes_counter.packets)+"  total bytes:"+str(all_packets_bytes_counter.bytes))
             f.write("total packets:"+ str(all_packets_bytes_counter.packets)+"  total bytes:"+str(all_packets_bytes_counter.bytes))
             
 
@@ -145,13 +126,4 @@ if __name__ == "__main__":
            ReadRegisters("s1").read()
            ReadRegisters("s1").outcsv(i*5)
            time.sleep(5)
-
-
-
-    while True: 
-        for i in range(0,1200):
-           ReadRegisters("s1").read()
-           ReadRegisters("s1").outcsv(i*5)
-           time.sleep(5)
-
 
