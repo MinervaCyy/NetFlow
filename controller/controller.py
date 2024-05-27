@@ -4,9 +4,7 @@ import sys
 import math
 import socket
 import struct
-import math
 import pandas as pd
-import time
 import time
 class ReadRegisters(object):
 
